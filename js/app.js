@@ -1,12 +1,12 @@
 // 全局籤詩資料
 let fortunesData = [];
+// 抽卡狀態鎖，防止動畫中重複點擊
+let isDrawing = false;
 
-// 每日限抽
+// 每日限抽（已修改：移除 lastDrawDate 限制，僅回傳 lastId 以載入上一次內容）
 function checkTodayDraw() {
-  const today = new Date().toDateString();
-  const lastDate = localStorage.getItem('lastDrawDate');
   const lastId = localStorage.getItem('lastFortuneId');
-  return { drawnToday: lastDate === today, lastId: lastId };
+  return { drawnToday: false, lastId: lastId };
 }
 
 // 抽籤
@@ -18,15 +18,22 @@ function drawFortune(fortunes) {
   return fortunes.find(f => f.id === randomId);
 }
 
-// 翻牌
+// 翻牌（已修改：翻牌後 3000ms 自動重置為背面，使用戶可繼續翻下一張）
 function flipCard() {
   const card = document.querySelector('.card');
+  if (!card) return;
+  
   card.classList.add('is-flipped');
   setTimeout(() => { playAudio(); }, 400);
   setTimeout(() => {
     document.querySelector('#interpretation-section')
       .scrollIntoView({ behavior: 'smooth' });
   }, 1400);
+
+  // 3000ms 後卡片自動翻轉回背面，便於下次點擊
+  setTimeout(() => {
+    card.classList.remove('is-flipped');
+  }, 3000);
 }
 
 // 語音（靜默處理 iOS 限制）
@@ -36,7 +43,7 @@ function playAudio() {
 }
 
 // ----------------------------------------------------
-// 新增功能：【有好收藏】與【頁面切換】邏輯
+// 有好收藏與頁面切換邏輯
 // ----------------------------------------------------
 
 // 更新主頁愛心收藏按鈕的視覺狀態
@@ -60,7 +67,8 @@ function updateHeartButtonState(isSaved) {
 // 處理主頁收藏按鈕點擊（收藏／取消收藏切換）
 function handleFavToggle() {
   const drawState = checkTodayDraw();
-  if (!drawState.drawnToday || !drawState.lastId) return; // 還沒有抽籤則不處理
+  // 藉由 lastId 判斷當前顯示的籤詩
+  if (!drawState.lastId) return;
   
   const currentId = parseInt(drawState.lastId, 10);
   const fortune = fortunesData.find(f => f.id === currentId);
@@ -70,11 +78,11 @@ function handleFavToggle() {
   const index = favs.findIndex(f => f.id === currentId);
   
   if (index !== -1) {
-    // 已存在，則移除（取消收藏）
+    // 已存在，則移除
     favs.splice(index, 1);
     updateHeartButtonState(false);
   } else {
-    // 不存在，則新增（收藏）
+    // 不存在，則新增
     const todayStr = new Date().toLocaleDateString('zh-TW', { 
       year: 'numeric', 
       month: '2-digit', 
@@ -99,7 +107,7 @@ function renderFavoritesList() {
   if (!container) return;
   
   const favs = JSON.parse(localStorage.getItem('favorites')) || [];
-  container.innerHTML = ''; // 清空舊內容
+  container.innerHTML = '';
   
   if (favs.length === 0) {
     container.innerHTML = `
@@ -110,7 +118,6 @@ function renderFavoritesList() {
     return;
   }
   
-  // 生成卡片列表
   favs.forEach(item => {
     const cardEl = document.createElement('div');
     cardEl.className = 'fav-card';
@@ -133,12 +140,10 @@ window.removeFavorite = function(id) {
   favs = favs.filter(f => f.id !== id);
   localStorage.setItem('favorites', JSON.stringify(favs));
   
-  // 重新渲染列表
   renderFavoritesList();
   
-  // 同步更新主頁上的愛心按鈕狀態
   const drawState = checkTodayDraw();
-  if (drawState.drawnToday && drawState.lastId && parseInt(drawState.lastId, 10) === id) {
+  if (drawState.lastId && parseInt(drawState.lastId, 10) === id) {
     updateHeartButtonState(false);
   }
 };
@@ -157,12 +162,10 @@ function setupNavigation() {
   const mapBackBtn = document.getElementById('map-back-btn');
   
   function showPage(pageId) {
-    // 隱藏所有分頁
     document.querySelectorAll('.page-view').forEach(p => {
       p.classList.remove('active');
     });
     
-    // 顯示指定分頁
     if (pageId === 'main') {
       mainPage.classList.add('active');
     } else if (pageId === 'favorites') {
@@ -172,16 +175,13 @@ function setupNavigation() {
       mapPage.classList.add('active');
     }
     
-    // 切換頁面時自動回到頂部
     window.scrollTo(0, 0);
   }
   
-  // 綁定導覽列事件
   if (navFavBtn) navFavBtn.addEventListener('click', () => showPage('favorites'));
   if (navMapBtn) navMapBtn.addEventListener('click', () => showPage('map'));
   if (appLogo) appLogo.addEventListener('click', () => showPage('main'));
   
-  // 綁定返回按鈕事件
   if (favBackBtn) favBackBtn.addEventListener('click', () => showPage('main'));
   if (mapBackBtn) mapBackBtn.addEventListener('click', () => showPage('main'));
 }
@@ -192,13 +192,11 @@ function setupNavigation() {
 
 // 渲染籤詩內容到 DOM 中
 function renderFortune(fortune) {
-  // 填寫正面牌面（背面）底部疊加文字
   const cardQuote = document.getElementById('card-quote');
   if (cardQuote) {
     cardQuote.textContent = fortune.quote;
   }
 
-  // 填寫解籤區塊內容
   const fortuneTitle = document.getElementById('fortune-title');
   const fortuneQuote = document.getElementById('fortune-quote');
   const fortuneInterpretation = document.getElementById('fortune-interpretation');
@@ -207,7 +205,6 @@ function renderFortune(fortune) {
   if (fortuneQuote) fortuneQuote.textContent = fortune.quote;
   if (fortuneInterpretation) fortuneInterpretation.textContent = fortune.interpretation;
 
-  // 檢查是否已收藏，並更新按鈕狀態
   const favs = JSON.parse(localStorage.getItem('favorites')) || [];
   const isSaved = favs.some(f => f.id === fortune.id);
   updateHeartButtonState(isSaved);
@@ -215,6 +212,9 @@ function renderFortune(fortune) {
 
 // 處理抽籤點擊事件
 function handleDraw() {
+  if (isDrawing) return;
+  isDrawing = true;
+
   // iOS 靜音播放解鎖
   const unlockAudio = new Audio('./audio/youhao.mp3');
   unlockAudio.muted = true;
@@ -222,35 +222,41 @@ function handleDraw() {
     unlockAudio.pause();
   }).catch(() => {});
 
-  if (fortunesData.length === 0) return;
+  if (fortunesData.length === 0) {
+    isDrawing = false;
+    return;
+  }
 
   const fortune = drawFortune(fortunesData);
   if (fortune) {
     renderFortune(fortune);
     flipCard();
 
-    // 延遲更新提示文字，與翻牌同步
+    // 更新提示文字
     setTimeout(() => {
       const tipText = document.getElementById('tip-text');
       const interpretationSection = document.getElementById('interpretation-section');
       
       if (tipText) {
-        tipText.textContent = "今日的好運已收下，明天再來 🕊";
+        tipText.textContent = "今天好運送給您，心中還有事嗎？歡迎再問幸運小鶴喔！";
         tipText.classList.remove('pulse');
       }
       if (interpretationSection) {
         interpretationSection.classList.add('show');
       }
     }, 800);
+    
+    // 3800ms 後卡牌完全翻轉回背面且動畫靜止，解除點擊鎖，允許進行下一次抽取
+    setTimeout(() => {
+      isDrawing = false;
+    }, 3800);
   }
 }
 
 // 頁面載入初始化
 async function initializeApp() {
-  // 綁定分頁導覽
   setupNavigation();
 
-  // 綁定收藏按鈕點擊
   const favActionBtn = document.getElementById('fav-action-btn');
   if (favActionBtn) {
     favActionBtn.addEventListener('click', handleFavToggle);
@@ -264,50 +270,37 @@ async function initializeApp() {
     fortunesData = await response.json();
 
     const drawState = checkTodayDraw();
-    const card = document.querySelector('.card');
     const cardScene = document.querySelector('.card-scene');
     const tipText = document.getElementById('tip-text');
     const interpretationSection = document.getElementById('interpretation-section');
 
-    if (drawState.drawnToday && drawState.lastId) {
-      // 今日已抽過，顯示結果
+    // 每次載入時卡牌固定為背面狀態，但若過去有抽過籤，則加載上一次籤詩供使用者直接查閱
+    if (drawState.lastId) {
       const savedId = parseInt(drawState.lastId, 10);
       const fortune = fortunesData.find(f => f.id === savedId);
       if (fortune) {
         renderFortune(fortune);
         
-        // 設為已翻轉
-        if (card) {
-          card.classList.add('is-flipped');
-        }
-        
-        // 顯示解籤區塊
         if (interpretationSection) {
           interpretationSection.style.display = 'flex';
           interpretationSection.style.opacity = '1';
         }
         
-        // 更新提示文字
         if (tipText) {
-          tipText.textContent = "今日的好運已收下，明天再來 🕊";
+          tipText.textContent = "今天好運送給您，心中還有事嗎？歡迎再問幸運小鶴喔！";
           tipText.classList.remove('pulse');
-        }
-
-        // 移除手勢指標
-        if (cardScene) {
-          cardScene.style.cursor = 'default';
         }
       }
     } else {
-      // 今日未抽過，設定點擊事件
       if (tipText) {
         tipText.textContent = "點擊翻牌，領取今日好運";
         tipText.classList.add('pulse');
       }
-      
-      if (cardScene) {
-        cardScene.addEventListener('click', handleDraw, { once: true });
-      }
+    }
+    
+    // 綁定可重複點擊的抽牌事件監聽器
+    if (cardScene) {
+      cardScene.addEventListener('click', handleDraw);
     }
   } catch (error) {
     console.error('初始化應用程式失敗:', error);

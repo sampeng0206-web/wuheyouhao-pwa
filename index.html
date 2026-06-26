@@ -7,7 +7,7 @@
   
   <!-- SEO 最佳實作 -->
   <meta name="description" content="舞鶴有好 PWA 體驗版。每天翻一張祥鶴牌，獲得一句山林智慧（祖靈指引）與舞鶴解籤。讓大山與祖靈的智慧引導你的今天，日日有好。">
-  <meta name="keywords" content="舞鶴有好, PWA, 祖靈指引, 每日抽籤, 山林智慧, 祥鶴牌">
+  <meta name="keywords" content="舞鶴有好, PWA, 祖靈指引, 每日抽籤, 山林智慧, 祥鶴牌, 有好收藏, 有好地圖">
   
   <!-- PWA 設定 -->
   <link rel="manifest" href="manifest.json">
@@ -38,59 +38,125 @@
 
   <!-- 區塊一：頂部導覽列 -->
   <header>
+    <button class="nav-btn" id="nav-fav-btn" aria-label="切換到收藏頁面">收藏 ♥</button>
     <h1 class="logo" id="app-logo">舞鶴有好</h1>
-    <span class="subtitle" id="app-subtitle">ū-hó</span>
+    <button class="nav-btn" id="nav-map-btn" aria-label="切換到地圖頁面">地圖 🗺</button>
   </header>
 
   <main>
-    <!-- 區塊二：翻牌主體 -->
-    <section id="draw-section">
-      <div class="card-scene" id="card-trigger" aria-label="翻牌抽籤區域">
-        <div class="card">
-          <!-- 牌面背面（預設顯示，琥珀金底） -->
-          <div class="card-face card-face--front">
-            <div class="card-back-text">舞鶴有好</div>
-          </div>
-          <!-- 牌面正面（翻開後， crane_front.jpg 背景） -->
-          <div class="card-face card-face--back">
-            <div class="card-quote-overlay">
-              <div class="card-quote-text" id="card-quote">載入中...</div>
+    <!-- 主頁 (main-page) -->
+    <div id="main-page" class="page-view active">
+      <!-- 區塊二：翻牌主體 -->
+      <section id="draw-section">
+        <div class="card-scene" id="card-trigger" aria-label="翻牌抽籤區域">
+          <div class="card">
+            <!-- 牌面背面（預設顯示，琥珀金底） -->
+            <div class="card-face card-face--front">
+              <div class="card-back-text">舞鶴有好</div>
+            </div>
+            <!-- 牌面正面（翻開後， crane_front.jpg 背景） -->
+            <div class="card-face card-face--back">
+              <div class="card-quote-overlay">
+                <div class="card-quote-text" id="card-quote">載入中...</div>
+              </div>
             </div>
           </div>
         </div>
+        
+        <!-- 提示文字 -->
+        <div class="tip-container">
+          <p class="tip-text pulse" id="tip-text">點擊翻牌，領取今日好運</p>
+        </div>
+      </section>
+
+      <!-- 區塊三：解籤區塊（翻牌後顯示） -->
+      <section id="interpretation-section" aria-label="解籤與祖靈指引">
+        <div class="interpretation-container">
+          <!-- 祖靈指引第 N 首 -->
+          <h2 class="fortune-title" id="fortune-title">祖靈指引</h2>
+          
+          <!-- 籤句內文 -->
+          <blockquote class="fortune-quote" id="fortune-quote">
+            讀取中...
+          </blockquote>
+          
+          <!-- ── 舞鶴解籤 ── 分隔線 -->
+          <div class="divider" id="fortune-divider">── 舞鶴解籤 ──</div>
+          
+          <!-- 解籤內文 -->
+          <p class="fortune-interpretation" id="fortune-interpretation">
+            載入中，請稍候...
+          </p>
+          
+          <!-- 今日萬事 有好 ✦ 結尾 -->
+          <div class="fortune-ending" id="fortune-ending">
+            今日萬事 有好 ✦
+          </div>
+          
+          <!-- 收藏按鈕 -->
+          <div class="fav-action-wrap">
+            <button class="fav-action-btn" id="fav-action-btn" aria-label="收藏這首籤詩">
+              <span class="heart-icon">♡</span> <span class="fav-btn-text">收藏這句話</span>
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- 收藏頁 (favorites-page) -->
+    <div id="favorites-page" class="page-view">
+      <div class="subpage-header">
+        <button class="back-btn" id="fav-back-btn" aria-label="返回主頁">← 返回</button>
+        <h2 class="subpage-title">我的收藏</h2>
       </div>
       
-      <!-- 提示文字 -->
-      <div class="tip-container">
-        <p class="tip-text pulse" id="tip-text">點擊翻牌，領取今日好運</p>
+      <!-- 收藏列表 -->
+      <div class="favorites-container" id="favorites-container">
+        <!-- 這裡由 JS 動態生成已收藏的卡片 -->
       </div>
-    </section>
+    </div>
 
-    <!-- 區塊三：解籤區塊（翻牌後顯示） -->
-    <section id="interpretation-section" aria-label="解籤與祖靈指引">
-      <div class="interpretation-container">
-        <!-- 祖靈指引第 N 首 -->
-        <h2 class="fortune-title" id="fortune-title">祖靈指引</h2>
-        
-        <!-- 籤句內文 -->
-        <blockquote class="fortune-quote" id="fortune-quote">
-          讀取中...
-        </blockquote>
-        
-        <!-- ── 舞鶴解籤 ── 分隔線 -->
-        <div class="divider" id="fortune-divider">── 舞鶴解籤 ──</div>
-        
-        <!-- 解籤內文 -->
-        <p class="fortune-interpretation" id="fortune-interpretation">
-          載入中，請稍候...
-        </p>
-        
-        <!-- 今日萬事 有好 ✦ 結尾 -->
-        <div class="fortune-ending" id="fortune-ending">
-          今日萬事 有好 ✦
-        </div>
+    <!-- 地圖頁 (map-page) -->
+    <div id="map-page" class="page-view">
+      <div class="subpage-header">
+        <button class="back-btn" id="map-back-btn" aria-label="返回主頁">← 返回</button>
+        <h2 class="subpage-title">有好地圖</h2>
       </div>
-    </section>
+      
+      <!-- 地圖靜態文章 -->
+      <div class="map-container">
+        <!-- 第 1 篇 -->
+        <article class="map-article">
+          <h3 class="article-title">舞鶴為什麼叫有好？</h3>
+          <p class="article-content">舞鶴，位於花蓮瑞穗的一片台地，海拔約 300 公尺，俯瞰秀姑巒溪河谷。這裡的台語舊名「有好（ū-hó）」，意指萬事圓滿、心想事成。祥鶴回首銜羽的靈動意象，加上台語諧音祝福，讓這片土地成為天然的好運磁場。每當晨霧未散，站在台地邊緣俯瞰雲海，你會明白為什麼舞鶴的人說：這裡的空氣本身就是一種祝福。</p>
+        </article>
+        
+        <!-- 第 2 篇 -->
+        <article class="map-article">
+          <h3 class="article-title">Kalala 是什麼？</h3>
+          <p class="article-content">Kalala，是阿美族語「藤編籃子」的意思，也是舞鶴台地的古老族名。阿美族人用月桃葉與黃藤編織的 Kalala，裝得下全家人的溫飽，也裝得下部落共同耕作的記憶。今日舞鶴以蜜香紅茶聞名，那甜而帶花香的滋味，正是小綠葉蟬叮咬茶葉後的奇妙轉化——大自然與人的共生智慧，釀造出最獨特的風土滋味。</p>
+        </article>
+        
+        <!-- 第 3 篇 -->
+        <article class="map-article">
+          <h3 class="article-title">掃叭石柱是什麼？</h3>
+          <p class="article-content">矗立在舞鶴台地上的掃叭石柱，是台灣現存最高的史前石柱遺跡，距今約 3000 年。兩根巨石並立，高達 5 公尺，無人知曉當年先民如何豎起這沉默的巨人。當地流傳著古老的傳說：部落大頭目迎娶時，石柱見證了愛情的莊嚴誓約；暴雨來臨前，石柱頂端會凝聚白霧，是山神在預告天氣。時間沖刷了一切，只有石柱還站在原地，守護這片土地。</p>
+        </article>
+        
+        <!-- 第 4 篇 -->
+        <article class="map-article">
+          <h3 class="article-title">馬立雲部落的故事</h3>
+          <p class="article-content">1878 年，加禮宛事件在這片土地留下了深重的歷史傷痕。撒奇萊雅族與噶瑪蘭族在烈火與硝煙中流離失所，族人被迫隱姓埋名，將自己的文化深埋心底超過一個世紀。然而，土地記得。2007 年，撒奇萊雅族正式正名，祖靈祭的火焰重新點燃。那些曾經不能說出口的歌謠，如今在舞鶴的山風裡迴盪。傷痕化為韌性，烈火化為新生，這是舞鶴最深沉也最動人的底蘊。</p>
+        </article>
+        
+        <!-- 第 5 篇 -->
+        <article class="map-article">
+          <h3 class="article-title">香積園是什麼？</h3>
+          <p class="article-content">香積園，是舞鶴台地上一處靜謐的心靈道場。東邊的平靜廣場，一棵百年茄苳樹靜靜守護著來往的旅人；西邊的古伊之泉親水生態池，清澈的山泉水終年不斷，倒映著天光雲影。園內供奉的心咒，據說只要靜心聆聽，便能感受到一種說不清楚的清淨磁場。無論你信仰什麼，香積園給你的，是一段讓內心歸零的寂靜時光。</p>
+          <img src="images/xiangji.jpg" alt="香積園景色" class="article-img">
+        </article>
+      </div>
+    </div>
   </main>
 
 </body>

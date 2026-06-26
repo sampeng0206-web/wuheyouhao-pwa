@@ -9,7 +9,8 @@ const urlsToCache = [
   './images/crane_front.jpg',
   './images/crane_back.jpg',
   './images/icons/icon-192.png',
-  './images/icons/icon-512.png'
+  './images/icons/icon-512.png',
+  './images/xiangji.jpg'
 ];
 
 self.addEventListener('install', e => {

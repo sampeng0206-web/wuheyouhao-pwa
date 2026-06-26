@@ -36,7 +36,7 @@ html, body {
   border-radius: 3px;
 }
 
-/* 區塊一：頂部導覽列 */
+/* 區塊一：頂部導覽列（均勻排列三個入口） */
 header {
   position: fixed;
   top: 0;
@@ -48,25 +48,67 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
+  padding: 0 16px;
   z-index: 100;
   box-shadow: 0 2px 8px rgba(44, 24, 16, 0.05);
 }
 
-.logo {
+header .nav-btn {
+  background: none;
+  border: none;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text-sub);
+  cursor: pointer;
+  padding: 8px 0;
+  letter-spacing: 0.05em;
+  transition: color 0.2s ease;
+  flex: 1;
+}
+
+#nav-fav-btn {
+  text-align: left;
+}
+
+#nav-map-btn {
+  text-align: right;
+}
+
+header h1.logo {
   font-family: 'Noto Serif TC', serif;
   font-size: 18px;
   font-weight: 700;
   color: var(--color-text-main);
   letter-spacing: 0.1em;
+  text-align: center;
+  flex: 2; /* Logo 佔兩倍寬度以求平衡 */
+  cursor: pointer;
 }
 
-.subtitle {
-  font-family: 'Noto Serif TC', serif;
-  font-size: 14px;
-  font-weight: 400;
-  color: var(--color-text-sub);
-  letter-spacing: 0.05em;
+/* SPA 頁面切換控制 */
+.page-view {
+  display: none; /* 預設全部隱藏 */
+  width: 100%;
+  min-height: calc(100vh - 56px);
+  padding: 24px 16px;
+  background-color: var(--color-bg);
+}
+
+.page-view.active {
+  display: block;
+  animation: fadeInView 0.35s ease-out forwards;
+}
+
+@keyframes fadeInView {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* 容器與垂直區塊佈局 */
@@ -84,8 +126,8 @@ section {
 
 /* 區塊二：翻牌主體 */
 #draw-section {
-  min-height: calc(100vh - 56px);
-  padding: 40px 20px;
+  min-height: calc(100vh - 56px - 60px); /* 扣除 padding 與 header */
+  padding: 24px 16px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -155,7 +197,7 @@ section {
   writing-mode: vertical-rl;
   text-orientation: upright;
   letter-spacing: 0.6em;
-  margin-left: -0.6em; /* 修正字距造成的偏位 */
+  margin-left: -0.6em;
   text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.15);
 }
 
@@ -189,7 +231,7 @@ section {
 
 /* 提示文字 */
 .tip-container {
-  margin-top: 32px;
+  margin-top: 24px;
   text-align: center;
   padding: 0 20px;
 }
@@ -214,10 +256,10 @@ section {
 /* 區塊三：解籤區塊（翻牌後顯示） */
 #interpretation-section {
   min-height: 100vh;
-  padding: 80px 24px;
+  padding: 60px 24px;
   background-color: #FAF6F0;
   border-top: 1px solid rgba(184, 134, 11, 0.15);
-  display: none; /* 預設隱藏，由 JS 控制顯示 */
+  display: none;
   opacity: 0;
   transition: opacity 1s ease-in-out;
 }
@@ -321,6 +363,224 @@ section {
   margin-top: 16px;
 }
 
+/* 收藏這句話 愛心按鈕樣式 */
+.fav-action-wrap {
+  margin-top: 36px;
+  display: flex;
+  justify-content: center;
+}
+
+.fav-action-btn {
+  background-color: transparent;
+  border: 1.5px solid var(--color-text-sub);
+  color: var(--color-text-sub); /* 未收藏為 --color-text-sub */
+  border-radius: 24px;
+  padding: 10px 28px;
+  font-size: 15px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  letter-spacing: 0.05em;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fav-action-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* 已收藏狀態：心變實心，字色變為 --color-accent，按鈕框架與底色變為深褐色 --color-text-main */
+.fav-action-btn.is-saved {
+  color: var(--color-accent); /* 已收藏文字變為 --color-accent */
+  border-color: var(--color-text-main); /* 按鈕顏色變為深褐色 (邊框) */
+  background-color: var(--color-text-main); /* 按鈕本體底色變為深褐色 */
+  box-shadow: 0 4px 12px rgba(44, 24, 16, 0.2);
+}
+
+/* 已收藏滑鼠懸停文字效果微調 */
+.fav-action-btn.is-saved:hover {
+  background-color: #3b2015; /* 懸停時稍亮一點的深褐 */
+  border-color: #3b2015;
+}
+
+.fav-action-btn .heart-icon {
+  font-size: 16px;
+}
+
+/* 子頁面通用頁首樣式 */
+.subpage-header {
+  max-width: 600px;
+  margin: 0 auto 28px auto;
+  display: flex;
+  align-items: center;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(184, 134, 11, 0.15);
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-text-sub);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.back-btn:hover {
+  color: var(--color-accent);
+}
+
+.subpage-title {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-text-main);
+  margin-left: 20px;
+  letter-spacing: 0.05em;
+}
+
+/* 收藏頁面樣式 */
+.favorites-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding-bottom: 40px;
+}
+
+/* 收藏卡片：圓角、細金邊（--color-gold） */
+.fav-card {
+  background-color: #FFFFFF;
+  border: 1px solid var(--color-gold);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(44, 24, 16, 0.03);
+  position: relative;
+  animation: cardFadeIn 0.3s ease-out forwards;
+}
+
+@keyframes cardFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fav-card-title {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-accent);
+  margin-bottom: 10px;
+  letter-spacing: 0.1em;
+}
+
+.fav-card-quote {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-text-main);
+  line-height: 1.6;
+  margin-bottom: 14px;
+  border-left: 2px solid var(--color-accent);
+  padding-left: 10px;
+  letter-spacing: 0.05em;
+}
+
+.fav-card-interpretation {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--color-text-sub);
+  text-align: justify;
+  margin-bottom: 44px; /* 保留移除按鈕的空間 */
+}
+
+/* 收藏卡片底部列 */
+.fav-card-footer {
+  position: absolute;
+  bottom: 20px;
+  left: 24px;
+  right: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fav-card-date {
+  font-size: 12px;
+  color: rgba(107, 68, 35, 0.4);
+}
+
+.fav-card-remove-btn {
+  background: none;
+  border: 1px solid var(--color-accent);
+  color: var(--color-accent);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.fav-card-remove-btn:hover {
+  background-color: var(--color-accent);
+  color: #FFFFFF;
+}
+
+.empty-favorites {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--color-text-sub);
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+/* 地圖頁面樣式 */
+.map-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding-bottom: 40px;
+}
+
+.map-article {
+  background-color: #FFFFFF;
+  border: 1px solid rgba(184, 134, 11, 0.15);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 12px rgba(44, 24, 16, 0.03);
+}
+
+.article-title {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-text-main);
+  margin-bottom: 12px;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid var(--color-gold-light);
+  padding-bottom: 6px;
+  display: inline-block;
+}
+
+.article-content {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--color-text-sub);
+  text-align: justify;
+}
+
+.article-img {
+  width: 100%;
+  border-radius: 8px;
+  margin-top: 16px;
+  display: block;
+}
+
 /* RWD 響應式 */
 .card-scene {
   width: 280px;
@@ -337,6 +597,12 @@ section {
   }
   .card-quote-text {
     font-size: 15px;
+  }
+  #draw-section {
+    padding: 16px 12px;
+  }
+  .interpretation-container {
+    padding: 32px 20px;
   }
 }
 

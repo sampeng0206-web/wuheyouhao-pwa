@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>舞鶴有好 PWA 體驗版 | 每日翻牌・山林祖靈指引</title>
+  
+  <!-- SEO 最佳實作 -->
+  <meta name="description" content="舞鶴有好 PWA 體驗版。每天翻一張祥鶴牌，獲得一句山林智慧（祖靈指引）與舞鶴解籤。讓大山與祖靈的智慧引導你的今天，日日有好。">
+  <meta name="keywords" content="舞鶴有好, PWA, 祖靈指引, 每日抽籤, 山林智慧, 祥鶴牌">
+  
+  <!-- PWA 設定 -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#D4A843">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="舞鶴有好">
+  <link rel="apple-touch-icon" href="images/icons/icon-192.png">
+  
+  <!-- 引入樣式表 -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- 註冊 Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+          .then(reg => console.log('Service Worker 註冊成功:', reg.scope))
+          .catch(err => console.log('Service Worker 註冊失敗:', err));
+      });
+    }
+  </script>
+  
+  <!-- 引入邏輯腳本 -->
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+
+  <!-- 區塊一：頂部導覽列 -->
+  <header>
+    <h1 class="logo" id="app-logo">舞鶴有好</h1>
+    <span class="subtitle" id="app-subtitle">ū-hó</span>
+  </header>
+
+  <main>
+    <!-- 區塊二：翻牌主體 -->
+    <section id="draw-section">
+      <div class="card-scene" id="card-trigger" aria-label="翻牌抽籤區域">
+        <div class="card">
+          <!-- 牌面背面（預設顯示，琥珀金底） -->
+          <div class="card-face card-face--front">
+            <div class="card-back-text">舞鶴有好</div>
+          </div>
+          <!-- 牌面正面（翻開後， crane_front.jpg 背景） -->
+          <div class="card-face card-face--back">
+            <div class="card-quote-overlay">
+              <div class="card-quote-text" id="card-quote">載入中...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 提示文字 -->
+      <div class="tip-container">
+        <p class="tip-text pulse" id="tip-text">點擊翻牌，領取今日好運</p>
+      </div>
+    </section>
+
+    <!-- 區塊三：解籤區塊（翻牌後顯示） -->
+    <section id="interpretation-section" aria-label="解籤與祖靈指引">
+      <div class="interpretation-container">
+        <!-- 祖靈指引第 N 首 -->
+        <h2 class="fortune-title" id="fortune-title">祖靈指引</h2>
+        
+        <!-- 籤句內文 -->
+        <blockquote class="fortune-quote" id="fortune-quote">
+          讀取中...
+        </blockquote>
+        
+        <!-- ── 舞鶴解籤 ── 分隔線 -->
+        <div class="divider" id="fortune-divider">── 舞鶴解籤 ──</div>
+        
+        <!-- 解籤內文 -->
+        <p class="fortune-interpretation" id="fortune-interpretation">
+          載入中，請稍候...
+        </p>
+        
+        <!-- 今日萬事 有好 ✦ 結尾 -->
+        <div class="fortune-ending" id="fortune-ending">
+          今日萬事 有好 ✦
+        </div>
+      </div>
+    </section>
+  </main>
+
+</body>
+</html>

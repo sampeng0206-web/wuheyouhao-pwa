@@ -1,0 +1,354 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&display=swap');
+
+:root {
+  --color-bg: #F5F0E8;
+  --color-card-warm: #D4A843;
+  --color-text-main: #2C1810;
+  --color-text-sub: #6B4423;
+  --color-accent: #C0392B;
+  --color-gold: #B8860B;
+  --color-gold-light: #F0D080;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  background-color: var(--color-bg);
+  color: var(--color-text-main);
+  font-family: 'Noto Sans TC', sans-serif;
+  scroll-behavior: smooth;
+}
+
+/* 網頁滾動條美化 */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-text-sub);
+  border-radius: 3px;
+}
+
+/* 區塊一：頂部導覽列 */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 56px;
+  background-color: var(--color-bg);
+  border-bottom: 1px solid var(--color-gold);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(44, 24, 16, 0.05);
+}
+
+.logo {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-text-main);
+  letter-spacing: 0.1em;
+}
+
+.subtitle {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-text-sub);
+  letter-spacing: 0.05em;
+}
+
+/* 容器與垂直區塊佈局 */
+main {
+  padding-top: 56px; /* 避開固定導覽列 */
+}
+
+section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 區塊二：翻牌主體 */
+#draw-section {
+  min-height: calc(100vh - 56px);
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 翻牌動畫 */
+.card-scene {
+  perspective: 1000px;
+  width: 280px;
+  height: 420px;
+  margin: 0 auto;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.card-scene:hover {
+  transform: translateY(-6px);
+}
+
+.card {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card.is-flipped {
+  transform: rotateY(180deg);
+}
+
+.card-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 12px;
+  border: 3px solid var(--color-gold);
+  box-shadow: 0 8px 24px rgba(44, 24, 16, 0.15);
+}
+
+/* 牌面正面（翻開後顯示，對應 CSS 類為 --back） */
+.card-face--back {
+  transform: rotateY(180deg);
+  background-image: url('../images/crane_front.jpg');
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+
+/* 牌面背面（預設顯示，對應 CSS 類為 --front） */
+.card-face--front {
+  background-color: var(--color-card-warm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 背面直書文字：舞鶴有好 */
+.card-back-text {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--color-text-main);
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  letter-spacing: 0.6em;
+  margin-left: -0.6em; /* 修正字距造成的偏位 */
+  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.15);
+}
+
+/* 翻開後底部疊加籤句文字 */
+.card-quote-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 45%;
+  background: linear-gradient(to top, rgba(44, 24, 16, 0.98) 0%, rgba(44, 24, 16, 0.75) 60%, rgba(44, 24, 16, 0) 100%);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 20px 24px 32px 24px;
+}
+
+.card-quote-text {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #FFFFFF;
+  text-align: center;
+  line-height: 1.8;
+  letter-spacing: 0.05em;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  max-height: 100%;
+  margin: 0 auto;
+}
+
+/* 提示文字 */
+.tip-container {
+  margin-top: 32px;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.tip-text {
+  font-size: 16px;
+  color: var(--color-text-sub);
+  letter-spacing: 0.1em;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.tip-text.pulse {
+  animation: pulseOpacity 2s infinite ease-in-out;
+}
+
+@keyframes pulseOpacity {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* 區塊三：解籤區塊（翻牌後顯示） */
+#interpretation-section {
+  min-height: 100vh;
+  padding: 80px 24px;
+  background-color: #FAF6F0;
+  border-top: 1px solid rgba(184, 134, 11, 0.15);
+  display: none; /* 預設隱藏，由 JS 控制顯示 */
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+#interpretation-section.show {
+  display: flex;
+  opacity: 1;
+}
+
+.interpretation-container {
+  max-width: 520px;
+  width: 100%;
+  background: #FFFFFF;
+  border: 1px solid rgba(184, 134, 11, 0.15);
+  border-radius: 16px;
+  padding: 48px 32px;
+  box-shadow: 0 4px 20px rgba(44, 24, 16, 0.03);
+  text-align: center;
+  position: relative;
+}
+
+/* 裝飾性金線角框 */
+.interpretation-container::before,
+.interpretation-container::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--color-gold-light);
+}
+.interpretation-container::before {
+  top: 16px;
+  left: 16px;
+  border-right: none;
+  border-bottom: none;
+}
+.interpretation-container::after {
+  bottom: 16px;
+  right: 16px;
+  border-left: none;
+  border-top: none;
+}
+
+.fortune-title {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-accent);
+  margin-bottom: 24px;
+  letter-spacing: 0.15em;
+}
+
+.fortune-quote {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-text-main);
+  line-height: 1.8;
+  margin-bottom: 36px;
+  padding: 0 10px;
+  letter-spacing: 0.05em;
+  position: relative;
+  display: inline-block;
+}
+
+.divider {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14px;
+  color: var(--color-gold);
+  margin: 36px 0;
+  letter-spacing: 0.3em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.divider::before,
+.divider::after {
+  content: '';
+  flex-grow: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--color-gold-light), transparent);
+  margin: 0 16px;
+}
+
+.fortune-interpretation {
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 16px;
+  line-height: 2;
+  color: var(--color-text-sub);
+  text-align: justify;
+  letter-spacing: 0.06em;
+  margin-bottom: 36px;
+}
+
+.fortune-ending {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-accent);
+  letter-spacing: 0.25em;
+  margin-top: 16px;
+}
+
+/* RWD 響應式 */
+.card-scene {
+  width: 280px;
+  height: 420px;
+}
+
+@media (max-height: 667px) {
+  .card-scene {
+    width: 220px;
+    height: 330px;
+  }
+  .card-back-text {
+    font-size: 24px;
+  }
+  .card-quote-text {
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 768px) {
+  .card-scene {
+    width: 320px;
+    height: 480px;
+  }
+  .card-back-text {
+    font-size: 32px;
+  }
+  .card-quote-text {
+    font-size: 20px;
+  }
+}

@@ -643,7 +643,7 @@ function handleDraw() {
       const interpretationSection = document.getElementById('interpretation-section');
       
       if (tipText) {
-        tipText.textContent = "今天好運送給您，心中還有事嗎？歡迎再問幸運小鶴喔！";
+        tipText.textContent = "舞鶴好心情送給您，再分享心靈鶴湯～";
         tipText.classList.remove('pulse');
       }
       if (interpretationSection) {
@@ -699,7 +699,7 @@ async function initializeApp() {
         }
         
         if (tipText) {
-          tipText.textContent = "今天好運送給您，心中還有事嗎？歡迎再問幸運小鶴喔！";
+          tipText.textContent = "舞鶴好心情送給您，再分享心靈鶴湯～";
           tipText.classList.remove('pulse');
         }
       }

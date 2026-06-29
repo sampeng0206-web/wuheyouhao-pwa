@@ -199,7 +199,7 @@ section {
   justify-content: center;
 }
 
-/* 背面直書文字：舞鶴有好 */
+/* 背面直書文字：今日舞鶴 */
 .card-back-text {
   font-family: 'Noto Serif TC', serif;
   font-size: 28px;
@@ -637,25 +637,38 @@ section {
 /* 首頁引言與金色分割線 */
 .intro-section {
   text-align: center;
-  padding: 28px 20px 16px 20px;
   max-width: 600px;
   margin: 0 auto;
+  background-image: url('../images/intro_bg.jpg');
+  background-size: cover;
+  background-position: center;
+  color: #FFFFFF;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.intro-overlay {
+  background-color: rgba(0,0,0,0.35);
+  padding: 28px 20px 16px 20px;
+  width: 100%;
+  height: 100%;
 }
 .intro-line {
   font-family: 'Noto Serif TC', serif;
   font-size: 18px;
   font-weight: 700;
-  color: var(--color-text-sub);
+  color: #FFFFFF;
   line-height: 1.8;
   margin-bottom: 4px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
 }
 .intro-desc {
   font-family: 'Noto Serif TC', serif;
   font-size: 14px;
-  color: var(--color-text-sub);
+  color: #FFFFFF;
   line-height: 1.8;
   margin-top: 16px;
   text-align: justify;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
 }
 .fine-gold-divider {
   width: 80px;

@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>舞鶴有好 PWA 體驗版 | 每日翻牌・山林小鶴引路</title>
+  <title>今日舞鶴 PWA 體驗版 | 每日翻牌・山林小鶴帶路</title>
   
   <!-- SEO 最佳實作 -->
-  <meta name="description" content="舞鶴有好 PWA 體驗版。每天翻一張祥鶴牌，獲得一句山林智慧（小鶴引路）與心靈鶴湯。讓大山與小鶴引路的智慧引導你的今天，日日有好。">
-  <meta name="keywords" content="舞鶴有好, PWA, 小鶴引路, 每日抽籤, 山林智慧, 祥鶴牌, 有好收藏, 有好地圖">
+  <meta name="description" content="今日舞鶴 PWA 體驗版。每天翻一張祥鶴牌，獲得一句山林智慧（小鶴帶路）與心靈鶴湯。讓大山與小鶴帶路的智慧引導你的今天，日日有好。">
+  <meta name="keywords" content="今日舞鶴, PWA, 小鶴帶路, 每日抽籤, 山林智慧, 祥鶴牌, 有好收藏, 有好地圖">
   
   <!-- PWA 設定 -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#D4A843">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="舞鶴有好">
+  <meta name="apple-mobile-web-app-title" content="今日舞鶴">
   <link rel="apple-touch-icon" href="images/icons/icon-192.png">
   
   <!-- 引入樣式表 -->
@@ -39,7 +39,7 @@
   <!-- 區塊一：頂部導覽列 -->
   <header>
     <button class="nav-btn" id="nav-fav-btn" aria-label="切換到收藏頁面">收藏 ♥</button>
-    <h1 class="logo" id="app-logo">舞鶴有好</h1>
+    <h1 class="logo" id="app-logo">今日舞鶴</h1>
     <button class="nav-btn" id="nav-map-btn" aria-label="切換到地圖頁面">地圖 🗺</button>
   </header>
 
@@ -48,11 +48,13 @@
     <div id="main-page" class="page-view active">
       <!-- 1-A首頁引言區塊 -->
       <div class="intro-section">
-        <p class="intro-line">1、2、3 到台灣</p>
-        <p class="intro-line">台灣有個舞鶴山</p>
-        <p class="intro-line">舞鶴山谷有仙鶴</p>
-        <p class="intro-line">祂的名字叫小鶴</p>
-        <p class="intro-desc">小鶴曾經飛過半個多一點的地球，看過無數的風景後還是覺得故鄉最美，如果您走過路過沒有錯過，且下馬歇息喝杯茶來聽叫小鶴的說～小鶴心語。</p>
+        <div class="intro-overlay">
+          <p class="intro-line">1、2、3 到台灣</p>
+          <p class="intro-line">台灣有個舞鶴山</p>
+          <p class="intro-line">舞鶴山谷有仙鶴</p>
+          <p class="intro-line">祂的名字叫小鶴</p>
+          <p class="intro-desc">小鶴曾經飛過半個再多一點的地球，看過無數世界風情後，還是覺得故鄉最美，若您走過路過沒有錯過，且下馬歇息來碗叫小鶴佐智慧涼拌閒情的～心靈鶴湯。</p>
+        </div>
       </div>
       <div class="fine-gold-divider"></div>
 
@@ -68,12 +70,12 @@
           <div class="card">
             <!-- 牌面背面（預設顯示，琥珀金底） -->
             <div class="card-face card-face--front">
-              <div class="card-back-text">舞鶴有好</div>
+              <div class="card-back-text">今日舞鶴</div>
             </div>
             <!-- 牌面正面（翻開後， crane_front.jpg 背景） -->
             <div class="card-face card-face--back">
               <!-- 1-C牌面新增浮水印 -->
-              <div class="card-watermark">小鶴說</div>
+              <div class="card-watermark">心靈鶴湯</div>
               <div class="card-quote-overlay">
                 <div class="card-quote-text" id="card-quote">載入中...</div>
               </div>
@@ -83,7 +85,7 @@
         
         <!-- 提示文字 -->
         <div class="tip-container">
-          <p class="tip-text pulse" id="tip-text">點擊翻牌，領取今日好運</p>
+          <p class="tip-text pulse" id="tip-text">舞鶴好心情送給您，再分享心靈鶴湯～</p>
         </div>
       </section>
 
@@ -147,10 +149,10 @@
       </section>
 
       <!-- 區塊三：解籤區塊（翻牌後顯示） -->
-      <section id="interpretation-section" aria-label="心靈鶴湯與小鶴引路">
+      <section id="interpretation-section" aria-label="心靈鶴湯與小鶴帶路">
         <div class="interpretation-container">
-          <!-- 1-B文字修改：「祖靈指引」改為「小鶴引路」 -->
-          <h2 class="fortune-title" id="fortune-title">小鶴引路</h2>
+          <!-- 1-B文字修改：「祖靈指引」改為「小鶴帶路」 -->
+          <h2 class="fortune-title" id="fortune-title">小鶴帶路</h2>
           
           <!-- 籤句內文 -->
           <blockquote class="fortune-quote" id="fortune-quote">

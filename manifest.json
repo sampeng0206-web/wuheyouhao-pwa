@@ -1,6 +1,6 @@
 {
-  "name": "舞鶴有好",
-  "short_name": "舞鶴有好",
+  "name": "今日舞鶴",
+  "short_name": "今日舞鶴",
   "description": "每天給自己一個好運的理由",
   "start_url": "./",
   "display": "standalone",

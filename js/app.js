@@ -311,7 +311,7 @@ function setupShareLuck(fortune) {
   
   confirmBtn.onclick = () => {
     const target = document.querySelector('input[name="shareTarget"]:checked')?.value || "朋友";
-    const textToCopy = `🕊 小鶴引路第${fortune.id}首\n\n「${fortune.quote}」\n\n心靈鶴湯：${fortune.interpretation}\n\n今日萬事 舞鶴✦\n—— 來自《舞鶴有好》\nhttps://sampeng0206-web.github.io/wuheyouhao-pwa/`;
+    const textToCopy = `🕊 小鶴帶路第${fortune.id}首\n\n「${fortune.quote}」\n\n心靈鶴湯：${fortune.interpretation}\n\n今日萬事 舞鶴✦\n—— 來自《今日舞鶴》\nhttps://sampeng0206-web.github.io/wuheyouhao-pwa/`;
     
     navigator.clipboard.writeText(textToCopy).then(() => {
       toast.textContent = "✅ 好運已複製！快貼給朋友吧～";
@@ -705,7 +705,7 @@ async function initializeApp() {
       }
     } else {
       if (tipText) {
-        tipText.textContent = "點擊翻牌，領取今日好運";
+        tipText.textContent = "舞鶴好心情送給您，再分享心靈鶴湯～";
         tipText.classList.add('pulse');
       }
     }

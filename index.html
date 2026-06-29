@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>舞鶴有好 PWA 體驗版 | 每日翻牌・山林祖靈指引</title>
+  <title>舞鶴有好 PWA 體驗版 | 每日翻牌・山林小鶴引路</title>
   
   <!-- SEO 最佳實作 -->
-  <meta name="description" content="舞鶴有好 PWA 體驗版。每天翻一張祥鶴牌，獲得一句山林智慧（祖靈指引）與舞鶴解籤。讓大山與祖靈的智慧引導你的今天，日日有好。">
-  <meta name="keywords" content="舞鶴有好, PWA, 祖靈指引, 每日抽籤, 山林智慧, 祥鶴牌, 有好收藏, 有好地圖">
+  <meta name="description" content="舞鶴有好 PWA 體驗版。每天翻一張祥鶴牌，獲得一句山林智慧（小鶴引路）與心靈鶴湯。讓大山與小鶴引路的智慧引導你的今天，日日有好。">
+  <meta name="keywords" content="舞鶴有好, PWA, 小鶴引路, 每日抽籤, 山林智慧, 祥鶴牌, 有好收藏, 有好地圖">
   
   <!-- PWA 設定 -->
   <link rel="manifest" href="manifest.json">
@@ -46,6 +46,22 @@
   <main>
     <!-- 主頁 (main-page) -->
     <div id="main-page" class="page-view active">
+      <!-- 1-A首頁引言區塊 -->
+      <div class="intro-section">
+        <p class="intro-line">1、2、3 到台灣</p>
+        <p class="intro-line">台灣有個舞鶴山</p>
+        <p class="intro-line">舞鶴山谷有仙鶴</p>
+        <p class="intro-line">祂的名字叫小鶴</p>
+        <p class="intro-desc">小鶴曾經飛過半個多一點的地球，看過無數的風景後還是覺得故鄉最美，如果您走過路過沒有錯過，且下馬歇息喝杯茶來聽叫小鶴的說～小鶴心語。</p>
+      </div>
+      <div class="fine-gold-divider"></div>
+
+      <!-- 4-B連續打卡累積 -->
+      <div class="streak-container" id="streak-container">
+        <div class="streak-title"><span class="streak-icon">🔥</span> 已連續得到好運：<span id="streak-days">0</span> 天</div>
+        <div class="streak-subtitle" id="streak-message">🌱 今天是你的第一天，好的開始！</div>
+      </div>
+
       <!-- 區塊二：翻牌主體 -->
       <section id="draw-section">
         <div class="card-scene" id="card-trigger" aria-label="翻牌抽籤區域">
@@ -56,6 +72,8 @@
             </div>
             <!-- 牌面正面（翻開後， crane_front.jpg 背景） -->
             <div class="card-face card-face--back">
+              <!-- 1-C牌面新增浮水印 -->
+              <div class="card-watermark">小鶴說</div>
               <div class="card-quote-overlay">
                 <div class="card-quote-text" id="card-quote">載入中...</div>
               </div>
@@ -69,28 +87,120 @@
         </div>
       </section>
 
+      <!-- 任務三：小鶴的日常能量池互動小遊戲 -->
+      <section id="game-section" aria-label="小鶴的日常能量池">
+        <div class="game-container">
+          <h2 class="game-title">🕊 小鶴的日常能量池</h2>
+          
+          <div class="crane-status-wrap">
+            <div class="crane-avatar-container">
+              <div class="crane-avatar" id="crane-avatar"></div>
+            </div>
+            <div class="dialog-bubble-wrap">
+              <div class="dialog-bubble" id="game-dialog">你好呀！今天想喝杯舞鶴的蜜香紅茶嗎？</div>
+            </div>
+          </div>
+          
+          <!-- 餵小鶴 -->
+          <div class="game-action-row">
+            <button class="game-btn" id="feed-crane-btn">🍵 給小鶴一杯蜜香紅茶</button>
+          </div>
+          
+          <!-- 今日尋寶 -->
+          <div class="treasure-hunt-wrap">
+            <h3 class="game-subtitle">🎁 今日尋寶 <span class="chance-text">(今天還有 <span id="hunt-chances">3</span> 次機會)</span></h3>
+            <div class="chests-row">
+              <div class="chest-box" data-index="0" aria-label="尋寶箱子 1">🎁</div>
+              <div class="chest-box" data-index="1" aria-label="尋寶箱子 2">🎁</div>
+              <div class="chest-box" data-index="2" aria-label="尋寶箱子 3">🎁</div>
+            </div>
+            <div class="treasure-toast" id="treasure-toast"></div>
+          </div>
+          
+          <!-- 寶物收集包 -->
+          <div class="collection-wrap">
+            <h3 class="game-subtitle">🎒 寶物收集包</h3>
+            <div class="collection-grid" id="collection-grid">
+              <!-- 9格收集袋 -->
+              <div class="grid-item empty">?</div>
+              <div class="grid-item empty">?</div>
+              <div class="grid-item empty">?</div>
+              <div class="grid-item empty">?</div>
+              <div class="grid-item empty">?</div>
+              <div class="grid-item empty">?</div>
+              <div class="grid-item empty">?</div>
+              <div class="grid-item empty">?</div>
+              <div class="grid-item empty">?</div>
+            </div>
+          </div>
+
+          <!-- 金色勳章畫面 -->
+          <div class="medal-overlay" id="medal-overlay">
+            <div class="medal-card">
+              <div class="medal-emoji">🏅</div>
+              <div class="medal-title">恭喜！</div>
+              <div class="medal-desc">你已集齊舞鶴九大寶藏！萬事有好！</div>
+              <button class="medal-close-btn" id="medal-close-btn">太棒了！</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- 區塊三：解籤區塊（翻牌後顯示） -->
-      <section id="interpretation-section" aria-label="解籤與祖靈指引">
+      <section id="interpretation-section" aria-label="心靈鶴湯與小鶴引路">
         <div class="interpretation-container">
-          <!-- 祖靈指引第 N 首 -->
-          <h2 class="fortune-title" id="fortune-title">祖靈指引</h2>
+          <!-- 1-B文字修改：「祖靈指引」改為「小鶴引路」 -->
+          <h2 class="fortune-title" id="fortune-title">小鶴引路</h2>
           
           <!-- 籤句內文 -->
           <blockquote class="fortune-quote" id="fortune-quote">
             讀取中...
           </blockquote>
           
-          <!-- ── 舞鶴解籤 ── 分隔線 -->
-          <div class="divider" id="fortune-divider">── 舞鶴解籤 ──</div>
+          <!-- 1-B文字修改：「── 舞鶴解籤 ──」改為「── 心靈鶴湯 ──」 -->
+          <div class="divider" id="fortune-divider">── 心靈鶴湯 ──</div>
           
           <!-- 解籤內文 -->
           <p class="fortune-interpretation" id="fortune-interpretation">
             載入中，請稍候...
           </p>
           
-          <!-- 今日萬事 有好 ✦ 結尾 -->
+          <!-- 1-B文字修改：「今日萬事 有好 ✦」改為「今日萬事 舞鶴✦」 -->
           <div class="fortune-ending" id="fortune-ending">
-            今日萬事 有好 ✦
+            今日萬事 舞鶴✦
+          </div>
+
+          <!-- 4-A 今日幸運指數 -->
+          <div class="luck-index-container">
+            <h3 class="luck-index-title">今日幸運指數</h3>
+            <div class="luck-row">
+              <span class="luck-label">❤️ 愛情</span>
+              <span class="luck-stars" id="luck-love">★★★★★</span>
+            </div>
+            <div class="luck-row">
+              <span class="luck-label">💰 財運</span>
+              <span class="luck-stars" id="luck-money">★★★★★</span>
+            </div>
+            <div class="luck-row">
+              <span class="luck-label">💼 工作</span>
+              <span class="luck-stars" id="luck-work">★★★★★</span>
+            </div>
+            <div class="luck-row">
+              <span class="luck-label">😊 心情</span>
+              <span class="luck-stars" id="luck-mood">★★★★★</span>
+            </div>
+          </div>
+
+          <!-- 4-D 今日小行動 -->
+          <div class="action-container" id="action-container">
+            <h3 class="action-title">🌿 今日小行動</h3>
+            <div class="action-card" id="action-card-glow">
+              <div class="action-text-wrap">
+                <span class="checkbox-icon" id="action-checkbox">□</span>
+                <span class="action-text" id="action-desc">載入中...</span>
+              </div>
+              <button class="action-btn" id="action-complete-btn">我完成了！✔</button>
+            </div>
           </div>
           
           <!-- 收藏按鈕 -->
@@ -98,6 +208,27 @@
             <button class="fav-action-btn" id="fav-action-btn" aria-label="收藏這首籤詩">
               <span class="heart-icon">♡</span> <span class="fav-btn-text">收藏這句話</span>
             </button>
+          </div>
+
+          <!-- 4-C 分享好運 -->
+          <div class="share-action-wrap">
+            <button class="share-btn" id="share-luck-btn">🕊 把這份好運送給朋友</button>
+            <div class="share-options" id="share-options">
+              <p class="share-options-title">今天想把這份好運送給...</p>
+              <div class="share-radio-group">
+                <label class="share-radio-label">
+                  <input type="radio" name="shareTarget" value="自己" checked> 自己
+                </label>
+                <label class="share-radio-label">
+                  <input type="radio" name="shareTarget" value="家人"> 家人
+                </label>
+                <label class="share-radio-label">
+                  <input type="radio" name="shareTarget" value="朋友"> 朋友
+                </label>
+              </div>
+              <button class="share-confirm-btn" id="share-confirm-btn">確認送出 🚀</button>
+            </div>
+            <div class="share-toast" id="share-toast"></div>
           </div>
         </div>
       </section>
@@ -143,10 +274,40 @@
           <p class="article-content">矗立在舞鶴台地上的掃叭石柱，是台灣現存最高的史前石柱遺跡，距今約 3000 年。兩根巨石並立，高達 5 公尺，無人知曉當年先民如何豎起這沉默的巨人。當地流傳著古老的傳說：部落大頭目迎娶時，石柱見證了愛情的莊嚴誓約；暴雨來臨前，石柱頂端會凝聚白霧，是山神在預告天氣。時間沖刷了一切，只有石柱還站在原地，守護這片土地。</p>
         </article>
         
-        <!-- 第 4 篇 -->
-        <article class="map-article">
+        <!-- 第 4 篇：連環滑動繪本 -->
+        <article class="map-article pb-slider-article">
           <h3 class="article-title">馬立雲部落的故事</h3>
-          <p class="article-content">1878 年，加禮宛事件在這片土地留下了深重的歷史傷痕。撒奇萊雅族與噶瑪蘭族在烈火與硝煙中流離失所，族人被迫隱姓埋名，將自己的文化深埋心底超過一個世紀。然而，土地記得。2007 年，撒奇萊雅族正式正名，祖靈祭的火焰重新點燃。那些曾經不能說出口的歌謠，如今在舞鶴的山風裡迴盪。傷痕化為韌性，烈火化為新生，這是舞鶴最深沉也最動人的底蘊。</p>
+          <div class="slider-viewport">
+            <div class="slider-container">
+              <!-- 第一頁 -->
+              <div class="slider-page">
+                <img src="images/image_4.png" alt="達固部灣刺竹林" class="slider-img">
+                <p class="slider-content">百年前的花蓮奇萊平原上，撒奇萊雅族的家園達固部灣，被一整片密密麻麻、高大堅固的刺竹林圍繞著。那時候，族人們在大頭目的帶領下，無憂無慮地生活著，刺竹林隨風搖曳，像母親的雙臂一樣守護著部落。</p>
+              </div>
+              <!-- 第二頁 -->
+              <div class="slider-page">
+                <img src="images/image_5.png" alt="戰火中的大頭目" class="slider-img">
+                <p class="slider-content">1878 年，清軍的火光與重砲點燃了刺竹林，部落陷入一片火海。為了保全倖存族人的生命免於被屠殺殆盡，大頭目古穆·巴力克與夫人伊婕·卡娜蕭緊緊握著彼此的手，眼神堅定地走出部落，決心用自己的生命換取族人的生路。</p>
+              </div>
+              <!-- 第三頁 -->
+              <div class="slider-page">
+                <img src="images/image_6.png" alt="大頭目的遺言" class="slider-img">
+                <p class="slider-content">在生命的最末一刻，劊子手的刀在身上虐舞，大頭目看著漫天黑夜，留下了給族人的最後遺言：「擦乾你們的眼淚，勇敢堅強地活下去！我的心，現在像這棵茄苳樹一樣平靜……」</p>
+              </div>
+              <!-- 第四頁 -->
+              <div class="slider-page">
+                <img src="images/image_9.png" alt="百年後的平靜" class="slider-img">
+                <p class="slider-content">百年輪迴過去了，當年的悲憤已化為泥土的養分。2026 年的元旦清晨，旭日東昇，一道完整的七彩霓虹再次跨越花蓮舞鶴山頂。當年在茄苳樹下種下的平靜種子，如今已化作綠色的大傘，張開雙臂迎接隔世歸來的遊子──萬事有好，吉祥圓滿。</p>
+              </div>
+            </div>
+          </div>
+          <!-- 左右滑動提示點 -->
+          <div class="slider-dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
         </article>
         
         <!-- 第 5 篇 -->

@@ -153,7 +153,18 @@ section {
   height: 100%;
   position: relative;
   transform-style: preserve-3d;
-  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 1.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-watermark {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.3);
+  pointer-events: none;
+  z-index: 10;
 }
 
 .card.is-flipped {
@@ -617,4 +628,599 @@ section {
   .card-quote-text {
     font-size: 20px;
   }
+}
+
+/* ==========================================================================
+   2.0 升級版新增樣式
+   ========================================================================== */
+
+/* 首頁引言與金色分割線 */
+.intro-section {
+  text-align: center;
+  padding: 28px 20px 16px 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.intro-line {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-text-sub);
+  line-height: 1.8;
+  margin-bottom: 4px;
+}
+.intro-desc {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14px;
+  color: var(--color-text-sub);
+  line-height: 1.8;
+  margin-top: 16px;
+  text-align: justify;
+}
+.fine-gold-divider {
+  width: 80px;
+  height: 1px;
+  background-color: var(--color-gold);
+  margin: 8px auto 24px auto;
+  opacity: 0.6;
+}
+
+/* 連續打卡累積 */
+.streak-container {
+  max-width: 600px;
+  margin: 0 auto 16px auto;
+  padding: 16px;
+  background-color: #FFFFFF;
+  border: 1px solid rgba(184, 134, 11, 0.15);
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(44, 24, 16, 0.02);
+}
+.streak-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-text-main);
+  margin-bottom: 6px;
+}
+.streak-icon {
+  margin-right: 4px;
+}
+.streak-days {
+  color: var(--color-accent);
+}
+.streak-subtitle {
+  font-size: 13px;
+  color: var(--color-text-sub);
+}
+
+/* 小鶴的日常能量池互動小遊戲 */
+#game-section {
+  padding: 40px 16px;
+  background-color: var(--color-bg);
+  width: 100%;
+}
+.game-container {
+  max-width: 520px;
+  width: 100%;
+  background: #FFFFFF;
+  border: 1px solid var(--color-gold);
+  border-radius: 16px;
+  padding: 32px 24px;
+  box-shadow: 0 8px 24px rgba(44, 24, 16, 0.05);
+  margin: 0 auto;
+  position: relative;
+  text-align: center;
+}
+.game-title {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-text-main);
+  margin-bottom: 24px;
+  letter-spacing: 0.1em;
+}
+.crane-status-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.crane-avatar-container {
+  perspective: 600px;
+}
+.crane-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2px solid var(--color-gold);
+  background-image: url('../images/crane_front.jpg');
+  background-size: cover;
+  background-position: center;
+  animation: breathe 3s ease-in-out infinite;
+  transition: transform 0.6s ease-in-out;
+}
+.crane-avatar.spin {
+  animation: spinY 0.6s ease-in-out;
+}
+@keyframes breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+@keyframes spinY {
+  0% { transform: scale(1) rotateY(0deg); }
+  100% { transform: scale(1) rotateY(360deg); }
+}
+.dialog-bubble-wrap {
+  flex: 1;
+  min-width: 200px;
+  position: relative;
+}
+.dialog-bubble {
+  background-color: #FAF6F0;
+  border: 1px solid rgba(184, 134, 11, 0.2);
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 14px;
+  color: var(--color-text-main);
+  text-align: left;
+  line-height: 1.5;
+  position: relative;
+}
+.dialog-bubble::before {
+  content: '';
+  position: absolute;
+  left: -8px;
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+  width: 14px;
+  height: 14px;
+  background-color: #FAF6F0;
+  border-left: 1px solid rgba(184, 134, 11, 0.2);
+  border-bottom: 1px solid rgba(184, 134, 11, 0.2);
+}
+@media (max-width: 480px) {
+  .dialog-bubble::before {
+    display: none;
+  }
+}
+.game-btn {
+  background-color: var(--color-card-warm);
+  color: var(--color-text-main);
+  border: 1px solid var(--color-gold);
+  border-radius: 20px;
+  padding: 8px 24px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 0.05em;
+  font-family: 'Noto Sans TC', sans-serif;
+}
+.game-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(212, 168, 67, 0.3);
+}
+.game-btn:disabled {
+  background-color: #D3D3D3;
+  border-color: #C0C0C0;
+  color: #808080;
+  cursor: not-allowed;
+}
+.game-subtitle {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text-sub);
+  margin: 28px 0 12px 0;
+  text-align: left;
+  border-left: 3px solid var(--color-gold);
+  padding-left: 8px;
+}
+.chance-text {
+  font-size: 12px;
+  font-weight: normal;
+  color: var(--color-text-sub);
+  margin-left: 8px;
+}
+.chests-row {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin: 16px 0;
+}
+.chest-box {
+  width: 60px;
+  height: 60px;
+  font-size: 32px;
+  background-color: #FAF6F0;
+  border: 1.5px solid rgba(184, 134, 11, 0.25);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  user-select: none;
+}
+.chest-box:hover:not(.opened):not(.disabled) {
+  transform: scale(1.1) rotate(5deg);
+  border-color: var(--color-gold);
+  background-color: #FFFFFF;
+}
+.chest-box.opened {
+  background-color: #E8F5E9;
+  border-color: #81C784;
+  opacity: 0.8;
+  cursor: default;
+}
+.chest-box.disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+.treasure-toast {
+  min-height: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-accent);
+  margin-top: 8px;
+}
+.collection-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 12px;
+}
+.grid-item {
+  background-color: #FAF6F0;
+  border: 1px solid rgba(107, 68, 35, 0.1);
+  border-radius: 8px;
+  padding: 12px 4px;
+  font-size: 12px;
+  color: var(--color-text-sub);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80px;
+  transition: all 0.3s ease;
+}
+.grid-item.empty {
+  color: rgba(107, 68, 35, 0.2);
+  font-size: 20px;
+}
+.grid-item.collected {
+  background-color: #FFFFFF;
+  border-color: var(--color-gold);
+  box-shadow: 0 2px 8px rgba(184, 134, 11, 0.1);
+  font-weight: 500;
+}
+.grid-item-emoji {
+  font-size: 24px;
+  margin-bottom: 4px;
+}
+.grid-item-name {
+  font-size: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+.medal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(44, 24, 16, 0.7);
+  border-radius: 16px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  animation: fadeIn 0.3s ease-out forwards;
+  padding: 16px;
+}
+.medal-card {
+  background-color: #FFFFFF;
+  border: 2px solid var(--color-gold);
+  border-radius: 16px;
+  padding: 32px 24px;
+  max-width: 320px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+.medal-emoji {
+  font-size: 64px;
+  margin-bottom: 16px;
+  animation: pulse 1.5s infinite;
+}
+.medal-title {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-gold);
+  margin-bottom: 8px;
+}
+.medal-desc {
+  font-size: 14px;
+  color: var(--color-text-main);
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+.medal-close-btn {
+  background-color: var(--color-gold);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 32px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.medal-close-btn:hover {
+  background-color: #996F08;
+}
+
+/* 今日幸運指數 */
+.luck-index-container {
+  margin: 28px 0;
+  border-top: 1px dashed rgba(184, 134, 11, 0.2);
+  border-bottom: 1px dashed rgba(184, 134, 11, 0.2);
+  padding: 20px 0;
+}
+.luck-index-title {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text-main);
+  margin-bottom: 12px;
+  letter-spacing: 0.05em;
+}
+.luck-row {
+  display: flex;
+  justify-content: space-between;
+  max-width: 240px;
+  margin: 6px auto;
+  font-size: 14px;
+}
+.luck-label {
+  color: var(--color-text-sub);
+}
+.luck-stars {
+  color: var(--color-accent);
+  letter-spacing: 0.1em;
+  font-weight: 700;
+}
+
+/* 分享好運 */
+.share-action-wrap {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.share-btn {
+  background-color: transparent;
+  border: 1.5px solid var(--color-gold);
+  color: var(--color-gold);
+  border-radius: 24px;
+  padding: 10px 28px;
+  font-size: 15px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  letter-spacing: 0.05em;
+  transition: all 0.3s ease;
+  width: 100%;
+  max-width: 280px;
+}
+.share-btn:hover {
+  background-color: var(--color-gold-light);
+  color: var(--color-text-main);
+  transform: translateY(-2px);
+}
+.share-options {
+  background-color: #FAF6F0;
+  border: 1px solid rgba(184, 134, 11, 0.2);
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 12px;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  animation: slideDown 0.3s ease-out forwards;
+  width: 100%;
+  max-width: 280px;
+}
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.share-options-title {
+  font-size: 13px;
+  color: var(--color-text-sub);
+  margin-bottom: 12px;
+}
+.share-radio-group {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.share-radio-label {
+  font-size: 14px;
+  color: var(--color-text-main);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.share-confirm-btn {
+  background-color: var(--color-gold);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 16px;
+  padding: 6px 20px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.share-confirm-btn:hover {
+  background-color: #996F08;
+}
+.share-toast {
+  font-size: 12px;
+  color: #4CAF50;
+  font-weight: 500;
+  margin-top: 8px;
+  min-height: 16px;
+}
+
+/* 今日小行動 */
+.action-container {
+  margin: 24px 0;
+  text-align: center;
+}
+.action-title {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text-main);
+  margin-bottom: 12px;
+  letter-spacing: 0.05em;
+}
+.action-card {
+  background-color: #FAF6F0;
+  border: 1px solid rgba(184, 134, 11, 0.25);
+  border-radius: 12px;
+  padding: 16px;
+  max-width: 320px;
+  margin: 0 auto;
+  transition: all 0.5s ease;
+}
+.action-card.completed {
+  background-color: #FFF9E6;
+  border-color: var(--color-gold);
+}
+.action-text-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-text-main);
+}
+.checkbox-icon {
+  font-size: 16px;
+  font-family: monospace;
+  font-weight: bold;
+  color: var(--color-gold);
+}
+.action-btn {
+  background-color: var(--color-text-sub);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 18px;
+  padding: 6px 20px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Noto Sans TC', sans-serif;
+}
+.action-btn:hover {
+  background-color: var(--color-text-main);
+}
+.action-btn:disabled {
+  background-color: #D3D3D3;
+  color: #808080;
+  cursor: default;
+}
+/* 金色光暈特效 */
+.glow-effect {
+  box-shadow: 0 0 20px 5px rgba(212, 168, 67, 0.6);
+  filter: drop-shadow(0 0 10px rgba(212, 168, 67, 0.4));
+  animation: glowPulse 2s ease-in-out;
+}
+@keyframes glowPulse {
+  0% { box-shadow: 0 0 0 0 rgba(212, 168, 67, 0); }
+  30% { box-shadow: 0 0 25px 8px rgba(212, 168, 67, 0.8); }
+  100% { box-shadow: 0 0 0 0 rgba(212, 168, 67, 0); }
+}
+
+/* 有好地圖 - 連環滑動繪本 */
+.pb-slider-article {
+  padding: 24px 16px !important;
+}
+.slider-viewport {
+  width: 100%;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  margin-top: 16px;
+}
+/* 美化隱藏滑動滾動條 */
+.slider-viewport::-webkit-scrollbar {
+  display: none;
+}
+.slider-viewport {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.slider-container {
+  display: flex;
+  width: 400%; /* 4頁 */
+}
+.slider-page {
+  width: 25%; /* 每頁佔 1/4 (即 viewports 寬度) */
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  padding: 0 4px;
+  box-sizing: border-box;
+}
+.slider-img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+  box-shadow: 0 4px 12px rgba(44, 24, 16, 0.08);
+}
+.slider-content {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14px;
+  color: var(--color-text-sub);
+  line-height: 1.8;
+  padding: 16px 8px;
+  text-align: justify;
+}
+.slider-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+.slider-dots .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: rgba(184, 134, 11, 0.25);
+  transition: all 0.3s ease;
+}
+.slider-dots .dot.active {
+  background-color: var(--color-gold);
+  transform: scale(1.3);
 }

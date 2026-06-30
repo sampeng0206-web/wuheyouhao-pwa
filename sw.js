@@ -1,4 +1,4 @@
-const CACHE_NAME = 'wuheyouhao-v11';
+const CACHE_NAME = 'wuheyouhao-v12';
 const urlsToCache = [
   './',
   './index.html',

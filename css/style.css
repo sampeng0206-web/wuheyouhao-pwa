@@ -185,7 +185,7 @@ section {
 /* 牌面正面（翻開後顯示，對應 CSS 類為 --back） */
 .card-face--back {
   transform: rotateY(180deg);
-  background-image: url('../images/crane_front.jpg');
+  background-image: url('../images/crane_back.jpg');
   background-size: cover;
   background-position: center;
   overflow: hidden;
@@ -194,9 +194,9 @@ section {
 /* 牌面背面（預設顯示，對應 CSS 類為 --front） */
 .card-face--front {
   background-color: var(--color-card-warm);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background-image: url('../images/crane_front.jpg');
+  background-size: cover;
+  background-position: center;
 }
 
 /* 背面直書文字：心靈鶴湯 */

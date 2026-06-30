@@ -406,21 +406,24 @@ function renderTodayAction(fortune) {
 
 // 地圖連環畫滑動點設置
 function setupSlidingBook() {
-  const viewport = document.querySelector('.slider-viewport');
-  const dots = document.querySelectorAll('.slider-dots .dot');
-  if (!viewport || dots.length === 0) return;
-  
-  viewport.addEventListener('scroll', () => {
-    const scrollLeft = viewport.scrollLeft;
-    const width = viewport.clientWidth;
-    const pageIndex = Math.round(scrollLeft / width);
+  const articles = document.querySelectorAll('.pb-slider-article');
+  articles.forEach(article => {
+    const viewport = article.querySelector('.slider-viewport');
+    const dots = article.querySelectorAll('.slider-dots .dot');
+    if (!viewport || dots.length === 0) return;
     
-    dots.forEach((dot, index) => {
-      if (index === pageIndex) {
-        dot.classList.add('active');
-      } else {
-        dot.classList.remove('active');
-      }
+    viewport.addEventListener('scroll', () => {
+      const scrollLeft = viewport.scrollLeft;
+      const width = viewport.clientWidth;
+      const pageIndex = Math.round(scrollLeft / width);
+      
+      dots.forEach((dot, index) => {
+        if (index === pageIndex) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
     });
   });
 }

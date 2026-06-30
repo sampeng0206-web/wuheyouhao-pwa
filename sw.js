@@ -1,4 +1,4 @@
-const CACHE_NAME = 'wuheyouhao-v10';
+const CACHE_NAME = 'wuheyouhao-v11';
 const urlsToCache = [
   './',
   './index.html',
@@ -15,7 +15,15 @@ const urlsToCache = [
   './images/image_5.png',
   './images/image_6.png',
   './images/image_9.png',
-  './images/intro_bg.jpg'
+  './images/intro_bg.jpg',
+  './images/map_wuhe_1.jpg',
+  './images/map_wuhe_2.jpg',
+  './images/map_kalala_1.jpg',
+  './images/map_kalala_2.jpg',
+  './images/map_kalala_3.jpg',
+  './images/map_saoba_1.jpg',
+  './images/map_saoba_2.jpg',
+  './images/map_saoba_3.jpg'
 ];
 
 self.addEventListener('install', e => {

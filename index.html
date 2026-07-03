@@ -38,9 +38,15 @@
 
   <!-- 區塊一：頂部導覽列 -->
   <header>
-    <button class="nav-btn" id="nav-fav-btn" aria-label="切換到收藏頁面">收藏 ♥</button>
+    <div class="nav-group nav-group-left">
+      <button class="nav-btn" id="nav-fav-btn" aria-label="切換到收藏頁面">收藏 ♥</button>
+      <button class="nav-btn" id="nav-map-btn" aria-label="切換到地圖頁面">地圖 🗺</button>
+    </div>
     <h1 class="logo" id="app-logo">今日舞鶴</h1>
-    <button class="nav-btn" id="nav-map-btn" aria-label="切換到地圖頁面">地圖 🗺</button>
+    <div class="nav-group nav-group-right">
+      <button class="nav-btn" id="nav-game-btn" aria-label="切換到能量池小遊戲頁面">遊戲 🕊</button>
+      <button class="nav-btn" id="nav-ad-btn" aria-label="切換到好物廣告頁面">好物 🛍</button>
+    </div>
   </header>
 
   <main>
@@ -48,34 +54,29 @@
     <div id="main-page" class="page-view active">
       <!-- 1-A首頁引言區塊 -->
       <div class="intro-section">
-        <div class="intro-overlay">
-          <p class="intro-line">1、2、3 到台灣</p>
-          <p class="intro-line">台灣有個舞鶴山</p>
-          <p class="intro-line">舞鶴山谷有仙鶴</p>
-          <p class="intro-line">祂的名字叫小鶴</p>
-          <p class="intro-desc">小鶴曾經飛過半個再多一點的地球，看過無數世界風情後，還是覺得故鄉最美，若您走過路過沒有錯過，且下馬歇息來碗叫小鶴佐智慧涼拌閒情的～心靈鶴湯。</p>
-        </div>
+        <img src="images/intro_bg_panorama_v2.png" alt="今日舞鶴引言全景圖" class="intro-panorama-img">
       </div>
       <div class="fine-gold-divider"></div>
 
       <!-- 4-B連續打卡累積 -->
       <div class="streak-container" id="streak-container">
-        <div class="streak-title"><span class="streak-icon">🔥</span> 已連續得到好運：<span id="streak-days">0</span> 天</div>
-        <div class="streak-subtitle" id="streak-message">🌱 今天是你的第一天，好的開始！</div>
+        <div class="streak-title"><span class="streak-icon">🔥</span> 已連續得到「舞鶴」好運：<span id="streak-days">0</span> 天</div>
+        <div class="streak-subtitle" id="streak-message">🌱 今天是你的第一天，萬事舞鶴的開始！</div>
       </div>
 
       <!-- 區塊二：翻牌主體 -->
-      <section id="draw-section">
         <div class="card-scene" id="card-trigger" aria-label="翻牌抽籤區域">
           <div class="card">
-            <!-- 牌面背面（預設顯示，琥珀金底） -->
+            <!-- 牌面背面（預設顯示，crane_front_v2.jpg 背景） -->
             <div class="card-face card-face--front"></div>
-            <!-- 牌面正面（翻開後， crane_back.jpg 背景） -->
+            <!-- 牌面正面（翻開後， crane_back_v2.png 背景） -->
             <div class="card-face card-face--back">
-              <!-- 1-C牌面新增浮水印 -->
-              <div class="card-watermark">心靈鶴湯</div>
-              <div class="card-quote-overlay">
-                <div class="card-quote-text" id="card-quote">載入中...</div>
+              <div class="card-back-content">
+                <h3 class="card-fortune-title" id="card-fortune-title">小鶴帶路</h3>
+                <blockquote class="card-fortune-quote" id="card-fortune-quote">載入中...</blockquote>
+                <div class="card-fortune-divider">── 心靈鶴湯 ──</div>
+                <p class="card-fortune-interpretation" id="card-fortune-interpretation">載入中，請稍候...</p>
+                <div class="card-fortune-ending">今日萬事 舞鶴✦</div>
               </div>
             </div>
           </div>
@@ -83,92 +84,13 @@
         
         <!-- 提示文字 -->
         <div class="tip-container">
-          <p class="tip-text pulse" id="tip-text">舞鶴好心情送給您，再分享心靈鶴湯～</p>
-        </div>
-      </section>
-
-      <!-- 任務三：小鶴的日常能量池互動小遊戲 -->
-      <section id="game-section" aria-label="小鶴的日常能量池">
-        <div class="game-container">
-          <h2 class="game-title">🕊 小鶴的日常能量池</h2>
-          
-          <div class="crane-status-wrap">
-            <div class="crane-avatar-container">
-              <div class="crane-avatar" id="crane-avatar"></div>
-            </div>
-            <div class="dialog-bubble-wrap">
-              <div class="dialog-bubble" id="game-dialog">你好呀！今天想喝杯舞鶴的蜜香紅茶嗎？</div>
-            </div>
-          </div>
-          
-          <!-- 餵小鶴 -->
-          <div class="game-action-row">
-            <button class="game-btn" id="feed-crane-btn">🍵 給小鶴一杯蜜香紅茶</button>
-          </div>
-          
-          <!-- 今日尋寶 -->
-          <div class="treasure-hunt-wrap">
-            <h3 class="game-subtitle">🎁 今日尋寶 <span class="chance-text">(今天還有 <span id="hunt-chances">3</span> 次機會)</span></h3>
-            <div class="chests-row">
-              <div class="chest-box" data-index="0" aria-label="尋寶箱子 1">🎁</div>
-              <div class="chest-box" data-index="1" aria-label="尋寶箱子 2">🎁</div>
-              <div class="chest-box" data-index="2" aria-label="尋寶箱子 3">🎁</div>
-            </div>
-            <div class="treasure-toast" id="treasure-toast"></div>
-          </div>
-          
-          <!-- 寶物收集包 -->
-          <div class="collection-wrap">
-            <h3 class="game-subtitle">🎒 寶物收集包</h3>
-            <div class="collection-grid" id="collection-grid">
-              <!-- 9格收集袋 -->
-              <div class="grid-item empty">?</div>
-              <div class="grid-item empty">?</div>
-              <div class="grid-item empty">?</div>
-              <div class="grid-item empty">?</div>
-              <div class="grid-item empty">?</div>
-              <div class="grid-item empty">?</div>
-              <div class="grid-item empty">?</div>
-              <div class="grid-item empty">?</div>
-              <div class="grid-item empty">?</div>
-            </div>
-          </div>
-
-          <!-- 金色勳章畫面 -->
-          <div class="medal-overlay" id="medal-overlay">
-            <div class="medal-card">
-              <div class="medal-emoji">🏅</div>
-              <div class="medal-title">恭喜！</div>
-              <div class="medal-desc">你已集齊舞鶴九大寶藏！萬事有好！</div>
-              <button class="medal-close-btn" id="medal-close-btn">太棒了！</button>
-            </div>
-          </div>
+          <p class="tip-text pulse" id="tip-text">分享醍醐灌腦的～心靈鶴湯</p>
         </div>
       </section>
 
       <!-- 區塊三：解籤區塊（翻牌後顯示） -->
       <section id="interpretation-section" aria-label="心靈鶴湯與小鶴帶路">
         <div class="interpretation-container">
-          <!-- 1-B文字修改：「祖靈指引」改為「小鶴帶路」 -->
-          <h2 class="fortune-title" id="fortune-title">小鶴帶路</h2>
-          
-          <!-- 籤句內文 -->
-          <blockquote class="fortune-quote" id="fortune-quote">
-            讀取中...
-          </blockquote>
-          
-          <!-- 1-B文字修改：「── 舞鶴解籤 ──」改為「── 心靈鶴湯 ──」 -->
-          <div class="divider" id="fortune-divider">── 心靈鶴湯 ──</div>
-          
-          <!-- 解籤內文 -->
-          <p class="fortune-interpretation" id="fortune-interpretation">
-            載入中，請稍候...
-          </p>
-          
-          <!-- 1-B文字修改：「今日萬事 有好 ✦」改為「今日萬事 舞鶴✦」 -->
-          <div class="fortune-ending" id="fortune-ending">
-            今日萬事 舞鶴✦
-          </div>
 
           <!-- 4-A 今日幸運指數 -->
           <div class="luck-index-container">
@@ -382,6 +304,131 @@
           <p class="article-content">香積園，是舞鶴台地上一處靜謐的心靈道場。東邊的平靜廣場，一棵百年茄苳樹靜靜守護著來往的旅人；西邊的古伊之泉親水生態池，清澈的山泉水終年不斷，倒映著天光雲影。園內供奉的心咒，據說只要靜心聆聽，便能感受到一種說不清楚的清淨磁場。無論你信仰什麼，香積園給你的，是一段讓內心歸零的寂靜時光。</p>
           <img src="images/xiangji.jpg" alt="香積園景色" class="article-img">
         </article>
+      </div>
+    </div>
+
+    <!-- 遊戲頁 (game-page) -->
+    <div id="game-page" class="page-view">
+      <div class="subpage-header">
+        <button class="back-btn" id="game-back-btn" aria-label="返回主頁">← 返回</button>
+        <h2 class="subpage-title">小鶴能量池</h2>
+      </div>
+      
+      <div class="game-container">
+        <div class="crane-status-wrap">
+          <div class="crane-avatar-container">
+            <div class="crane-avatar" id="crane-avatar"></div>
+          </div>
+          <div class="dialog-bubble-wrap">
+            <div class="dialog-bubble" id="game-dialog">你好呀！今天想喝杯舞鶴的蜜香紅茶嗎？</div>
+          </div>
+        </div>
+        
+        <!-- 餵小鶴 -->
+        <div class="game-action-row">
+          <button class="game-btn" id="feed-crane-btn">🍵 給小鶴一杯蜜香紅茶</button>
+        </div>
+        
+        <!-- 今日尋寶 -->
+        <div class="treasure-hunt-wrap">
+          <h3 class="game-subtitle">🎁 今日尋寶 <span class="chance-text">(今天還有 <span id="hunt-chances">3</span> 次機會)</span></h3>
+          <div class="chests-row">
+            <div class="chest-box" data-index="0" aria-label="尋寶箱子 1">🎁</div>
+            <div class="chest-box" data-index="1" aria-label="尋寶箱子 2">🎁</div>
+            <div class="chest-box" data-index="2" aria-label="尋寶箱子 3">🎁</div>
+          </div>
+          <div class="treasure-toast" id="treasure-toast"></div>
+        </div>
+        
+        <!-- 寶物收集包 -->
+        <div class="collection-wrap">
+          <h3 class="game-subtitle">🎒 寶物收集包</h3>
+          <div class="collection-grid" id="collection-grid">
+            <!-- 9格收集袋 -->
+            <div class="grid-item empty">?</div>
+            <div class="grid-item empty">?</div>
+            <div class="grid-item empty">?</div>
+            <div class="grid-item empty">?</div>
+            <div class="grid-item empty">?</div>
+            <div class="grid-item empty">?</div>
+            <div class="grid-item empty">?</div>
+            <div class="grid-item empty">?</div>
+            <div class="grid-item empty">?</div>
+          </div>
+        </div>
+
+        <!-- 金色勳章畫面 -->
+        <div class="medal-overlay" id="medal-overlay">
+          <div class="medal-card">
+            <div class="medal-emoji">🏅</div>
+            <div class="medal-title">恭喜！</div>
+            <div class="medal-desc">你已集齊舞鶴九大寶藏！萬事有好！</div>
+            <button class="medal-close-btn" id="medal-close-btn">太棒了！</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 廣告頁 (ad-page) -->
+    <div id="ad-page" class="page-view">
+      <div class="subpage-header">
+        <button class="back-btn" id="ad-back-btn" aria-label="返回主頁">← 返回</button>
+        <h2 class="subpage-title">舞鶴好物</h2>
+      </div>
+      
+      <div class="ad-container">
+        <!-- 段落一：現有可銷售商品 -->
+        <section class="ad-section">
+          <div class="ad-section-badge badge-active">現貨熱銷</div>
+          <h3 class="ad-section-title">現有可銷售商品</h3>
+          <div class="product-card main-product">
+            <div class="product-img-wrapper main-product-img-wrapper">
+              <img src="images/product_xiangji_books.jpg" alt="香積法門叢書與拉拉山系列" class="product-img">
+            </div>
+            <div class="product-info">
+              <h4 class="product-title">香積法門叢書 & 拉拉山系列</h4>
+              <p class="product-desc">香積法門叢書 3 本（含電子書 1 本）、拉拉山系列 2 本。融合山林智慧與法門，為您點亮心靈之光。</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 段落二：即將開放預購商品 -->
+        <section class="ad-section">
+          <div class="ad-section-badge badge-upcoming">即將開放預購</div>
+          <h3 class="ad-section-title">即將開放預購商品</h3>
+          <div class="products-grid">
+            <div class="product-card">
+              <div class="product-img-wrapper">
+                <img src="images/product_wuhe_wood_tag.jpg" alt="舞鶴木牌" class="product-img">
+              </div>
+              <div class="product-info">
+                <h4 class="product-title">舞鶴木牌</h4>
+                <p class="product-status">即將開放預購</p>
+              </div>
+            </div>
+            <div class="product-card">
+              <div class="product-img-wrapper">
+                <img src="images/product_wuhe_cards.jpg" alt="舞鶴撲克牌" class="product-img">
+              </div>
+              <div class="product-info">
+                <h4 class="product-title">舞鶴撲克牌</h4>
+                <p class="product-status">即將開放預購</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 段落三：規劃中商品 -->
+        <section class="ad-section">
+          <div class="ad-section-badge badge-planning">規劃中商品</div>
+          <h3 class="ad-section-title">規劃中商品</h3>
+          <div class="planning-tags">
+            <span class="plan-tag">☕ 馬克杯</span>
+            <span class="plan-tag">🌲 環保袋</span>
+            <span class="plan-tag">👕 T恤衫</span>
+            <span class="plan-tag">🔑 小吊飾</span>
+          </div>
+        </section>
       </div>
     </div>
   </main>

@@ -89,7 +89,7 @@ function renderStreak(streakDays) {
   if (streakDays === 0) {
     streakMessageEl.textContent = "🌱 點擊翻牌即可開始累積好運天數喔！";
   } else if (streakDays === 1) {
-    streakMessageEl.textContent = "🌱 今天是你的第一天，好的開始！";
+    streakMessageEl.textContent = "🌱 今天是你的第一天，萬事舞鶴的開始！";
   } else if (streakDays === 7) {
     streakMessageEl.textContent = "🔥 連續 7 天！你正在建立好習慣！";
   } else if (streakDays === 30) {
@@ -536,13 +536,19 @@ function setupNavigation() {
   const mainPage = document.getElementById('main-page');
   const favoritesPage = document.getElementById('favorites-page');
   const mapPage = document.getElementById('map-page');
+  const gamePage = document.getElementById('game-page');
+  const adPage = document.getElementById('ad-page');
   
   const navFavBtn = document.getElementById('nav-fav-btn');
   const navMapBtn = document.getElementById('nav-map-btn');
+  const navGameBtn = document.getElementById('nav-game-btn');
+  const navAdBtn = document.getElementById('nav-ad-btn');
   const appLogo = document.getElementById('app-logo');
   
   const favBackBtn = document.getElementById('fav-back-btn');
   const mapBackBtn = document.getElementById('map-back-btn');
+  const gameBackBtn = document.getElementById('game-back-btn');
+  const adBackBtn = document.getElementById('ad-back-btn');
   
   function showPage(pageId) {
     document.querySelectorAll('.page-view').forEach(p => {
@@ -556,6 +562,10 @@ function setupNavigation() {
       renderFavoritesList();
     } else if (pageId === 'map') {
       mapPage.classList.add('active');
+    } else if (pageId === 'game') {
+      gamePage.classList.add('active');
+    } else if (pageId === 'ad') {
+      adPage.classList.add('active');
     }
     
     window.scrollTo(0, 0);
@@ -563,10 +573,14 @@ function setupNavigation() {
   
   if (navFavBtn) navFavBtn.addEventListener('click', () => showPage('favorites'));
   if (navMapBtn) navMapBtn.addEventListener('click', () => showPage('map'));
+  if (navGameBtn) navGameBtn.addEventListener('click', () => showPage('game'));
+  if (navAdBtn) navAdBtn.addEventListener('click', () => showPage('ad'));
   if (appLogo) appLogo.addEventListener('click', () => showPage('main'));
   
   if (favBackBtn) favBackBtn.addEventListener('click', () => showPage('main'));
   if (mapBackBtn) mapBackBtn.addEventListener('click', () => showPage('main'));
+  if (gameBackBtn) gameBackBtn.addEventListener('click', () => showPage('main'));
+  if (adBackBtn) adBackBtn.addEventListener('click', () => showPage('main'));
 }
 
 // ----------------------------------------------------
@@ -575,18 +589,13 @@ function setupNavigation() {
 
 // 渲染籤詩內容到 DOM
 function renderFortune(fortune) {
-  const cardQuote = document.getElementById('card-quote');
-  if (cardQuote) {
-    cardQuote.textContent = fortune.quote;
-  }
+  const cardFortuneTitle = document.getElementById('card-fortune-title');
+  const cardFortuneQuote = document.getElementById('card-fortune-quote');
+  const cardFortuneInterpretation = document.getElementById('card-fortune-interpretation');
 
-  const fortuneTitle = document.getElementById('fortune-title');
-  const fortuneQuote = document.getElementById('fortune-quote');
-  const fortuneInterpretation = document.getElementById('fortune-interpretation');
-
-  if (fortuneTitle) fortuneTitle.textContent = fortune.title;
-  if (fortuneQuote) fortuneQuote.textContent = fortune.quote;
-  if (fortuneInterpretation) fortuneInterpretation.textContent = fortune.interpretation;
+  if (cardFortuneTitle) cardFortuneTitle.textContent = fortune.title;
+  if (cardFortuneQuote) cardFortuneQuote.textContent = fortune.quote;
+  if (cardFortuneInterpretation) cardFortuneInterpretation.textContent = fortune.interpretation;
 
   const favs = JSON.parse(localStorage.getItem('favorites')) || [];
   const isSaved = favs.some(f => f.id === fortune.id);
@@ -646,7 +655,7 @@ function handleDraw() {
       const interpretationSection = document.getElementById('interpretation-section');
       
       if (tipText) {
-        tipText.textContent = "舞鶴好心情送給您，再分享心靈鶴湯～";
+        tipText.textContent = "分享醍醐灌腦的～心靈鶴湯";
         tipText.classList.remove('pulse');
       }
       if (interpretationSection) {
@@ -702,13 +711,13 @@ async function initializeApp() {
         }
         
         if (tipText) {
-          tipText.textContent = "舞鶴好心情送給您，再分享心靈鶴湯～";
+          tipText.textContent = "分享醍醐灌腦的～心靈鶴湯";
           tipText.classList.remove('pulse');
         }
       }
     } else {
       if (tipText) {
-        tipText.textContent = "舞鶴好心情送給您，再分享心靈鶴湯～";
+        tipText.textContent = "分享醍醐灌腦的～心靈鶴湯";
         tipText.classList.add('pulse');
       }
     }

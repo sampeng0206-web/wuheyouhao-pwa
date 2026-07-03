@@ -53,37 +53,50 @@ header {
   box-shadow: 0 2px 8px rgba(44, 24, 16, 0.05);
 }
 
+.nav-group {
+  display: flex;
+  gap: 12px;
+  flex: 1;
+  align-items: center;
+}
+
+.nav-group-left {
+  justify-content: flex-start;
+}
+
+.nav-group-right {
+  justify-content: flex-end;
+}
+
 header .nav-btn {
   background: none;
   border: none;
   font-family: 'Noto Serif TC', serif;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
   color: var(--color-text-sub);
   cursor: pointer;
-  padding: 8px 0;
-  letter-spacing: 0.05em;
+  padding: 8px 4px;
+  letter-spacing: 0.02em;
   transition: color 0.2s ease;
-  flex: 1;
+  white-space: nowrap;
 }
 
-#nav-fav-btn {
-  text-align: left;
-}
-
-#nav-map-btn {
-  text-align: right;
+header .nav-btn:hover {
+  color: var(--color-gold);
 }
 
 header h1.logo {
   font-family: 'Noto Serif TC', serif;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--color-text-main);
-  letter-spacing: 0.1em;
+  letter-spacing: 0.05em;
   text-align: center;
-  flex: 2; /* Logo 佔兩倍寬度以求平衡 */
   cursor: pointer;
+  white-space: nowrap;
+  margin: 0 8px;
+  flex: 0 0 auto;
 }
 
 /* SPA 頁面切換控制 */
@@ -185,7 +198,7 @@ section {
 /* 牌面正面（翻開後顯示，對應 CSS 類為 --back） */
 .card-face--back {
   transform: rotateY(180deg);
-  background-image: url('../images/crane_back.jpg');
+  background-image: url('../images/crane_back_v2.png');
   background-size: cover;
   background-position: center;
   overflow: hidden;
@@ -194,7 +207,7 @@ section {
 /* 牌面背面（預設顯示，對應 CSS 類為 --front） */
 .card-face--front {
   background-color: var(--color-card-warm);
-  background-image: url('../images/crane_front.jpg');
+  background-image: url('../images/crane_front_v2.jpg');
   background-size: cover;
   background-position: center;
 }
@@ -212,32 +225,69 @@ section {
   text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.15);
 }
 
-/* 翻開後底部疊加籤句文字 */
-.card-quote-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 45%;
-  background: linear-gradient(to top, rgba(44, 24, 16, 0.98) 0%, rgba(44, 24, 16, 0.75) 60%, rgba(44, 24, 16, 0) 100%);
+/* 翻開後牌面文字 (方案 A：直式卡片，文字橫書排版) */
+.card-back-content {
+  width: 100%;
+  height: 100%;
+  padding: 24px 20px;
   display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  padding: 20px 24px 32px 24px;
-}
-
-.card-quote-text {
-  font-family: 'Noto Serif TC', serif;
-  font-size: 18px;
-  font-weight: 700;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
   color: #FFFFFF;
   text-align: center;
-  line-height: 1.8;
-  letter-spacing: 0.05em;
-  writing-mode: vertical-rl;
-  text-orientation: upright;
-  max-height: 100%;
-  margin: 0 auto;
+}
+
+.card-fortune-title {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-gold);
+  margin: 0;
+  letter-spacing: 0.1em;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+}
+
+.card-fortune-quote {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 12px 0;
+  line-height: 1.5;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
+  flex-grow: 0;
+}
+
+.card-fortune-divider {
+  font-size: 12px;
+  color: var(--color-gold);
+  opacity: 0.8;
+  margin: 8px 0;
+  letter-spacing: 0.1em;
+}
+
+.card-fortune-interpretation {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #E2E8F0;
+  margin: 0;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+  text-align: justify;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-fortune-ending {
+  font-size: 12px;
+  color: var(--color-gold);
+  font-weight: 700;
+  margin-top: 12px;
+  letter-spacing: 0.15em;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
 }
 
 /* 提示文字 */
@@ -603,14 +653,23 @@ section {
     width: 220px;
     height: 330px;
   }
-  .card-back-text {
-    font-size: 24px;
+  .card-back-content {
+    padding: 16px 14px;
   }
-  .card-quote-text {
-    font-size: 15px;
+  .card-fortune-title {
+    font-size: 14px;
   }
-  #draw-section {
-    padding: 16px 12px;
+  .card-fortune-quote {
+    font-size: 14px;
+    margin: 8px 0;
+  }
+  .card-fortune-interpretation {
+    font-size: 11.5px;
+    line-height: 1.4;
+  }
+  .card-fortune-ending {
+    font-size: 11px;
+    margin-top: 8px;
   }
   .interpretation-container {
     padding: 32px 20px;
@@ -622,11 +681,14 @@ section {
     width: 320px;
     height: 480px;
   }
-  .card-back-text {
-    font-size: 32px;
+  .card-fortune-title {
+    font-size: 18px;
   }
-  .card-quote-text {
-    font-size: 20px;
+  .card-fortune-quote {
+    font-size: 18px;
+  }
+  .card-fortune-interpretation {
+    font-size: 14.5px;
   }
 }
 
@@ -636,45 +698,23 @@ section {
 
 /* 首頁引言與金色分割線 */
 .intro-section {
-  text-align: center;
-  max-width: 600px;
-  margin: 0 auto;
-  background-image: url('../images/intro_bg.jpg');
-  background-size: cover;
-  background-position: center;
-  color: #FFFFFF;
-  border-radius: 12px;
-  overflow: hidden;
-}
-.intro-overlay {
-  background-color: rgba(0,0,0,0.35);
-  padding: 28px 20px 16px 20px;
   width: 100%;
-  height: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+  background-color: var(--color-bg);
 }
-.intro-line {
-  font-family: 'Noto Serif TC', serif;
-  font-size: 18px;
-  font-weight: 700;
-  color: #FFFFFF;
-  line-height: 1.8;
-  margin-bottom: 4px;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
-}
-.intro-desc {
-  font-family: 'Noto Serif TC', serif;
-  font-size: 14px;
-  color: #FFFFFF;
-  line-height: 1.8;
-  margin-top: 16px;
-  text-align: justify;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+.intro-panorama-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
 }
 .fine-gold-divider {
   width: 80px;
   height: 1px;
   background-color: var(--color-gold);
-  margin: 8px auto 24px auto;
+  margin: 16px auto 24px auto;
   opacity: 0.6;
 }
 
@@ -1237,3 +1277,194 @@ section {
   background-color: var(--color-gold);
   transform: scale(1.3);
 }
+
+/* ==========================================================================
+   新增商品廣告頁面與小螢幕導覽列優化樣式
+   ========================================================================== */
+
+/* 小螢幕 (如 iPhone SE 375px) 導覽列適配 */
+@media (max-width: 380px) {
+  header {
+    padding: 0 8px !important;
+  }
+  header .nav-btn {
+    font-size: 11.5px !important;
+    padding: 8px 2px !important;
+    letter-spacing: 0.01em !important;
+  }
+  header h1.logo {
+    font-size: 14px !important;
+    margin: 0 4px !important;
+  }
+  .nav-group {
+    gap: 6px !important;
+  }
+}
+
+/* 廣告好物頁面 */
+.ad-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding-bottom: 40px;
+}
+
+.ad-section {
+  position: relative;
+  background-color: #FFFFFF;
+  border: 1px solid rgba(184, 134, 11, 0.12);
+  border-radius: 12px;
+  padding: 24px 20px 20px 20px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 12px rgba(44, 24, 16, 0.02);
+}
+
+.ad-section-badge {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+}
+
+.badge-active {
+  background-color: rgba(212, 168, 67, 0.15);
+  color: var(--color-gold);
+}
+
+.badge-upcoming {
+  background-color: rgba(44, 24, 16, 0.08);
+  color: var(--color-text-sub);
+}
+
+.badge-planning {
+  background-color: rgba(74, 85, 104, 0.08);
+  color: #4A5568;
+}
+
+.ad-section-title {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-text-main);
+  margin-top: 0;
+  margin-bottom: 16px;
+  border-left: 3px solid var(--color-gold);
+  padding-left: 8px;
+}
+
+.product-card {
+  display: flex;
+  gap: 16px;
+  background-color: #FDFBF7;
+  border: 1px solid rgba(184, 134, 11, 0.08);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(44, 24, 16, 0.05);
+}
+
+.main-product {
+  flex-direction: column;
+}
+
+/* 圖片容器：淡色底、統一高度、contain 排版 */
+.product-img-wrapper {
+  width: 100%;
+  height: 180px; /* 統一小卡片容器高度 */
+  background-color: #FAF6ED; /* 溫暖的米金淡色底 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(184, 134, 11, 0.06);
+}
+
+.main-product-img-wrapper {
+  height: 240px; /* 書封大卡片容器高度較高 */
+}
+
+.product-img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain; /* 完整呈現圖片，不裁切任何部分 */
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-img {
+  transform: scale(1.03); /* 滑鼠懸停時微縮放動畫 */
+}
+
+.product-info {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.product-title {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text-main);
+  margin: 0 0 8px 0;
+}
+
+.product-desc {
+  font-size: 13px;
+  color: var(--color-text-sub);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.product-status {
+  font-size: 12px;
+  color: var(--color-gold);
+  font-weight: 700;
+  margin: 0;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.products-grid .product-card {
+  flex-direction: column;
+}
+
+.planning-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.plan-tag {
+  background-color: #F7FAFC;
+  border: 1px solid #E2E8F0;
+  color: #4A5568;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 20px;
+  transition: all 0.2s ease;
+  cursor: default;
+}
+
+.plan-tag:hover {
+  background-color: #FFFDF5;
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+  transform: scale(1.05);
+}
+

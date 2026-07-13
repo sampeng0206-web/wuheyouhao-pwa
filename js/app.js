@@ -101,7 +101,7 @@ function renderStreak(streakDays) {
   }
 }
 
-// 小遊戲寶物列表
+// 小遊戲寶物列表 (擴充至 19 種，修正阿美族為撒奇萊雅族)
 const treasureList = [
   { name: "掃叭石柱的祝福碎片", emoji: "🪨" },
   { name: "舞鶴大山精靈的羽毛", emoji: "🪶" },
@@ -109,12 +109,19 @@ const treasureList = [
   { name: "蜜香紅茶的幸運茶葉", emoji: "🍃" },
   { name: "小鶴飛翔留下的微光", emoji: "✨" },
   { name: "茄苳大樹的平靜葉片", emoji: "🌿" },
-  { name: "阿美族獵人的勇氣石", emoji: "💎" },
+  { name: "撒奇萊雅族獵人的勇氣石", emoji: "💎" },
   { name: "月桃葉編成的幸福籃", emoji: "🧺" },
   { name: "刺竹林的守護竹節", emoji: "🎋" },
   { name: "舞鶴台地的晨曦金光", emoji: "🌅" },
   { name: "小米酒的甜蜜泡泡", emoji: "🫧" },
-  { name: "百合花的純潔花瓣", emoji: "🌸" }
+  { name: "百合花的純潔花瓣", emoji: "🌸" },
+  { name: "瑞穗牧場喝鮮乳", emoji: "🥛" },
+  { name: "香積園的香積石", emoji: "🪨" },
+  { name: "舞鶴山上彩虹橋", emoji: "🌈" },
+  { name: "古伊之泉的守護", emoji: "⛲" },
+  { name: "Pazik大頭目勇氣", emoji: "👑" },
+  { name: "撒奇萊雅族聖石", emoji: "🗿" },
+  { name: "馬立雲部落的雲", emoji: "☁️" }
 ];
 
 // 小遊戲一：餵小鶴
@@ -192,6 +199,15 @@ function setupTreasureHunt() {
         return;
       }
       
+      // 在開啟前檢查是否九宮格已滿 9 格，引導玩家去領勳章
+      let collection = JSON.parse(localStorage.getItem('craneCollection')) || [];
+      if (collection.length >= 9) {
+        toast.textContent = "🏅 請先點選下方「收下勳章並開啟新一輪」，清空背包再尋寶喔！";
+        const overlay = document.getElementById('medal-overlay');
+        if (overlay) overlay.style.display = 'flex';
+        return;
+      }
+      
       newChest.classList.add('opened');
       newChest.textContent = "📂";
       openedChests[index] = true;
@@ -202,7 +218,6 @@ function setupTreasureHunt() {
       
       toast.textContent = `✨ 你發現了：${treasure.name} ${treasure.emoji}！`;
       
-      let collection = JSON.parse(localStorage.getItem('craneCollection')) || [];
       if (!collection.includes(treasure.name)) {
         collection.push(treasure.name);
         localStorage.setItem('craneCollection', JSON.stringify(collection));
@@ -227,28 +242,45 @@ function setupTreasureHunt() {
   });
 }
 
-// 渲染收集包 3x3 網格
+// 渲染與動態擴展收集包 3x3 網格，並更新勳章統計
 function renderCollectionGrid() {
-  const gridItems = document.querySelectorAll('#collection-grid .grid-item');
-  if (gridItems.length === 0) return;
+  const container = document.getElementById('collection-grid');
+  if (!container) return;
   
   const collection = JSON.parse(localStorage.getItem('craneCollection')) || [];
+  container.innerHTML = '';
   
-  gridItems.forEach((item, index) => {
-    if (index < collection.length) {
-      const name = collection[index];
+  // 維持至少九宮格 (9個格子)，若超出則自動往下擴充
+  const totalSlots = Math.max(9, collection.length);
+  
+  for (let i = 0; i < totalSlots; i++) {
+    const itemEl = document.createElement('div');
+    if (i < collection.length) {
+      const name = collection[i];
       const match = treasureList.find(t => t.name === name);
       const emoji = match ? match.emoji : "🎁";
-      item.className = "grid-item collected";
-      item.innerHTML = `
+      itemEl.className = "grid-item collected";
+      itemEl.innerHTML = `
         <span class="grid-item-emoji">${emoji}</span>
-        <span class="grid-item-name">${name}</span>
+        <span class="grid-item-name" title="${name}">${name}</span>
       `;
     } else {
-      item.className = "grid-item empty";
-      item.textContent = "?";
+      itemEl.className = "grid-item empty";
+      itemEl.textContent = "?";
     }
-  });
+    container.appendChild(itemEl);
+  }
+  
+  // 更新標題旁邊的累計勳章數顯示
+  const medalsCount = parseInt(localStorage.getItem('craneMedalsCount'), 10) || 0;
+  const medalContainer = document.getElementById('medal-badge-container');
+  if (medalContainer) {
+    if (medalsCount > 0) {
+      medalContainer.innerHTML = `<span class="medal-count-badge">🏅 x ${medalsCount}</span>`;
+    } else {
+      medalContainer.innerHTML = '';
+    }
+  }
 }
 
 // 檢查並顯示金色勳章
@@ -263,14 +295,45 @@ function checkMedalProgress() {
   }
 }
 
-// 設定勳章關閉按鈕
+// 設定勳章兌換與循環重置按鈕
 function setupMedalDismiss() {
   const closeBtn = document.getElementById('medal-close-btn');
   const overlay = document.getElementById('medal-overlay');
   if (closeBtn && overlay) {
-    closeBtn.addEventListener('click', () => {
+    // 移除舊的 event listener，綁定新一輪的兌換重置邏輯
+    const newCloseBtn = closeBtn.cloneNode(true);
+    closeBtn.parentNode.replaceChild(newCloseBtn, closeBtn);
+    
+    newCloseBtn.addEventListener('click', () => {
+      const collection = JSON.parse(localStorage.getItem('craneCollection')) || [];
+      let allTime = JSON.parse(localStorage.getItem('craneAllTimeCollection')) || [];
+      
+      // 1. 備份至歷史圖鑑，避免遺失曾經獲得的紀錄
+      collection.forEach(item => {
+        if (!allTime.includes(item)) {
+          allTime.push(item);
+        }
+      });
+      localStorage.setItem('craneAllTimeCollection', JSON.stringify(allTime));
+      
+      // 2. 勳章累計 + 1
+      const currentMedals = parseInt(localStorage.getItem('craneMedalsCount'), 10) || 0;
+      localStorage.setItem('craneMedalsCount', currentMedals + 1);
+      
+      // 3. 重置當前收集與彈窗狀態
+      localStorage.removeItem('craneCollection');
+      localStorage.removeItem('medalDismissed');
+      
       overlay.style.display = 'none';
-      localStorage.setItem('medalDismissed', 'true');
+      
+      // 4. 即時更新畫面
+      renderCollectionGrid();
+      
+      // 提示重置成功
+      const toast = document.getElementById('treasure-toast');
+      if (toast) {
+        toast.textContent = "🎉 順利兌換勳章！已開啟新一輪的尋寶包！";
+      }
     });
   }
 }

@@ -7,24 +7,24 @@
   
   <!-- SEO 最佳實作 -->
   <meta name="description" content="今日舞鶴 PWA 體驗版。每天翻一張祥鶴牌，獲得一句山林智慧（小鶴帶路）與心靈鶴湯。讓大山與小鶴帶路的智慧引導你的今天，日日有好。">
-  <meta name="keywords" content="今日舞鶴, PWA, 小鶴帶路, 每日抽籤, 山林智慧, 祥鶴牌, 有好收藏, 有好地圖">
+  <meta name="keywords" content="今日舞鶴, PWA, 小鶴帶路, 每日抽籤, 山林智慧, 祥鶴牌, 有好收藏, 舞鶴地圖">
   
   <!-- PWA 設定 -->
-  <link rel="manifest" href="manifest.json">
+  <link rel="manifest" href="manifest.json?v=4">
   <meta name="theme-color" content="#D4A843">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="今日舞鶴">
-  <link rel="apple-touch-icon" href="images/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="images/icons/icon-192.png?v=4">
   
   <!-- 引入樣式表 -->
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=4">
   
   <!-- 註冊 Service Worker -->
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js')
+        navigator.serviceWorker.register('sw.js?v=4')
           .then(reg => console.log('Service Worker 註冊成功:', reg.scope))
           .catch(err => console.log('Service Worker 註冊失敗:', err));
       });
@@ -32,7 +32,7 @@
   </script>
   
   <!-- 引入邏輯腳本 -->
-  <script src="js/app.js" defer></script>
+  <script src="js/app.js?v=4" defer></script>
 </head>
 <body>
 
@@ -72,11 +72,15 @@
             <!-- 牌面正面（翻開後， crane_back_v2.png 背景） -->
             <div class="card-face card-face--back">
               <div class="card-back-content">
-                <h3 class="card-fortune-title" id="card-fortune-title">小鶴帶路</h3>
-                <blockquote class="card-fortune-quote" id="card-fortune-quote">載入中...</blockquote>
-                <div class="card-fortune-divider">── 心靈鶴湯 ──</div>
-                <p class="card-fortune-interpretation" id="card-fortune-interpretation">載入中，請稍候...</p>
-                <div class="card-fortune-ending">今日萬事 舞鶴✦</div>
+                <div class="card-top-group">
+                  <h3 class="card-fortune-title" id="card-fortune-title">小鶴帶路</h3>
+                  <blockquote class="card-fortune-quote" id="card-fortune-quote">載入中...</blockquote>
+                </div>
+                <div class="card-bottom-group">
+                  <div class="card-fortune-divider">── 心靈鶴湯 ──</div>
+                  <p class="card-fortune-interpretation" id="card-fortune-interpretation">載入中，請稍候...</p>
+                  <div class="card-fortune-ending">今日萬事 舞鶴✦</div>
+                </div>
               </div>
             </div>
           </div>
@@ -173,25 +177,24 @@
     <div id="map-page" class="page-view">
       <div class="subpage-header">
         <button class="back-btn" id="map-back-btn" aria-label="返回主頁">← 返回</button>
-        <h2 class="subpage-title">有好地圖</h2>
+        <h2 class="subpage-title">舞鶴地圖</h2>
       </div>
       
       <!-- 地圖靜態文章 -->
       <div class="map-container">
         <!-- 第 1 篇：連環滑動繪本 -->
         <article class="map-article pb-slider-article">
-          <h3 class="article-title">舞鶴為什麼叫有好？</h3>
+          <h3 class="article-title">瑞穗鄉．舞鶴村</h3>
           <div class="slider-viewport">
             <div class="slider-container" style="width: 200%;">
               <!-- 第一頁 -->
               <div class="slider-page" style="width: 50%;">
-                <img src="images/map_wuhe_1.jpg" alt="舞鶴台地" class="slider-img">
-                <p class="slider-content">舞鶴台地海拔約 300 公尺，俯瞰著秀姑巒溪河谷。這裡的台語舊名叫做「有好（ū-hó）」，在古老的地理意象中，這片土地就像一隻「祥鶴回首銜羽」的靈動磁場，天然地將好運匯聚於此。</p>
+                <img src="images/map_ruisui_11villages.png" alt="瑞穗鄉11村" class="slider-img">
+                <p class="slider-content">「舞鶴」這個充滿東洋風情的名稱，源自日治時期官方對於當地原住民語的音譯與轉換。該地舊稱為撒奇萊雅語「馬立雲」(Maibul)，後來日本政府為了便於管理與推動地名日文化，取其近似的日語發音 (Maizuru) 轉寫為漢字「舞鶴」。</p>
               </div>
               <!-- 第二頁 -->
               <div class="slider-page" style="width: 50%;">
-                <img src="images/map_wuhe_2.jpg" alt="舞鶴祝福" class="slider-img">
-                <p class="slider-content">這裡的「有好（ū-hó）」也代表著萬事圓滿、心想事成。每當清晨霧氣未散，站在台地邊緣俯瞰翻騰的雲海與金黃色的旭日，你就會明白為什麼當地人常說：舞鶴這裡的空氣本身，就是一種最純淨的祝福。</p>
+                <img src="images/map_wuhe_satellite.png" alt="舞鶴村衛星圖" class="slider-img">
               </div>
             </div>
           </div>
@@ -202,34 +205,11 @@
           </div>
         </article>
         
-        <!-- 第 2 篇：連環滑動繪本 -->
-        <article class="map-article pb-slider-article">
-          <h3 class="article-title">Kalala 是什麼？</h3>
-          <div class="slider-viewport">
-            <div class="slider-container" style="width: 300%;">
-              <!-- 第一頁 -->
-              <div class="slider-page" style="width: 33.333%;">
-                <img src="images/map_kalala_1.jpg" alt="藤編籃子" class="slider-img">
-                <p class="slider-content">「Kalala」是阿美族語中「藤編籃子」的意思，也是這片舞鶴台地最古老的族名。在過去，阿美族先民用月桃葉與黃藤編織出一個個堅固的 Kalala，它裝得下全家人的溫飽，也裝滿了部落共同耕作、互相扶持的記憶。</p>
-              </div>
-              <!-- 第二頁 -->
-              <div class="slider-page" style="width: 33.333%;">
-                <img src="images/map_kalala_2.jpg" alt="蜜香紅茶" class="slider-img">
-                <p class="slider-content">隨著時代交替，昔日的藤編歲月化作了現代漫山遍野的翠綠茶園。今日的舞鶴以蜜香紅茶聞名世界，這份獨特的甜美花香，正是源自於大自然中最奇妙的轉化──當小綠葉蟬輕輕叮咬茶葉，便開啟了茶青的蛻變奇蹟。</p>
-              </div>
-              <!-- 第三頁 -->
-              <div class="slider-page" style="width: 33.333%;">
-                <img src="images/map_kalala_3.jpg" alt="人與自然共生" class="slider-img">
-                <p class="slider-content">一小隻昆蟲的叮咬，與茶農悉心的採摘，交織成了這杯琥珀色的茶湯。這正是大自然與人類智慧共生的完美體現，從古老的 Kalala 到今天的蜜香紅茶，這片土地始終釀造著最獨特的風土滋味。</p>
-              </div>
-            </div>
-          </div>
-          <!-- 左右滑動提示點 -->
-          <div class="slider-dots">
-            <span class="dot active"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
-          </div>
+        <!-- 第 2 篇：單頁文章 -->
+        <article class="map-article">
+          <h3 class="article-title">北回歸線標誌公園</h3>
+          <p class="article-content">台灣有三座北回歸線標誌塔分別位於：嘉義縣水上鄉（北回歸線太陽館）、花蓮縣瑞穗鄉（舞鶴便道/舞鶴台地），以及花蓮縣豐濱鄉（靜浦北迴歸線界標）；其中位於舞鶴台地（台9線省道旁）這一座始建於日治時期：最早於 1933 年（昭和8年）7月 建造，是全台第二座北回歸線標（第一座為嘉義水上鄉），1981 年（民國70年）因應東線鐵路拓寬工程，該標誌塔被拆遷至現今的舞鶴台地上，並重新建造為新式外觀呈現優美的白色八爪造型/白色日晷造型。</p>
+          <img src="images/map_tropic_park_new.png" alt="北回歸線標誌公園" class="article-img">
         </article>
         
         <!-- 第 3 篇：連環滑動繪本 -->
@@ -239,8 +219,8 @@
             <div class="slider-container" style="width: 300%;">
               <!-- 第一頁 -->
               <div class="slider-page" style="width: 33.333%;">
-                <img src="images/map_saoba_1.jpg" alt="掃叭石柱" class="slider-img">
-                <p class="slider-content">矗立在舞鶴台地上的掃叭石柱，是台灣現存最高的史前巨石文化遺跡，距今已超過 3000 年。兩根高達五公尺的巨大石柱並列在天地之間，無人知曉當年的新石器時代先民，究竟是如何在沒有機器的年代，將這對沉默的巨人高高豎起。</p>
+                <img src="images/map_saoba_stones_new.png" alt="掃叭石柱" class="slider-img">
+                <p class="slider-content">Satokoay考古遺址為阿美語（石柱所在之地），為當地原住民對石柱所在空間的命名，又稱舞鶴石柱、掃叭石柱，是位於花蓮縣瑞穗鄉舞鶴風景區的兩座板岩石柱，迄今逾三千年歷史，屬於新石器時代麒麟文化。</p>
               </div>
               <!-- 第二頁 -->
               <div class="slider-page" style="width: 33.333%;">
@@ -264,26 +244,26 @@
         
         <!-- 第 4 篇：連環滑動繪本 -->
         <article class="map-article pb-slider-article">
-          <h3 class="article-title">馬立雲部落的故事</h3>
+          <h3 class="article-title">馬立雲部落 Maibul 的故事</h3>
           <div class="slider-viewport">
-            <div class="slider-container">
+            <div class="slider-container" style="width: 400%;">
               <!-- 第一頁 -->
-              <div class="slider-page">
-                <img src="images/image_4.png" alt="達固部灣刺竹林" class="slider-img">
-                <p class="slider-content">百年前的花蓮奇萊平原上，撒奇萊雅族的家園達固部灣，被一整片密密麻麻、高大堅固的刺竹林圍繞著。那時候，族人們在大頭目的帶領下，無憂無慮地生活著，刺竹林隨風搖曳，像母親的雙臂一樣守護著部落。</p>
+              <div class="slider-page" style="width: 25%;">
+                <img src="images/map_maibul_stone_new.jpg" alt="馬立雲部落" class="slider-img">
+                <p class="slider-content">Maibul 馬立雲部落，位於花蓮縣瑞穗鄉舞鶴村舞鶴山下，紅葉溪南側，宛如世外桃源，是撒奇萊雅族 Sakizaya 主要聚落之一。Maibul 撒奇萊雅語是水混濁的地方，相傳早期部落旁小溪常有很多白鶴耙地覓食，把溪水弄混濁，因此取名 Maibul 水混濁之地，日據時代取 Maibul 的近似音轉譯並賦予日式漢字「舞鶴」(まいづる)。</p>
               </div>
               <!-- 第二頁 -->
-              <div class="slider-page">
+              <div class="slider-page" style="width: 25%;">
                 <img src="images/image_5.png" alt="戰火中的大頭目" class="slider-img">
-                <p class="slider-content">1878 年，清軍的火光與重砲點燃了刺竹林，部落陷入一片火海。為了保全倖存族人的生命免於被屠殺殆盡，大頭目古穆·巴力克與夫人伊婕·卡娜蕭緊緊握著彼此的手，眼神堅定地走出部落，決心用自己的生命換取族人的生路。</p>
+                <p class="slider-content">「1878 年，加禮宛事件（又稱加禮宛戰役或達固部灣戰役）發生，撒奇萊雅族與噶瑪蘭族聯合反對當時清朝「開山撫番」政策，最終遭到清軍大規模武力鎮壓，為保全倖存族人的生命免於被屠殺殆盡，大頭目古穆．巴力克與夫人伊婕．卡娜蕭緊緊握著彼此的手，眼神堅定地走出部落，決心用自己的生命換取族人的生路。」</p>
               </div>
               <!-- 第三頁 -->
-              <div class="slider-page">
+              <div class="slider-page" style="width: 25%;">
                 <img src="images/image_6.png" alt="大頭目的遺言" class="slider-img">
                 <p class="slider-content">在生命的最末一刻，劊子手的刀在身上虐舞，大頭目看著漫天黑夜，留下了給族人的最後遺言：「擦乾你們的眼淚，勇敢堅強地活下去！我的心，現在像這棵茄苳樹一樣平靜……」</p>
               </div>
               <!-- 第四頁 -->
-              <div class="slider-page">
+              <div class="slider-page" style="width: 25%;">
                 <img src="images/image_9.png" alt="百年後的平靜" class="slider-img">
                 <p class="slider-content">百年輪迴過去了，當年的悲憤已化為泥土的養分。2026 年的元旦清晨，旭日東昇，一道完整的七彩霓虹再次跨越花蓮舞鶴山頂。當年在茄苳樹下種下的平靜種子，如今已化作綠色的大傘，張開雙臂迎接隔世歸來的遊子──萬事有好，吉祥圓滿。</p>
               </div>
@@ -298,11 +278,19 @@
           </div>
         </article>
         
-        <!-- 第 5 篇 -->
+        <!-- 第 5 篇：新增古伊之泉碑 -->
         <article class="map-article">
-          <h3 class="article-title">香積園是什麼？</h3>
-          <p class="article-content">香積園，是舞鶴台地上一處靜謐的心靈道場。東邊的平靜廣場，一棵百年茄苳樹靜靜守護著來往的旅人；西邊的古伊之泉親水生態池，清澈的山泉水終年不斷，倒映著天光雲影。園內供奉的心咒，據說只要靜心聆聽，便能感受到一種說不清楚的清淨磁場。無論你信仰什麼，香積園給你的，是一段讓內心歸零的寂靜時光。</p>
-          <img src="images/xiangji.jpg" alt="香積園景色" class="article-img">
+          <h3 class="article-title">SAKIZAYA 古伊之泉碑</h3>
+          <p class="article-content">SAKIZAYA 古伊之泉 KI SPRING — Milo Pazik</p>
+          <img src="images/map_sakizaya_kispring.jpg" alt="SAKIZAYA 古伊之泉碑" class="article-img">
+        </article>
+        
+        <!-- 第 6 篇：香積園 -->
+        <article class="map-article">
+          <h3 class="article-title">香積園</h3>
+          <p class="article-content">香積園，瑞穗舞鶴村舞鶴山下的一處世外桃花源，但是這裡沒有桃花，只有讓人心靈沉澱、感受天地萬物虛實相應合一的陽光、空氣、水，還有石頭。</p>
+          <img src="images/map_xiangji_1.jpg" alt="香積園景色一" class="article-img">
+          <img src="images/map_xiangji_2.jpg" alt="香積園景色二" class="article-img" style="margin-top: 12px;">
         </article>
       </div>
     </div>
@@ -342,7 +330,7 @@
         
         <!-- 寶物收集包 -->
         <div class="collection-wrap">
-          <h3 class="game-subtitle">🎒 寶物收集包</h3>
+          <h3 class="game-subtitle">🎒 寶物收集包 <span id="medal-badge-container"></span></h3>
           <div class="collection-grid" id="collection-grid">
             <!-- 9格收集袋 -->
             <div class="grid-item empty">?</div>
@@ -363,7 +351,7 @@
             <div class="medal-emoji">🏅</div>
             <div class="medal-title">恭喜！</div>
             <div class="medal-desc">你已集齊舞鶴九大寶藏！萬事有好！</div>
-            <button class="medal-close-btn" id="medal-close-btn">太棒了！</button>
+            <button class="medal-close-btn" id="medal-close-btn">收下勳章並開啟新一輪 🚀</button>
           </div>
         </div>
       </div>
@@ -381,13 +369,56 @@
         <section class="ad-section">
           <div class="ad-section-badge badge-active">現貨熱銷</div>
           <h3 class="ad-section-title">現有可銷售商品</h3>
-          <div class="product-card main-product">
-            <div class="product-img-wrapper main-product-img-wrapper">
-              <img src="images/product_xiangji_books.jpg" alt="香積法門叢書與拉拉山系列" class="product-img">
+          <div class="products-grid">
+            <!-- 書籍 1 -->
+            <div class="product-card">
+              <div class="product-img-wrapper">
+                <img src="images/product_xiangji_books.jpg" alt="虛實相應香積園" class="product-img">
+              </div>
+              <div class="product-info">
+                <h4 class="product-title">虛實相應香積園</h4>
+                <p class="product-desc">融彙香積法門與山林智慧，引領您步入清淨的心靈空間。</p>
+              </div>
             </div>
-            <div class="product-info">
-              <h4 class="product-title">香積法門叢書 & 拉拉山系列</h4>
-              <p class="product-desc">香積法門叢書 3 本（含電子書 1 本）、拉拉山系列 2 本。融合山林智慧與法門，為您點亮心靈之光。</p>
+            <!-- 書籍 2 -->
+            <div class="product-card">
+              <div class="product-img-wrapper">
+                <img src="images/book_cover_milopazik.png" alt="原來我是 Milo Pazik 撒奇萊雅族，電子書" class="product-img">
+              </div>
+              <div class="product-info">
+                <h4 class="product-title">原來我是 Milo Pazik（電子書）</h4>
+                <p class="product-desc">尋根與自我認同的旅程，深入探索撒奇萊雅族群的靈魂故事。</p>
+              </div>
+            </div>
+            <!-- 書籍 3 -->
+            <div class="product-card">
+              <div class="product-img-wrapper">
+                <img src="images/book_cover_kuairenkuaiyu.jpg" alt="快人快語揭天幕" class="product-img">
+              </div>
+              <div class="product-info">
+                <h4 class="product-title">快人快語揭天幕</h4>
+                <p class="product-desc">揭開天地奧秘與世間虛實，以爽朗直言啟發人生新思維。</p>
+              </div>
+            </div>
+            <!-- 書籍 4 -->
+            <div class="product-card">
+              <div class="product-img-wrapper">
+                <img src="images/book_cover_lalashan_gongzuoji.png" alt="拉拉山林打工記" class="product-img">
+              </div>
+              <div class="product-info">
+                <h4 class="product-title">拉拉山林打工記</h4>
+                <p class="product-desc">紀錄在拉拉山林工作的生活點滴，與大自然深刻對話的真實體驗。</p>
+              </div>
+            </div>
+            <!-- 書籍 5 -->
+            <div class="product-card">
+              <div class="product-img-wrapper">
+                <img src="images/book_cover_lalashan_qiyuji.png" alt="拉拉山林奇遇記" class="product-img">
+              </div>
+              <div class="product-info">
+                <h4 class="product-title">拉拉山林奇遇記</h4>
+                <p class="product-desc">在拉拉山神木與迷霧森林中，開啟一場不可思議的奇幻探索之旅。</p>
+              </div>
             </div>
           </div>
         </section>
@@ -398,12 +429,18 @@
           <h3 class="ad-section-title">即將開放預購商品</h3>
           <div class="products-grid">
             <div class="product-card">
-              <div class="product-img-wrapper">
-                <img src="images/product_wuhe_wood_tag.jpg" alt="舞鶴木牌" class="product-img">
+              <div class="product-img-wrapper tag-img-wrapper">
+                <img src="images/product_wuhe_wood_tag_v2.png" alt="舞鶴木牌正面" class="product-img">
+                <img src="images/product_wuhe_wood_tag_v3.jpg" alt="舞鶴木牌背面" class="product-img">
               </div>
               <div class="product-info">
                 <h4 class="product-title">舞鶴木牌</h4>
-                <p class="product-status">即將開放預購</p>
+                <p class="product-desc" style="white-space: pre-line; line-height: 1.5; font-size: 12.5px;">36 x 52 x 8 mm
+舞鶴木牌擴香掛飾
+限量108件
+黃楊木與駝鹿角完美組合 大陸天工獎微雕大師作品
+附精緻天地蓋桐木收藏盒
+✽✽✽ 開放預購 ✽✽✽</p>
               </div>
             </div>
             <div class="product-card">

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'wuheyouhao-v16';
+const CACHE_NAME = 'wuheyouhao-v17';
 const urlsToCache = [
   './',
   './index.html',
@@ -23,7 +23,12 @@ const urlsToCache = [
   './images/map_saoba_stones_new.png',
   './images/map_maibul_stone_new.jpg',
   './images/map_tropic_park_new.png',
-  './images/map_sakizaya_kispring.jpg',
+  './images/map_kiispring_new_1.png',
+  './images/map_kiispring_new_2.png',
+  './images/map_ruisuifarm_1.png',
+  './images/map_ruisuifarm_2.png',
+  './images/map_ruisuifarm_3.png',
+  './images/map_ruisuifarm_4.png',
   './images/map_xiangji_1.jpg',
   './images/map_xiangji_2.jpg',
   './images/book_cover_milopazik.png',

@@ -41,3 +41,38 @@
     *   **取捨**：為解決 Android 手機點擊啟動 PWA 時快閃舊 Logo 的快取問題，我們採取了雙重版本控制措施：
         1. 在 `manifest.json` 與 `index.html` 中的 Logo icon 路徑加上 query parameters (如 `icon-192.png?v=4` 及 `manifest.json?v=4`)，強制瀏覽器在偵測到 manifest 或 icon 版本更新時重建 WebAPK。
         2. 在 `sw.js` 的 activate 事件中加入 `self.clients.claim()`，並將快取版本升級為 `wuheyouhao-v15`，刪除廢棄的 7 張舊圖，加入 14 張新圖，確保快取資源第一時間接管，排除舊版本渲染。
+
+---
+
+# 舞鶴 PWA 第五輪改版實作紀錄 (Implementation Notes - 5th Revision)
+
+本紀錄詳細記載第五輪改版（依用戶反饋 6 項修改）中，技術架構與需求對齊時的待釐清事項、決定、偏離與取捨。
+
+---
+
+## 1. 待釐清 (Clarifications)
+*   **籤詩第 38 首錯字修正細節**：
+    *   **釐清點**：確認 `data/fortunes.json` ID 38 原始文字中「打不倒你的是」刪除單字「不」後的整體語意完整性。
+    *   **釐清結果**：刪除「不」後改為「打倒你的是失去信念」，語意精準通順，且不影響籤詩其他段落結構。
+
+---
+
+## 2. 決定 (Decisions)
+*   **【歸鄉告祖靈書】與「舞鶴木牌」的 HTML 換行與排版樣式**：
+    *   **決定**：為了保留 19 句詩文與木牌敘述的完美分行呈現，內文採用 HTML 換行符號並賦予 `white-space: pre-line;` 樣式。這避免了在每個句尾使用大量 `<br>` 標籤導致 HTML 冗長，同時確保手機版呈現清晰易讀。
+*   **瑞穗牧場多頁繪本 Slider 相容性**：
+    *   **決定**：獨立文章「瑞穗牧場」採用與「掃叭石柱」完全相同的 `.pb-slider-article` DOM 結構（4 頁 `slider-page` + 4 個 `dot`），直接相容 `js/app.js` 的 `setupSlidingBook()` 滑動與提示點動態切換邏輯，不需撰寫額外 JavaScript 代碼。
+
+---
+
+## 3. 偏離 (Deviations)
+*   **無偏離事項**：
+    *   **原因**：本次 6 項反饋要求明確且均有對應圖片與資料支持，所有修改均與原始描述與現有系統 100% 契合，無需偏離需求。
+
+---
+
+## 4. 取捨 (Trade-offs)
+*   **Service Worker 快取版本號與離線資源調配 (v16 -> v17)**：
+    *   **取捨**：舊圖 `map_sakizaya_kispring.jpg` 被替代，且新增了 6 張高清圖片（`map_kiispring_new_1.png` ~ `2.png`、`map_ruisuifarm_1.png` ~ `4.png`）。
+    *   **解決方式**：將 Service Worker 的 `CACHE_NAME` 從 `wuheyouhao-v16` 正式提升為 `wuheyouhao-v17`，移除廢棄快取並將 6 張新圖納入 `urlsToCache`，避免 PWA 載入無效舊圖或發生離線圖片無法讀取的情形。
+

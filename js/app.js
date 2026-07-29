@@ -233,7 +233,7 @@ function setupTreasureHunt() {
             c.classList.add('disabled');
           }
         });
-        toast.textContent = "今天的寶藏都找到了！明天再來 🕊";
+        toast.textContent = `✨ 你發現了：${treasure.name} ${treasure.emoji}！今天的寶藏都找到了！明天再來 🕊`;
       }
       
       renderCollectionGrid();
@@ -478,6 +478,7 @@ function setupSlidingBook() {
     viewport.addEventListener('scroll', () => {
       const scrollLeft = viewport.scrollLeft;
       const width = viewport.clientWidth;
+      if (width === 0) return;
       const pageIndex = Math.round(scrollLeft / width);
       
       dots.forEach((dot, index) => {
@@ -486,6 +487,17 @@ function setupSlidingBook() {
         } else {
           dot.classList.remove('active');
         }
+      });
+    });
+
+    // 綁定圓點點擊事件，支援電腦版切換
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        const width = viewport.clientWidth;
+        viewport.scrollTo({
+          left: index * width,
+          behavior: 'smooth'
+        });
       });
     });
   });

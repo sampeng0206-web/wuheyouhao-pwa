@@ -1288,6 +1288,7 @@ section {
   border-radius: 50%;
   background-color: rgba(184, 134, 11, 0.25);
   transition: all 0.3s ease;
+  cursor: pointer;
 }
 .slider-dots .dot.active {
   background-color: var(--color-gold);

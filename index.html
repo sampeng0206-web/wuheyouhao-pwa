@@ -18,13 +18,13 @@
   <link rel="apple-touch-icon" href="images/icons/icon-192.png?v=4">
   
   <!-- 引入樣式表 -->
-  <link rel="stylesheet" href="css/style.css?v=5">
+  <link rel="stylesheet" href="css/style.css?v=6">
   
   <!-- 註冊 Service Worker -->
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js?v=4')
+        navigator.serviceWorker.register('sw.js?v=5')
           .then(reg => console.log('Service Worker 註冊成功:', reg.scope))
           .catch(err => console.log('Service Worker 註冊失敗:', err));
       });
@@ -32,7 +32,7 @@
   </script>
   
   <!-- 引入邏輯腳本 -->
-  <script src="js/app.js?v=5" defer></script>
+  <script src="js/app.js?v=6" defer></script>
 </head>
 <body>
 
@@ -271,10 +271,14 @@
         </article>
         
         <!-- 第 5 篇：古伊之泉與碑 -->
-        <article class="map-article">
+        <article class="map-article pb-slider-article">
           <h3 class="article-title">古伊之泉與碑</h3>
-          <img src="images/map_kiispring_new_1.png" alt="古伊之泉與碑 1" class="article-img">
-          <p class="article-content" style="white-space: pre-line; margin-top: 12px;">阿爸Kumud 阿母Icep
+          <div class="slider-viewport">
+            <div class="slider-container" style="width: 500%;">
+              <!-- 第一頁 -->
+              <div class="slider-page" style="width: 20%;">
+                <img src="images/map_kiispring_new_1.png" alt="古伊之泉與碑 1" class="slider-img">
+                <p class="slider-content" style="white-space: pre-line; margin-top: 12px;">阿爸Kumud 阿母Icep
 您們的孩兒Milo回來了
 在香積如來師父引領下
 回到我們曾生活的土地
@@ -293,10 +297,37 @@
 敬謝地歸原主祖靈歸位
 祝願Sakizaya血脈不斷
 香積如來法脈生生不息</p>
-          <img src="images/map_kiispring_new_2.png" alt="古伊之泉與碑 2" class="article-img" style="margin-top: 16px;">
-          <img src="images/map_kiispring_new_3.jpg" alt="古伊之泉與碑 3" class="article-img" style="margin-top: 12px;">
-          <img src="images/map_kiispring_new_4.jpg" alt="古伊之泉與碑 4" class="article-img" style="margin-top: 12px;">
-          <p class="article-content" style="margin-top: 8px;">需要我帶路嗎？不收小費喔，只要雞腿！</p>
+              </div>
+              <!-- 第二頁 -->
+              <div class="slider-page" style="width: 20%;">
+                <img src="images/map_kiispring_new_3.jpg" alt="古伊之泉與碑 3" class="slider-img">
+                <p class="slider-content">古伊之泉 / KI SPRING，也是『炁之泉』</p>
+              </div>
+              <!-- 第三頁 -->
+              <div class="slider-page" style="width: 20%;">
+                <img src="images/map_kiispring_new_4.jpg" alt="古伊之泉與碑 4" class="slider-img">
+                <p class="slider-content">1878~2007，撒奇萊雅族在台灣歷史上的斷層年代</p>
+              </div>
+              <!-- 第四頁 -->
+              <div class="slider-page" style="width: 20%;">
+                <img src="images/map_kiispring_new_5.jpg" alt="古伊之泉與碑 5" class="slider-img">
+                <p class="slider-content">In loving memory of Kumud Pazik & Icep Kanasaw ~ KI SPRING</p>
+              </div>
+              <!-- 第五頁 -->
+              <div class="slider-page" style="width: 20%;">
+                <img src="images/map_kiispring_new_2.png" alt="古伊之泉與碑 2" class="slider-img">
+                <p class="slider-content">需要我帶路嗎？不收小費喔，只要雞腿！</p>
+              </div>
+            </div>
+          </div>
+          <!-- 左右滑動提示點 -->
+          <div class="slider-dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
         </article>
         
         <!-- 第 6 篇：瑞穗牧場 -->
@@ -341,6 +372,10 @@
           <p class="article-content">香積園，瑞穗舞鶴村舞鶴山下的一處世外桃花源，但是這裡沒有桃花，只有讓人心靈沉澱、感受天地萬物虛實相應合一的陽光、空氣、水，還有石頭。</p>
           <img src="images/map_xiangji_1.jpg" alt="香積園景色一" class="article-img">
           <img src="images/map_xiangji_2.jpg" alt="香積園景色二" class="article-img" style="margin-top: 12px;">
+          <img src="images/map_xiangji_3.jpg" alt="香積園景色三" class="article-img" style="margin-top: 12px;">
+          <img src="images/map_xiangji_4.jpg" alt="香積園景色四" class="article-img" style="margin-top: 12px;">
+          <img src="images/map_xiangji_5.jpg" alt="香積園景色五" class="article-img" style="margin-top: 12px;">
+          <img src="images/map_xiangji_6.jpg" alt="香積園景色六" class="article-img" style="margin-top: 12px;">
         </article>
       </div>
     </div>

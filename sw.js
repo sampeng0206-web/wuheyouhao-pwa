@@ -1,9 +1,9 @@
-const CACHE_NAME = 'wuheyouhao-v20';
+const CACHE_NAME = 'wuheyouhao-v21';
 const urlsToCache = [
   './',
   './index.html',
-  './css/style.css?v=6',
-  './js/app.js?v=6',
+  './css/style.css?v=7',
+  './js/app.js?v=7',
   './data/fortunes.json',
   './audio/youhao.mp3',
   './images/crane_front_v2.jpg',
@@ -42,7 +42,10 @@ const urlsToCache = [
   './images/book_cover_lalashan_gongzuoji.png',
   './images/book_cover_lalashan_qiyuji.png',
   './images/product_wuhe_wood_tag_v2.png',
-  './images/product_wuhe_wood_tag_v3.jpg'
+  './images/product_wuhe_wood_tag_v3.jpg',
+  './images/sakizaya_crane_brand.png',
+  './images/contact_info_card.png',
+  './images/contact_qrcodes.png'
 ];
 
 self.addEventListener('install', e => {

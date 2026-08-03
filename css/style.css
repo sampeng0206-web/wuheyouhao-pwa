@@ -1517,3 +1517,20 @@ section {
   vertical-align: middle;
 }
 
+/* 聯絡我們區塊樣式 */
+.contact-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.contact-img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  display: block;
+  border: 1px solid rgba(184, 134, 11, 0.08);
+  box-shadow: 0 2px 8px rgba(44, 24, 16, 0.03);
+}
+
+

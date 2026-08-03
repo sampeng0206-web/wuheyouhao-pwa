@@ -18,13 +18,13 @@
   <link rel="apple-touch-icon" href="images/icons/icon-192.png?v=4">
   
   <!-- 引入樣式表 -->
-  <link rel="stylesheet" href="css/style.css?v=6">
+  <link rel="stylesheet" href="css/style.css?v=7">
   
   <!-- 註冊 Service Worker -->
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js?v=5')
+        navigator.serviceWorker.register('sw.js?v=6')
           .then(reg => console.log('Service Worker 註冊成功:', reg.scope))
           .catch(err => console.log('Service Worker 註冊失敗:', err));
       });
@@ -32,7 +32,7 @@
   </script>
   
   <!-- 引入邏輯腳本 -->
-  <script src="js/app.js?v=6" defer></script>
+  <script src="js/app.js?v=7" defer></script>
 </head>
 <body>
 
@@ -377,6 +377,33 @@
           <img src="images/map_xiangji_5.jpg" alt="香積園景色五" class="article-img" style="margin-top: 12px;">
           <img src="images/map_xiangji_6.jpg" alt="香積園景色六" class="article-img" style="margin-top: 12px;">
         </article>
+        
+        <!-- 第 8 篇：聯絡我們 -->
+        <article class="map-article pb-slider-article">
+          <h3 class="article-title">聯絡我們</h3>
+          <div class="slider-viewport">
+            <div class="slider-container" style="width: 300%;">
+              <!-- 第一頁 -->
+              <div class="slider-page" style="width: 33.333%;">
+                <img src="images/sakizaya_crane_brand.png" alt="歡迎聯絡小鶴帶路 1" class="slider-img">
+              </div>
+              <!-- 第二頁 -->
+              <div class="slider-page" style="width: 33.333%;">
+                <img src="images/contact_info_card.png" alt="歡迎聯絡小鶴帶路 2" class="slider-img">
+              </div>
+              <!-- 第三頁 -->
+              <div class="slider-page" style="width: 33.333%;">
+                <img src="images/contact_qrcodes.png" alt="歡迎聯絡小鶴帶路 3" class="slider-img">
+              </div>
+            </div>
+          </div>
+          <!-- 左右滑動提示點 -->
+          <div class="slider-dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+        </article>
       </div>
     </div>
 
@@ -550,6 +577,16 @@
             <span class="plan-tag">🌲 環保袋</span>
             <span class="plan-tag">👕 T恤衫</span>
             <span class="plan-tag">🔑 小吊飾</span>
+          </div>
+        </section>
+
+        <!-- 段落四：聯絡我們 -->
+        <section class="ad-section">
+          <h3 class="ad-section-title">聯絡我們</h3>
+          <div class="contact-container">
+            <img src="images/sakizaya_crane_brand.png" alt="歡迎聯絡小鶴帶路 1" class="contact-img">
+            <img src="images/contact_info_card.png" alt="歡迎聯絡小鶴帶路 2" class="contact-img">
+            <img src="images/contact_qrcodes.png" alt="歡迎聯絡小鶴帶路 3" class="contact-img">
           </div>
         </section>
       </div>

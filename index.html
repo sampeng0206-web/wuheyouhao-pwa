@@ -18,13 +18,13 @@
   <link rel="apple-touch-icon" href="images/icons/icon-192.png?v=4">
   
   <!-- 引入樣式表 -->
-  <link rel="stylesheet" href="css/style.css?v=7">
+  <link rel="stylesheet" href="css/style.css?v=8">
   
   <!-- 註冊 Service Worker -->
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js?v=6')
+        navigator.serviceWorker.register('sw.js?v=7')
           .then(reg => console.log('Service Worker 註冊成功:', reg.scope))
           .catch(err => console.log('Service Worker 註冊失敗:', err));
       });
@@ -32,7 +32,7 @@
   </script>
   
   <!-- 引入邏輯腳本 -->
-  <script src="js/app.js?v=7" defer></script>
+  <script src="js/app.js?v=8" defer></script>
 </head>
 <body>
 
@@ -367,33 +367,38 @@
         </article>
         
         <!-- 第 7 篇：香積園 -->
-        <article class="map-article">
-          <h3 class="article-title">香積園</h3>
-          <p class="article-content">香積園，瑞穗舞鶴村舞鶴山下的一處世外桃花源，但是這裡沒有桃花，只有讓人心靈沉澱、感受天地萬物虛實相應合一的陽光、空氣、水，還有石頭。</p>
-          <img src="images/map_xiangji_1.jpg" alt="香積園景色一" class="article-img">
-          <img src="images/map_xiangji_2.jpg" alt="香積園景色二" class="article-img" style="margin-top: 12px;">
-          <img src="images/map_xiangji_3.jpg" alt="香積園景色三" class="article-img" style="margin-top: 12px;">
-          <img src="images/map_xiangji_4.jpg" alt="香積園景色四" class="article-img" style="margin-top: 12px;">
-          <img src="images/map_xiangji_5.jpg" alt="香積園景色五" class="article-img" style="margin-top: 12px;">
-          <img src="images/map_xiangji_6.jpg" alt="香積園景色六" class="article-img" style="margin-top: 12px;">
-        </article>
-        
-        <!-- 第 8 篇：聯絡我們 -->
         <article class="map-article pb-slider-article">
-          <h3 class="article-title">聯絡我們</h3>
+          <h3 class="article-title">香積園</h3>
           <div class="slider-viewport">
-            <div class="slider-container" style="width: 300%;">
+            <div class="slider-container" style="width: 700%;">
               <!-- 第一頁 -->
-              <div class="slider-page" style="width: 33.333%;">
-                <img src="images/sakizaya_crane_brand.png" alt="歡迎聯絡小鶴帶路 1" class="slider-img">
+              <div class="slider-page" style="width: 14.2857%;">
+                <img src="images/map_xiangji_1.jpg" alt="香積園景色一" class="slider-img">
+                <p class="slider-content">香積園，瑞穗舞鶴村舞鶴山下的一處世外桃花源，但是這裡沒有桃花，只有讓人心靈沉澱、感受天地萬物虛實相應合一的陽光、空氣、水，還有石頭。</p>
               </div>
               <!-- 第二頁 -->
-              <div class="slider-page" style="width: 33.333%;">
-                <img src="images/contact_info_card.png" alt="歡迎聯絡小鶴帶路 2" class="slider-img">
+              <div class="slider-page" style="width: 14.2857%;">
+                <img src="images/map_xiangji_2.jpg" alt="香積園景色二" class="slider-img">
               </div>
               <!-- 第三頁 -->
-              <div class="slider-page" style="width: 33.333%;">
-                <img src="images/contact_qrcodes.png" alt="歡迎聯絡小鶴帶路 3" class="slider-img">
+              <div class="slider-page" style="width: 14.2857%;">
+                <img src="images/map_xiangji_3.jpg" alt="香積園景色三" class="slider-img">
+              </div>
+              <!-- 第四頁 -->
+              <div class="slider-page" style="width: 14.2857%;">
+                <img src="images/map_xiangji_4.jpg" alt="香積園景色四" class="slider-img">
+              </div>
+              <!-- 第五頁 -->
+              <div class="slider-page" style="width: 14.2857%;">
+                <img src="images/map_xiangji_5.jpg" alt="香積園景色五" class="slider-img">
+              </div>
+              <!-- 第六頁 -->
+              <div class="slider-page" style="width: 14.2857%;">
+                <img src="images/map_xiangji_6.jpg" alt="香積園景色六" class="slider-img">
+              </div>
+              <!-- 第七頁 -->
+              <div class="slider-page" style="width: 14.2857%;">
+                <img src="images/sakizaya_crane_brand.png" alt="歡迎聯絡小鶴帶路 3" class="slider-img">
               </div>
             </div>
           </div>
@@ -401,6 +406,32 @@
           <div class="slider-dots">
             <span class="dot active"></span>
             <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+        </article>
+        
+        <!-- 第 8 篇：聯絡我們 -->
+        <article class="map-article pb-slider-article">
+          <h3 class="article-title">聯絡我們</h3>
+          <div class="slider-viewport">
+            <div class="slider-container" style="width: 200%;">
+              <!-- 第一頁 -->
+              <div class="slider-page" style="width: 50%;">
+                <img src="images/contact_info_card.png" alt="歡迎聯絡小鶴帶路 1" class="slider-img">
+              </div>
+              <!-- 第二頁 -->
+              <div class="slider-page" style="width: 50%;">
+                <img src="images/contact_qrcodes.png" alt="歡迎聯絡小鶴帶路 2" class="slider-img">
+              </div>
+            </div>
+          </div>
+          <!-- 左右滑動提示點 -->
+          <div class="slider-dots">
+            <span class="dot active"></span>
             <span class="dot"></span>
           </div>
         </article>
@@ -584,9 +615,8 @@
         <section class="ad-section">
           <h3 class="ad-section-title">聯絡我們</h3>
           <div class="contact-container">
-            <img src="images/sakizaya_crane_brand.png" alt="歡迎聯絡小鶴帶路 1" class="contact-img">
-            <img src="images/contact_info_card.png" alt="歡迎聯絡小鶴帶路 2" class="contact-img">
-            <img src="images/contact_qrcodes.png" alt="歡迎聯絡小鶴帶路 3" class="contact-img">
+            <img src="images/contact_info_card.png" alt="歡迎聯絡小鶴帶路 1" class="contact-img">
+            <img src="images/contact_qrcodes.png" alt="歡迎聯絡小鶴帶路 2" class="contact-img">
           </div>
         </section>
       </div>

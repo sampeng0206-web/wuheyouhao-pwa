@@ -1261,9 +1261,10 @@ section {
 }
 .slider-img {
   width: 100%;
+  max-width: 100%;
   height: auto;
   aspect-ratio: 4 / 3;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 8px;
   display: block;
   box-shadow: 0 4px 12px rgba(44, 24, 16, 0.08);

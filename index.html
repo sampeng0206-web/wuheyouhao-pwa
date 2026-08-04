@@ -18,13 +18,13 @@
   <link rel="apple-touch-icon" href="images/icons/icon-192.png?v=4">
   
   <!-- 引入樣式表 -->
-  <link rel="stylesheet" href="css/style.css?v=8">
+  <link rel="stylesheet" href="css/style.css?v=9">
   
   <!-- 註冊 Service Worker -->
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js?v=7')
+        navigator.serviceWorker.register('sw.js?v=8')
           .then(reg => console.log('Service Worker 註冊成功:', reg.scope))
           .catch(err => console.log('Service Worker 註冊失敗:', err));
       });
@@ -32,7 +32,7 @@
   </script>
   
   <!-- 引入邏輯腳本 -->
-  <script src="js/app.js?v=8" defer></script>
+  <script src="js/app.js?v=9" defer></script>
 </head>
 <body>
 
@@ -563,6 +563,30 @@
                 <p class="product-desc">拉拉山林，也是作者的外號，以第一人稱的視角記錄分享親身經歷的不可思議的奇遇。</p>
               </div>
             </div>
+            <!-- 商品 6：日照金山 -->
+            <div class="product-card">
+              <div class="product-img-wrapper">
+                <img src="images/product_rizhaojinshan.png" alt="日照金山" class="product-img">
+              </div>
+              <div class="product-info">
+                <h4 class="product-title">日照金山</h4>
+                <p class="product-desc" style="white-space: pre-line; line-height: 1.5; font-size: 12.5px;">台灣之最－玉山油畫
+高解析度掃描專業輸出複製畫
+尺寸：91.5 x 73.5 cm</p>
+              </div>
+            </div>
+            <!-- 商品 7：三世佛金唐 -->
+            <div class="product-card">
+              <div class="product-img-wrapper">
+                <img src="images/product_sanshifo_jintang.png" alt="三世佛金唐" class="product-img">
+              </div>
+              <div class="product-info">
+                <h4 class="product-title">三世佛金唐</h4>
+                <p class="product-desc" style="white-space: pre-line; line-height: 1.5; font-size: 12.5px;">有段因緣俱足殊勝故事的三世佛金唐
+高解析度掃描專業輸出複製，質感如真
+尺寸：43.5 x 60 cm、39 x 54.5 cm</p>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -603,6 +627,28 @@
         <section class="ad-section">
           <div class="ad-section-badge badge-planning">規劃中商品</div>
           <h3 class="ad-section-title">規劃中商品</h3>
+          <div class="products-grid" style="margin-bottom: 16px;">
+            <!-- 規劃中商品 1 -->
+            <div class="product-card">
+              <div class="product-img-wrapper">
+                <img src="images/product_bingsi_accessories.png" alt="冰絲涼感頭巾、圍巾、防曬袖套" class="product-img">
+              </div>
+              <div class="product-info">
+                <h4 class="product-title">冰絲涼感頭巾、圍巾、防曬袖套</h4>
+                <p class="product-desc" style="white-space: pre-line; line-height: 1.5; font-size: 12.5px;">台灣之最－玉山油畫
+高解析度掃描專業輸出複製</p>
+              </div>
+            </div>
+            <!-- 規劃中商品 2 -->
+            <div class="product-card">
+              <div class="product-img-wrapper">
+                <img src="images/product_wuhe_sachet.png" alt="今日舞鶴 香包" class="product-img">
+              </div>
+              <div class="product-info">
+                <h4 class="product-title">今日舞鶴 香包</h4>
+              </div>
+            </div>
+          </div>
           <div class="planning-tags">
             <span class="plan-tag">☕ 馬克杯</span>
             <span class="plan-tag">🌲 環保袋</span>

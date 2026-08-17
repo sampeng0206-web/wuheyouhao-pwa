@@ -636,7 +636,10 @@ section {
   font-family: 'Noto Serif TC', serif;
   font-size: 18px;
   font-weight: 700;
-  color: var(--color-text-main);
+  background: linear-gradient(90deg, #B8860B 0%, #D4AF37 50%, #AA771C 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   margin-bottom: 12px;
   letter-spacing: 0.05em;
   border-bottom: 2px solid var(--color-gold-light);
@@ -1532,6 +1535,52 @@ section {
   display: block;
   border: 1px solid rgba(184, 134, 11, 0.08);
   box-shadow: 0 2px 8px rgba(44, 24, 16, 0.03);
+}
+
+/* 舞鶴文庫入口卡片 */
+.library-card-link {
+  text-decoration: none;
+  display: block;
+  color: inherit;
+}
+
+.library-card {
+  background-color: #FAF7F2 !important;
+  border: 1px solid rgba(212, 175, 55, 0.25) !important;
+  border-radius: 16px !important;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.library-card-link:hover .library-card {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08) !important;
+}
+
+.library-img {
+  width: 100%;
+  border-radius: 8px;
+  margin-top: 16px;
+  display: block;
+  object-fit: contain;
+  height: auto;
+}
+
+.library-preface-label {
+  font-size: 12px;
+  color: #999999;
+  margin-top: 16px;
+  font-weight: 700;
+}
+
+.library-preface-content {
+  font-size: 14px;
+  line-height: 1.8;
+  color: #333333;
+  text-align: justify;
+  margin-top: 6px;
 }
 
 

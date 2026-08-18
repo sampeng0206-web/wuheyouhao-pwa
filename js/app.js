@@ -613,17 +613,57 @@ function setupNavigation() {
   const mapPage = document.getElementById('map-page');
   const gamePage = document.getElementById('game-page');
   const adPage = document.getElementById('ad-page');
+  const compositionPage = document.getElementById('composition-page');
+  const contactPage = document.getElementById('contact-page');
   
-  const navFavBtn = document.getElementById('nav-fav-btn');
-  const navMapBtn = document.getElementById('nav-map-btn');
-  const navGameBtn = document.getElementById('nav-game-btn');
-  const navAdBtn = document.getElementById('nav-ad-btn');
   const appLogo = document.getElementById('app-logo');
   
+  // Drawer Elements
+  const drawerMenu = document.getElementById('drawer-menu');
+  const drawerBackdrop = document.getElementById('drawer-backdrop');
+  const menuToggleBtn = document.getElementById('menu-toggle-btn');
+  const drawerCloseBtn = document.getElementById('drawer-close-btn');
+  
+  // Drawer Buttons
+  const drawerFavBtn = document.getElementById('drawer-fav-btn');
+  const drawerMapBtn = document.getElementById('drawer-map-btn');
+  const drawerMainBtn = document.getElementById('drawer-main-btn');
+  const drawerGameBtn = document.getElementById('drawer-game-btn');
+  const drawerAdBtn = document.getElementById('drawer-ad-btn');
+  const drawerCompositionBtn = document.getElementById('drawer-composition-btn');
+  const drawerContactBtn = document.getElementById('drawer-contact-btn');
+  
+  // Back Buttons
   const favBackBtn = document.getElementById('fav-back-btn');
   const mapBackBtn = document.getElementById('map-back-btn');
   const gameBackBtn = document.getElementById('game-back-btn');
   const adBackBtn = document.getElementById('ad-back-btn');
+  const compositionBackBtn = document.getElementById('composition-back-btn');
+  const contactBackBtn = document.getElementById('contact-back-btn');
+  
+  function openDrawer() {
+    if (drawerMenu) drawerMenu.classList.add('open');
+    if (drawerBackdrop) drawerBackdrop.classList.add('open');
+  }
+  
+  function closeDrawer() {
+    if (drawerMenu) drawerMenu.classList.remove('open');
+    if (drawerBackdrop) drawerBackdrop.classList.remove('open');
+  }
+  
+  if (menuToggleBtn) menuToggleBtn.addEventListener('click', openDrawer);
+  if (drawerCloseBtn) drawerCloseBtn.addEventListener('click', closeDrawer);
+  if (drawerBackdrop) drawerBackdrop.addEventListener('click', closeDrawer);
+  
+  function updateActiveDrawerItem(pageId) {
+    document.querySelectorAll('.drawer-item').forEach(item => {
+      if (item.getAttribute('data-page') === pageId) {
+        item.classList.add('active');
+      } else {
+        item.classList.remove('active');
+      }
+    });
+  }
   
   function showPage(pageId) {
     document.querySelectorAll('.page-view').forEach(p => {
@@ -631,31 +671,43 @@ function setupNavigation() {
     });
     
     if (pageId === 'main') {
-      mainPage.classList.add('active');
+      if (mainPage) mainPage.classList.add('active');
     } else if (pageId === 'favorites') {
-      favoritesPage.classList.add('active');
+      if (favoritesPage) favoritesPage.classList.add('active');
       renderFavoritesList();
     } else if (pageId === 'map') {
-      mapPage.classList.add('active');
+      if (mapPage) mapPage.classList.add('active');
     } else if (pageId === 'game') {
-      gamePage.classList.add('active');
+      if (gamePage) gamePage.classList.add('active');
     } else if (pageId === 'ad') {
-      adPage.classList.add('active');
+      if (adPage) adPage.classList.add('active');
+    } else if (pageId === 'composition') {
+      if (compositionPage) compositionPage.classList.add('active');
+    } else if (pageId === 'contact') {
+      if (contactPage) contactPage.classList.add('active');
     }
     
+    updateActiveDrawerItem(pageId);
+    closeDrawer();
     window.scrollTo(0, 0);
   }
   
-  if (navFavBtn) navFavBtn.addEventListener('click', () => showPage('favorites'));
-  if (navMapBtn) navMapBtn.addEventListener('click', () => showPage('map'));
-  if (navGameBtn) navGameBtn.addEventListener('click', () => showPage('game'));
-  if (navAdBtn) navAdBtn.addEventListener('click', () => showPage('ad'));
+  if (drawerFavBtn) drawerFavBtn.addEventListener('click', () => showPage('favorites'));
+  if (drawerMapBtn) drawerMapBtn.addEventListener('click', () => showPage('map'));
+  if (drawerMainBtn) drawerMainBtn.addEventListener('click', () => showPage('main'));
+  if (drawerGameBtn) drawerGameBtn.addEventListener('click', () => showPage('game'));
+  if (drawerAdBtn) drawerAdBtn.addEventListener('click', () => showPage('ad'));
+  if (drawerCompositionBtn) drawerCompositionBtn.addEventListener('click', () => showPage('composition'));
+  if (drawerContactBtn) drawerContactBtn.addEventListener('click', () => showPage('contact'));
+  
   if (appLogo) appLogo.addEventListener('click', () => showPage('main'));
   
   if (favBackBtn) favBackBtn.addEventListener('click', () => showPage('main'));
   if (mapBackBtn) mapBackBtn.addEventListener('click', () => showPage('main'));
   if (gameBackBtn) gameBackBtn.addEventListener('click', () => showPage('main'));
   if (adBackBtn) adBackBtn.addEventListener('click', () => showPage('main'));
+  if (compositionBackBtn) compositionBackBtn.addEventListener('click', () => showPage('main'));
+  if (contactBackBtn) contactBackBtn.addEventListener('click', () => showPage('main'));
 }
 
 // ----------------------------------------------------

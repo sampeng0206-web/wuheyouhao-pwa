@@ -18,7 +18,7 @@
   <link rel="apple-touch-icon" href="images/icons/icon-192.png?v=4">
   
   <!-- 引入樣式表 -->
-  <link rel="stylesheet" href="css/style.css?v=9">
+  <link rel="stylesheet" href="css/style.css?v=10">
   
   <!-- 註冊 Service Worker -->
   <script>
@@ -32,22 +32,33 @@
   </script>
   
   <!-- 引入邏輯腳本 -->
-  <script src="js/app.js?v=9" defer></script>
+  <script src="js/app.js?v=10" defer></script>
 </head>
 <body>
 
   <!-- 區塊一：頂部導覽列 -->
   <header>
-    <div class="nav-group nav-group-left">
-      <button class="nav-btn" id="nav-fav-btn" aria-label="切換到收藏頁面">收藏 ♥</button>
-      <button class="nav-btn" id="nav-map-btn" aria-label="切換到地圖頁面">地圖 🗺</button>
-    </div>
+    <button class="menu-toggle-btn" id="menu-toggle-btn" aria-label="開啟側邊選單">☰</button>
     <h1 class="logo" id="app-logo">今日舞鶴</h1>
-    <div class="nav-group nav-group-right">
-      <button class="nav-btn" id="nav-game-btn" aria-label="切換到能量池小遊戲頁面">遊戲 🕊</button>
-      <button class="nav-btn" id="nav-ad-btn" aria-label="切換到好物廣告頁面">好物 🛍</button>
-    </div>
+    <div style="width: 42px;"></div> <!-- 右側占位以維持標題完美置中 -->
   </header>
+
+  <!-- 側邊滑出選單 (Drawer) -->
+  <div class="drawer-backdrop" id="drawer-backdrop"></div>
+  <div class="drawer" id="drawer-menu">
+    <div class="drawer-header">
+      <button class="drawer-close-btn" id="drawer-close-btn" aria-label="關閉選單">✕</button>
+    </div>
+    <nav class="drawer-nav">
+      <button class="drawer-item" id="drawer-fav-btn" data-page="favorites">收藏 ♥</button>
+      <button class="drawer-item" id="drawer-map-btn" data-page="map">地圖 🗺</button>
+      <button class="drawer-item" id="drawer-main-btn" data-page="main">今日舞鶴 🕊</button>
+      <button class="drawer-item" id="drawer-game-btn" data-page="game">遊戲 🕊</button>
+      <button class="drawer-item" id="drawer-ad-btn" data-page="ad">好物 🛍</button>
+      <button class="drawer-item" id="drawer-composition-btn" data-page="composition">小鶴作文 ✍</button>
+      <button class="drawer-item" id="drawer-contact-btn" data-page="contact">聯絡小鶴 📞</button>
+    </nav>
+  </div>
 
   <main>
     <!-- 主頁 (main-page) -->
@@ -414,16 +425,7 @@
           </div>
         </article>
         
-        <!-- 舞鶴文庫 -->
-        <a href="https://vocus.cc/salon/MiloPazik" target="_blank" rel="noopener noreferrer" class="library-card-link">
-          <article class="map-article library-card">
-            <h3 class="article-title">舞鶴文庫</h3>
-            <img src="images/wuhe_library_cover.jpg" alt="舞鶴文庫" class="library-img">
-            <div class="library-preface-label">作者序節錄：</div>
-            <p class="library-preface-content">「生活中只要有心多加留意，就不難發現許多令人驚奇的故事——虛實相應，色即是空，空即是色。」</p>
-          </article>
-        </a>
-        
+
         <!-- 第 8 篇：聯絡我們 -->
         <article class="map-article pb-slider-article">
           <h3 class="article-title">聯絡我們</h3>
@@ -675,6 +677,62 @@
             <img src="images/contact_qrcodes.png" alt="歡迎聯絡小鶴帶路 2" class="contact-img">
           </div>
         </section>
+      </div>
+    </div>
+
+    <!-- 小鶴作文頁 (composition-page) -->
+    <div id="composition-page" class="page-view">
+      <div class="subpage-header">
+        <button class="back-btn" id="composition-back-btn" aria-label="返回主頁">← 返回</button>
+        <h2 class="subpage-title">小鶴作文</h2>
+      </div>
+      
+      <div class="contact-card-container">
+        <a href="https://vocus.cc/salon/MiloPazik" target="_blank" rel="noopener noreferrer" class="library-card-link">
+          <article class="map-article library-card">
+            <h3 class="article-title">小鶴作文</h3>
+            <img src="images/wuhe_library_cover.jpg" alt="小鶴作文" class="library-img">
+            <div class="library-preface-label">作者序節錄：</div>
+            <p class="library-preface-content">「生活中只要有心多加留意，就不難發現許多令人驚奇的故事——虛實相應，色即是空，空即是色。」</p>
+          </article>
+        </a>
+      </div>
+    </div>
+
+    <!-- 聯絡小鶴頁 (contact-page) -->
+    <div id="contact-page" class="page-view">
+      <div class="subpage-header">
+        <button class="back-btn" id="contact-back-btn" aria-label="返回主頁">← 返回</button>
+        <h2 class="subpage-title">聯絡小鶴</h2>
+      </div>
+      
+      <div class="contact-card-container">
+        <div class="contact-detail-card">
+          <h3 class="article-title">聯絡資訊</h3>
+          <ul class="contact-list">
+            <li>
+              <span class="contact-label">Email：</span>
+              <a href="mailto:xjyltd@gmail.com" class="contact-link">xjyltd@gmail.com</a>
+            </li>
+            <li>
+              <span class="contact-label">電話：</span>
+              <a href="tel:0226971176" class="contact-link">02-26971176</a> 與 
+              <a href="tel:0955202660" class="contact-link">0955202660</a>
+            </li>
+            <li>
+              <span class="contact-label">LINE/Wechat：</span>
+              <span class="contact-text">lala3lin <small style="color: var(--color-text-sub);">(請手動搜尋 ID 加入好友)</small></span>
+            </li>
+            <li>
+              <span class="contact-label">官網：</span>
+              <a href="https://xjy.webnode.page/" target="_blank" rel="noopener noreferrer" class="contact-link">https://xjy.webnode.page/</a>
+            </li>
+            <li>
+              <span class="contact-label">Facebook：</span>
+              <a href="https://www.facebook.com/share/1VRShyqxmZ/" target="_blank" rel="noopener noreferrer" class="contact-link">https://www.facebook.com/share/1VRShyqxmZ/</a>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </main>

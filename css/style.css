@@ -1583,4 +1583,191 @@ section {
   margin-top: 6px;
 }
 
+/* ==========================================================================
+   側邊滑出選單 (Drawer) 與新頁面樣式
+   ========================================================================== */
 
+/* 漢堡按鈕樣式 */
+.menu-toggle-btn {
+  background: none;
+  border: none;
+  font-size: 26px;
+  color: var(--color-gold);
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  outline: none;
+  transition: opacity 0.2s ease;
+}
+
+.menu-toggle-btn:active {
+  opacity: 0.7;
+}
+
+/* 側邊選單背景遮罩 */
+.drawer-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(44, 24, 16, 0.4);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.drawer-backdrop.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* 側邊滑出選單面板 */
+.drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 280px;
+  height: 100%;
+  background-color: var(--color-bg);
+  box-shadow: 4px 0 20px rgba(44, 24, 16, 0.12);
+  z-index: 1001;
+  transform: translateX(-100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.drawer.open {
+  transform: translateX(0);
+}
+
+.drawer-header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px;
+  border-bottom: 1px solid rgba(184, 134, 11, 0.15);
+}
+
+.drawer-close-btn {
+  background: none;
+  border: none;
+  font-size: 22px;
+  color: var(--color-text-sub);
+  cursor: pointer;
+  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+}
+
+.drawer-close-btn:hover {
+  color: var(--color-accent);
+}
+
+.drawer-nav {
+  padding: 16px 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.drawer-item {
+  background: none;
+  border: none;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-text-sub);
+  text-align: left;
+  padding: 16px 24px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-left: 4px solid transparent;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.drawer-item:hover {
+  background-color: rgba(184, 134, 11, 0.08);
+  color: var(--color-gold);
+  border-left-color: var(--color-gold);
+}
+
+.drawer-item.active {
+  background-color: rgba(184, 134, 11, 0.12);
+  color: var(--color-gold);
+  border-left-color: var(--color-gold);
+}
+
+/* 聯絡小鶴與作文頁面專用樣式 */
+.contact-card-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding-bottom: 40px;
+}
+
+.contact-detail-card {
+  background-color: #FFFFFF;
+  border: 1px solid rgba(184, 134, 11, 0.15);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 12px rgba(44, 24, 16, 0.03);
+}
+
+.contact-list {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0 0 0;
+}
+
+.contact-list li {
+  margin-bottom: 18px;
+  line-height: 1.6;
+  font-size: 15px;
+  color: var(--color-text-main);
+  border-bottom: 1px dashed rgba(184, 134, 11, 0.1);
+  padding-bottom: 12px;
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.contact-list li:last-child {
+  margin-bottom: 0;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.contact-label {
+  font-weight: 700;
+  color: var(--color-text-sub);
+  display: inline-block;
+  min-width: 110px;
+  flex-shrink: 0;
+}
+
+.contact-link {
+  color: var(--color-gold);
+  text-decoration: none;
+  font-weight: 500;
+  border-bottom: 1px solid transparent;
+  transition: border-bottom-color 0.2s;
+  word-break: break-all;
+}
+
+.contact-link:hover {
+  border-bottom-color: var(--color-gold);
+}
+
+.contact-text {
+  font-weight: 500;
+}

@@ -278,3 +278,34 @@
 ## 4. 取捨 (Trade-offs)
 *   **Service Worker 快取版本號升級與離線快取更新 (v22 -> v23)**：
     *   **取捨**：由於新增了 4 張商品圖片，並修改了 `index.html` 結構，我們升級 `sw.js` 的 `CACHE_NAME` 至 `wuheyouhao-v23`，且將 4 張新圖片加入 `urlsToCache` 快取清單。同時將 HTML 中的 stylesheet 與 app.js 快取後綴字尾更新至 `?v=9`，SW 註冊後綴字尾更新至 `?v=8`，以強迫瀏覽器載入最新版程式與圖片，避免離線模式下無法載入新圖。
+
+---
+
+# 舞鶴 PWA 第十二輪改版實作紀錄 (Implementation Notes - 12th Revision)
+
+本紀錄詳細記載第十二輪改版（小鶴作文頁新增 3 張精選隨筆連結預覽卡、快取版號升級）中，技術架構與需求對齊時的決定與取捨。
+
+---
+
+## 1. 待釐清 (Clarifications)
+*   **無待釐清事項**：需求指定之標題、摘要、連結與卡片樣式皆非常明確。
+
+---
+
+## 2. 決定 (Decisions)
+*   **「精選隨筆」次分類標題與卡片排版**：
+    *   **決定**：將次分類標題「精選隨筆」使用與其他頁面一致的 `.ad-section-title` 樣式。三張新增的 Facebook 連結卡片在結構上，套用已有的 `.library-card-link` 與 `.library-card` 類別，直接繼承其背景色（#FAF7F2）、邊框、圓角與陰影樣式及懸停（hover）時的浮起動畫效果。
+*   **摘要文字排版與樣式**：
+    *   **決定**：新增 `.essay-summary` 樣式，指定 `color: #333333`、`line-height: 1.8`、以及 `text-align: justify`，確保符合需求且視覺排版乾淨美觀。
+
+---
+
+## 3. 偏離 (Deviations)
+*   **無偏離事項**。
+
+---
+
+## 4. 取捨 (Trade-offs)
+*   **Service Worker 快取版本號升級與離線快取更新 (v24 -> v25)**：
+    *   **取捨**：由於修改了 `index.html` 結構、新增了 `.essay-summary` CSS 樣式，為確保 PWA 應用程式在離線或線上模式下能即時載入最新的頁面佈局與樣式，我們將 `sw.js` 內的 `CACHE_NAME` 升級至 `wuheyouhao-v25`，並同步將 `urlsToCache` 中 `style.css` 與 `app.js` 的引用版本更新至 `?v=11`。同時將 `index.html` 內的 CSS/JS 引用後綴參數同步提升至 `?v=11`，SW 註冊參數提升至 `?v=9`，以強迫瀏覽器載入最新版程式，避免 PWA 快取機制導致使用者看不到更新。
+

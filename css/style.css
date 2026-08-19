@@ -1771,3 +1771,13 @@ section {
 .contact-text {
   font-weight: 500;
 }
+
+/* 精選隨筆摘要樣式 */
+.essay-summary {
+  font-size: 14px;
+  line-height: 1.8;
+  color: #333333;
+  text-align: justify;
+  margin-top: 12px;
+}
+

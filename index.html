@@ -18,13 +18,13 @@
   <link rel="apple-touch-icon" href="images/icons/icon-192.png?v=4">
   
   <!-- 引入樣式表 -->
-  <link rel="stylesheet" href="css/style.css?v=10">
+  <link rel="stylesheet" href="css/style.css?v=11">
   
   <!-- 註冊 Service Worker -->
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js?v=8')
+        navigator.serviceWorker.register('sw.js?v=9')
           .then(reg => console.log('Service Worker 註冊成功:', reg.scope))
           .catch(err => console.log('Service Worker 註冊失敗:', err));
       });
@@ -32,7 +32,7 @@
   </script>
   
   <!-- 引入邏輯腳本 -->
-  <script src="js/app.js?v=10" defer></script>
+  <script src="js/app.js?v=11" defer></script>
 </head>
 <body>
 
@@ -694,6 +694,30 @@
             <img src="images/wuhe_library_cover.jpg" alt="小鶴作文" class="library-img">
             <div class="library-preface-label">作者序節錄：</div>
             <p class="library-preface-content">「生活中只要有心多加留意，就不難發現許多令人驚奇的故事——虛實相應，色即是空，空即是色。」</p>
+          </article>
+        </a>
+
+        <!-- 精選隨筆 -->
+        <h3 class="ad-section-title">精選隨筆</h3>
+
+        <a href="https://www.facebook.com/share/p/1HoXCb6aAT/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" class="library-card-link">
+          <article class="map-article library-card">
+            <h3 class="article-title">拉拉山林奇遇記——生日的彩虹</h3>
+            <p class="essay-summary">「就在展開佛祖金唐的那一刻，傻眼了。這一趟北京行，從錯寄的唐卡到鋪在地上的彩虹，處處是不可思議的奇遇。」</p>
+          </article>
+        </a>
+
+        <a href="https://www.facebook.com/share/p/1Cro75aGFB/" target="_blank" rel="noopener noreferrer" class="library-card-link">
+          <article class="map-article library-card">
+            <h3 class="article-title">成都閉關記——出差廣州先確診</h3>
+            <p class="essay-summary">「原本兩週的廣州出差，因為一場意外的確診，變成成都隔離醫院裡的二十三天。無症狀的日子裡，反而遇見了意想不到的緣分。」</p>
+          </article>
+        </a>
+
+        <a href="https://www.facebook.com/share/p/1EEQxEFb7L/" target="_blank" rel="noopener noreferrer" class="library-card-link">
+          <article class="map-article library-card">
+            <h3 class="article-title">成都閉關記——樂山大佛取伏藏</h3>
+            <p class="essay-summary">「隔離病床上忽然一陣搖晃，四川地震了。這場地震，竟與樂山大佛裡的千年伏藏、一段秘法的取出，有著不可思議的關聯。」</p>
           </article>
         </a>
       </div>

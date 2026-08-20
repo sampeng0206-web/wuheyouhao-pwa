@@ -1049,11 +1049,166 @@ function renderMedalsList() {
   container.innerHTML = html;
 }
 
+// Deterministic Random Edge Config Generator based on Puzzle ID and coordinates
+function getPuzzleEdges(puzzle) {
+  const total = puzzle.rows * puzzle.cols;
+  const edges = [];
+  
+  function hash(str) {
+    let h = 0;
+    for (let i = 0; i < str.length; i++) {
+      h = (h << 5) - h + str.charCodeAt(i);
+      h |= 0;
+    }
+    return h;
+  }
+  
+  const baseSeed = hash(puzzle.id);
+  const rightEdges = new Array(total).fill(0);
+  const bottomEdges = new Array(total).fill(0);
+  
+  for (let r = 0; r < puzzle.rows; r++) {
+    for (let c = 0; c < puzzle.cols; c++) {
+      const idx = r * puzzle.cols + c;
+      
+      if (c < puzzle.cols - 1) {
+        const seed = baseSeed + idx * 2;
+        const rand = Math.sin(seed) * 10000;
+        rightEdges[idx] = (rand - Math.floor(rand)) > 0.5 ? 1 : -1;
+      }
+      
+      if (r < puzzle.rows - 1) {
+        const seed = baseSeed + idx * 2 + 1;
+        const rand = Math.sin(seed) * 10000;
+        bottomEdges[idx] = (rand - Math.floor(rand)) > 0.5 ? 1 : -1;
+      }
+    }
+  }
+  
+  for (let i = 0; i < total; i++) {
+    const row = Math.floor(i / puzzle.cols);
+    const col = i % puzzle.cols;
+    
+    const cellEdges = { top: 0, right: 0, bottom: 0, left: 0 };
+    
+    if (row > 0) {
+      const aboveIdx = (row - 1) * puzzle.cols + col;
+      cellEdges.top = -bottomEdges[aboveIdx];
+    }
+    if (col > 0) {
+      const leftIdx = row * puzzle.cols + (col - 1);
+      cellEdges.left = -rightEdges[leftIdx];
+    }
+    if (row < puzzle.rows - 1) {
+      cellEdges.bottom = bottomEdges[i];
+    }
+    if (col < puzzle.cols - 1) {
+      cellEdges.right = rightEdges[i];
+    }
+    
+    edges.push(cellEdges);
+  }
+  
+  return edges;
+}
+
+// Compute relative vector offset for Jigsaw tab curves
+function getPoint(p1, p2, u, v, type) {
+  const dx = p2.x - p1.x;
+  const dy = p2.y - p1.y;
+  const L = Math.sqrt(dx * dx + dy * dy);
+  const tx = dx / L;
+  const ty = dy / L;
+  const nx = ty;
+  const ny = -tx;
+  
+  const sign = type;
+  const px = p1.x + u * dx + v * L * nx * sign;
+  const py = p1.y + u * dy + v * L * ny * sign;
+  return { x: px, y: py };
+}
+
+// Generate path segment for a single edge
+function generateEdge(p1, p2, type) {
+  if (type === 0) {
+    return ` L ${p2.x.toFixed(4)} ${p2.y.toFixed(4)}`;
+  }
+  
+  const pts = [
+    getPoint(p1, p2, 0.38, 0, type),
+    getPoint(p1, p2, 0.38, 0.05, type),
+    getPoint(p1, p2, 0.42, 0.09, type),
+    getPoint(p1, p2, 0.44, 0.09, type),
+    getPoint(p1, p2, 0.46, 0.09, type),
+    getPoint(p1, p2, 0.46, 0.13, type),
+    getPoint(p1, p2, 0.50, 0.13, type),
+    getPoint(p1, p2, 0.54, 0.13, type),
+    getPoint(p1, p2, 0.54, 0.09, type),
+    getPoint(p1, p2, 0.56, 0.09, type),
+    getPoint(p1, p2, 0.58, 0.09, type),
+    getPoint(p1, p2, 0.62, 0.05, type),
+    getPoint(p1, p2, 0.62, 0, type)
+  ];
+  
+  return ` L ${pts[0].x.toFixed(4)} ${pts[0].y.toFixed(4)}` +
+         ` C ${pts[1].x.toFixed(4)} ${pts[1].y.toFixed(4)}, ${pts[2].x.toFixed(4)} ${pts[2].y.toFixed(4)}, ${pts[3].x.toFixed(4)} ${pts[3].y.toFixed(4)}` +
+         ` C ${pts[4].x.toFixed(4)} ${pts[4].y.toFixed(4)}, ${pts[5].x.toFixed(4)} ${pts[5].y.toFixed(4)}, ${pts[6].x.toFixed(4)} ${pts[6].y.toFixed(4)}` +
+         ` C ${pts[7].x.toFixed(4)} ${pts[7].y.toFixed(4)}, ${pts[8].x.toFixed(4)} ${pts[8].y.toFixed(4)}, ${pts[9].x.toFixed(4)} ${pts[9].y.toFixed(4)}` +
+         ` C ${pts[10].x.toFixed(4)} ${pts[10].y.toFixed(4)}, ${pts[11].x.toFixed(4)} ${pts[11].y.toFixed(4)}, ${pts[12].x.toFixed(4)} ${pts[12].y.toFixed(4)}` +
+         ` L ${p2.x.toFixed(4)} ${p2.y.toFixed(4)}`;
+}
+
+// Generate the responsive SVG clip-paths in document body
+function generatePuzzleClipPaths(puzzle) {
+  let container = document.getElementById('puzzle-clip-paths');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'puzzle-clip-paths';
+    container.style.width = '0';
+    container.style.height = '0';
+    container.style.position = 'absolute';
+    container.style.visibility = 'hidden';
+    container.style.overflow = 'hidden';
+    document.body.appendChild(container);
+  }
+  
+  let svgContent = `<svg id="puzzle-clip-svg" style="width: 0; height: 0; position: absolute;"><defs>`;
+  const total = puzzle.rows * puzzle.cols;
+  const A = 0.15 / 1.30;
+  const B = 1.15 / 1.30;
+  
+  const edges = getPuzzleEdges(puzzle);
+  
+  for (let i = 0; i < total; i++) {
+    const cellEdges = edges[i];
+    const p1 = { x: A, y: A };
+    const p2 = { x: B, y: A };
+    const p3 = { x: B, y: B };
+    const p4 = { x: A, y: B };
+    
+    let path = `M ${A.toFixed(4)} ${A.toFixed(4)}`;
+    path += generateEdge(p1, p2, cellEdges.top);
+    path += generateEdge(p2, p3, cellEdges.right);
+    path += generateEdge(p3, p4, cellEdges.bottom);
+    path += generateEdge(p4, p1, cellEdges.left);
+    path += ' Z';
+    
+    svgContent += `<clipPath id="puzzle-clip-${puzzle.id}-${i}" clipPathUnits="objectBoundingBox">`;
+    svgContent += `<path d="${path}" />`;
+    svgContent += `</clipPath>`;
+  }
+  
+  svgContent += `</defs></svg>`;
+  container.innerHTML = svgContent;
+}
+
 // Initialize active Jigsaw game
 function initPuzzleGame() {
   const progress = getPuzzleProgress();
   const puzzle = PUZZLE_LIST.find(p => p.id === activePuzzleId);
   if (!puzzle) return;
+  
+  generatePuzzleClipPaths(puzzle);
   
   const totalPieces = puzzle.rows * puzzle.cols;
   const unlockedCount = progress[activePuzzleId] ? progress[activePuzzleId].unlockedCount : 0;
@@ -1126,14 +1281,25 @@ function initPuzzleGame() {
     cell.style.height = cellHeight + 'px';
     cell.style.left = (col * cellWidth) + 'px';
     cell.style.top = (row * cellHeight) + 'px';
+    cell.style.overflow = 'visible';
     
     if (isSolved) {
       // Render solved piece inside the board cell
       const piece = document.createElement('div');
       piece.className = 'puzzle-piece snapped';
+      
+      const offsetW = cellWidth * 0.15;
+      const offsetH = cellHeight * 0.15;
+      piece.style.width = (cellWidth * 1.3) + 'px';
+      piece.style.height = (cellHeight * 1.3) + 'px';
+      piece.style.position = 'absolute';
+      piece.style.left = -offsetW + 'px';
+      piece.style.top = -offsetH + 'px';
+      piece.style.clipPath = `url(#puzzle-clip-${activePuzzleId}-${i})`;
+      
       piece.style.backgroundImage = `url(${puzzle.image})`;
       piece.style.backgroundSize = `${boardWidth}px ${boardHeight}px`;
-      piece.style.backgroundPosition = `-${col * cellWidth}px -${row * cellHeight}px`;
+      piece.style.backgroundPosition = `-${col * cellWidth - offsetW}px -${row * cellHeight - offsetH}px`;
       cell.appendChild(piece);
     } else if (isLocked) {
       cell.classList.add('locked');
@@ -1167,21 +1333,39 @@ function initPuzzleGame() {
       const col = index % puzzle.cols;
       const row = Math.floor(index / puzzle.cols);
       
+      const wrapper = document.createElement('div');
+      wrapper.className = 'puzzle-piece-wrapper';
+      wrapper.style.width = cellWidth + 'px';
+      wrapper.style.height = cellHeight + 'px';
+      wrapper.style.position = 'relative';
+      wrapper.style.display = 'inline-block';
+      wrapper.style.margin = '12px';
+      wrapper.style.overflow = 'visible';
+      
       const piece = document.createElement('div');
       piece.className = 'puzzle-piece';
       piece.id = `piece-${activePuzzleId}-${index}`;
-      piece.style.width = cellWidth + 'px';
-      piece.style.height = cellHeight + 'px';
+      
+      const offsetW = cellWidth * 0.15;
+      const offsetH = cellHeight * 0.15;
+      piece.style.width = (cellWidth * 1.3) + 'px';
+      piece.style.height = (cellHeight * 1.3) + 'px';
+      piece.style.position = 'absolute';
+      piece.style.left = -offsetW + 'px';
+      piece.style.top = -offsetH + 'px';
+      piece.style.clipPath = `url(#puzzle-clip-${activePuzzleId}-${index})`;
+      
       piece.style.backgroundImage = `url(${puzzle.image})`;
       piece.style.backgroundSize = `${boardWidth}px ${boardHeight}px`;
-      piece.style.backgroundPosition = `-${col * cellWidth}px -${row * cellHeight}px`;
+      piece.style.backgroundPosition = `-${col * cellWidth - offsetW}px -${row * cellHeight - offsetH}px`;
       
       const slotEl = document.getElementById(`slot-${activePuzzleId}-${index}`);
       if (slotEl) {
         setupPointerDragging(piece, slotEl, index);
       }
       
-      trayEl.appendChild(piece);
+      wrapper.appendChild(piece);
+      trayEl.appendChild(wrapper);
     });
   }
 }
@@ -1260,11 +1444,16 @@ function setupPointerDragging(pieceEl, slotEl, index) {
         }
       }
     } else {
-      // Revert piece position to tray flow
-      pieceEl.style.position = '';
-      pieceEl.style.left = '';
-      pieceEl.style.top = '';
-      pieceEl.style.margin = '';
+      // Revert piece position to tray flow (absolute inside relative wrapper)
+      const cellWidth = slotEl.clientWidth;
+      const cellHeight = slotEl.clientHeight;
+      const offsetW = cellWidth * 0.15;
+      const offsetH = cellHeight * 0.15;
+      
+      pieceEl.style.position = 'absolute';
+      pieceEl.style.left = -offsetW + 'px';
+      pieceEl.style.top = -offsetH + 'px';
+      pieceEl.style.margin = '0';
     }
   });
 }

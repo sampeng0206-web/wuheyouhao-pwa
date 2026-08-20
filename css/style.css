@@ -2035,9 +2035,7 @@ section {
 
 .puzzle-piece {
   box-sizing: border-box;
-  border: 1px solid rgba(255,255,255,0.8);
-  border-radius: 4px;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+  filter: drop-shadow(0 3px 5px rgba(0,0,0,0.25));
   cursor: grab;
   touch-action: none; /* 重要：防止觸控螢幕拖曳時網頁也跟著捲動 */
   user-select: none;
@@ -2049,14 +2047,9 @@ section {
 }
 
 .puzzle-piece.snapped {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100% !important;
-  height: 100% !important;
   border: none;
   border-radius: 0;
-  box-shadow: none;
+  filter: none;
   cursor: default;
   pointer-events: none;
 }

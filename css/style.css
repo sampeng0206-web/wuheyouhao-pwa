@@ -1781,3 +1781,407 @@ section {
   margin-top: 12px;
 }
 
+/* ==========================================
+   收藏分頁籤 & 我的獎牌 樣式
+   ========================================== */
+.favorites-tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(184, 134, 11, 0.2);
+  padding-bottom: 8px;
+}
+
+.fav-tab-btn {
+  background: none;
+  border: none;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-text-sub);
+  padding: 8px 24px;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.fav-tab-btn:hover {
+  color: var(--color-accent);
+}
+
+.fav-tab-btn.active {
+  color: var(--color-accent);
+}
+
+.fav-tab-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: -9px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: var(--color-accent);
+  border-radius: 2px 2px 0 0;
+}
+
+.medals-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+  padding-bottom: 40px;
+}
+
+.medal-badge-item {
+  background-color: #FFFFFF;
+  border: 1px solid var(--color-gold);
+  border-radius: 12px;
+  padding: 20px 10px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(44, 24, 16, 0.03);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: cardFadeIn 0.3s ease-out forwards;
+}
+
+.medal-badge-icon {
+  font-size: 40px;
+  margin-bottom: 12px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
+.medal-badge-name {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-accent);
+  margin-bottom: 6px;
+}
+
+.medal-badge-desc {
+  font-size: 12px;
+  color: var(--color-text-sub);
+  margin-bottom: 6px;
+}
+
+.medal-badge-date {
+  font-size: 10px;
+  color: rgba(107, 68, 35, 0.4);
+}
+
+.empty-medals {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--color-text-sub);
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+/* ==========================================
+   小鶴拼圖 樣式
+   ========================================== */
+.puzzle-container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.puzzle-selector {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  margin-bottom: 20px;
+  gap: 8px;
+}
+
+.puzzle-sel-btn {
+  flex: 1;
+  background-color: #FFFFFF;
+  border: 1px solid var(--color-gold);
+  border-radius: 8px;
+  padding: 10px 4px;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text-main);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(44, 24, 16, 0.02);
+  position: relative;
+}
+
+.puzzle-sel-btn:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.puzzle-sel-btn.active {
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #FFFFFF;
+}
+
+.puzzle-badge {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--color-text-sub);
+  margin-top: 2px;
+}
+
+.puzzle-sel-btn.active .puzzle-badge {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.puzzle-info-card {
+  width: 100%;
+  background-color: #FFFFFF;
+  border: 1px solid var(--color-gold);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(44, 24, 16, 0.03);
+  text-align: center;
+}
+
+.puzzle-info-title {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-accent);
+  margin-bottom: 6px;
+}
+
+.puzzle-info-progress {
+  font-size: 14px;
+  color: var(--color-text-sub);
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.puzzle-game-area {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.puzzle-board {
+  position: relative;
+  background-color: #F7F5F0;
+  border: 2px solid var(--color-gold);
+  border-radius: 8px;
+  box-shadow: inset 0 2px 8px rgba(0,0,0,0.05);
+  margin-bottom: 24px;
+  overflow: visible; /* 允許碎片拖出 board 的邊界 */
+}
+
+.puzzle-cell {
+  position: absolute;
+  box-sizing: border-box;
+  border: 1px dashed rgba(184, 134, 11, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.puzzle-cell.locked {
+  background-color: #E2DDD5;
+  color: #A8A095;
+  font-weight: 700;
+  font-size: 18px;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.puzzle-cell.locked::after {
+  content: '🔒';
+  font-size: 14px;
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  opacity: 0.6;
+}
+
+.puzzle-tray-title {
+  font-size: 14px;
+  color: var(--color-text-sub);
+  margin-bottom: 8px;
+  align-self: flex-start;
+  font-weight: bold;
+}
+
+.puzzle-tray {
+  width: 100%;
+  min-height: 110px;
+  background-color: rgba(184, 134, 11, 0.02);
+  border: 1px dashed var(--color-gold);
+  border-radius: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  gap: 12px;
+  padding: 12px;
+  box-sizing: border-box;
+  margin-bottom: 24px;
+}
+
+.puzzle-piece {
+  box-sizing: border-box;
+  border: 1px solid rgba(255,255,255,0.8);
+  border-radius: 4px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+  cursor: grab;
+  touch-action: none; /* 重要：防止觸控螢幕拖曳時網頁也跟著捲動 */
+  user-select: none;
+  background-repeat: no-repeat;
+}
+
+.puzzle-piece:active {
+  cursor: grabbing;
+}
+
+.puzzle-piece.snapped {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100% !important;
+  height: 100% !important;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  cursor: default;
+  pointer-events: none;
+}
+
+.puzzle-actions {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+.puzzle-btn {
+  flex: 1;
+  background-color: var(--color-text-sub);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  box-shadow: 0 4px 10px rgba(107, 68, 35, 0.15);
+  text-align: center;
+}
+
+.puzzle-btn:hover {
+  background-color: var(--color-accent);
+}
+
+.puzzle-btn.secondary {
+  background-color: #FFFFFF;
+  color: var(--color-text-sub);
+  border: 1px solid var(--color-text-sub);
+  box-shadow: none;
+}
+
+.puzzle-btn.secondary:hover {
+  background-color: rgba(107, 68, 35, 0.05);
+}
+
+/* 恭喜彈窗樣式 */
+.puzzle-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.puzzle-overlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.puzzle-celebration-card {
+  background-color: #FFFFFF;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 360px;
+  padding: 30px 24px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+}
+
+.puzzle-overlay.show .puzzle-celebration-card {
+  transform: scale(1);
+}
+
+.celebration-icon {
+  font-size: 60px;
+  margin-bottom: 16px;
+  animation: bounce 1s infinite alternate;
+}
+
+@keyframes bounce {
+  from { transform: translateY(0); }
+  to { transform: translateY(-10px); }
+}
+
+.celebration-title {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-accent);
+  margin-bottom: 10px;
+}
+
+.celebration-desc {
+  font-size: 15px;
+  color: var(--color-text-main);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.celebration-medal-box {
+  background-color: rgba(184, 134, 11, 0.06);
+  border: 1px solid var(--color-gold);
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.celebration-medal-icon {
+  font-size: 32px;
+}
+
+.celebration-medal-name {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+

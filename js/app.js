@@ -75,6 +75,9 @@ function updateCheckInStreak() {
   localStorage.setItem('lastCheckInDate', todayStr);
   localStorage.setItem('streakDays', streakDays);
   
+  // 每日登入時解鎖拼圖碎片
+  unlockPuzzlePiecesForToday();
+  
   renderStreak(streakDays);
 }
 
@@ -612,6 +615,7 @@ function setupNavigation() {
   const favoritesPage = document.getElementById('favorites-page');
   const mapPage = document.getElementById('map-page');
   const gamePage = document.getElementById('game-page');
+  const puzzlePage = document.getElementById('puzzle-page');
   const adPage = document.getElementById('ad-page');
   const compositionPage = document.getElementById('composition-page');
   const contactPage = document.getElementById('contact-page');
@@ -629,6 +633,7 @@ function setupNavigation() {
   const drawerMapBtn = document.getElementById('drawer-map-btn');
   const drawerMainBtn = document.getElementById('drawer-main-btn');
   const drawerGameBtn = document.getElementById('drawer-game-btn');
+  const drawerPuzzleBtn = document.getElementById('drawer-puzzle-btn');
   const drawerAdBtn = document.getElementById('drawer-ad-btn');
   const drawerCompositionBtn = document.getElementById('drawer-composition-btn');
   const drawerContactBtn = document.getElementById('drawer-contact-btn');
@@ -637,6 +642,7 @@ function setupNavigation() {
   const favBackBtn = document.getElementById('fav-back-btn');
   const mapBackBtn = document.getElementById('map-back-btn');
   const gameBackBtn = document.getElementById('game-back-btn');
+  const puzzleBackBtn = document.getElementById('puzzle-back-btn');
   const adBackBtn = document.getElementById('ad-back-btn');
   const compositionBackBtn = document.getElementById('composition-back-btn');
   const contactBackBtn = document.getElementById('contact-back-btn');
@@ -665,6 +671,30 @@ function setupNavigation() {
     });
   }
   
+  // Favorites Tab Switching
+  const favTabFortunes = document.getElementById('fav-tab-fortunes');
+  const favTabMedals = document.getElementById('fav-tab-medals');
+  const fortunesContainer = document.getElementById('favorites-container');
+  const medalsContainer = document.getElementById('medals-container');
+  
+  if (favTabFortunes && favTabMedals) {
+    favTabFortunes.addEventListener('click', () => {
+      favTabFortunes.classList.add('active');
+      favTabMedals.classList.remove('active');
+      if (fortunesContainer) fortunesContainer.style.display = 'block';
+      if (medalsContainer) medalsContainer.style.display = 'none';
+      renderFavoritesList();
+    });
+    
+    favTabMedals.addEventListener('click', () => {
+      favTabMedals.classList.add('active');
+      favTabFortunes.classList.remove('active');
+      if (fortunesContainer) fortunesContainer.style.display = 'none';
+      if (medalsContainer) medalsContainer.style.display = 'grid';
+      renderMedalsList();
+    });
+  }
+
   function showPage(pageId) {
     document.querySelectorAll('.page-view').forEach(p => {
       p.classList.remove('active');
@@ -674,11 +704,14 @@ function setupNavigation() {
       if (mainPage) mainPage.classList.add('active');
     } else if (pageId === 'favorites') {
       if (favoritesPage) favoritesPage.classList.add('active');
-      renderFavoritesList();
+      if (favTabFortunes) favTabFortunes.click(); // Default to fortunes tab
     } else if (pageId === 'map') {
       if (mapPage) mapPage.classList.add('active');
     } else if (pageId === 'game') {
       if (gamePage) gamePage.classList.add('active');
+    } else if (pageId === 'puzzle') {
+      if (puzzlePage) puzzlePage.classList.add('active');
+      initPuzzleGame();
     } else if (pageId === 'ad') {
       if (adPage) adPage.classList.add('active');
     } else if (pageId === 'composition') {
@@ -696,6 +729,7 @@ function setupNavigation() {
   if (drawerMapBtn) drawerMapBtn.addEventListener('click', () => showPage('map'));
   if (drawerMainBtn) drawerMainBtn.addEventListener('click', () => showPage('main'));
   if (drawerGameBtn) drawerGameBtn.addEventListener('click', () => showPage('game'));
+  if (drawerPuzzleBtn) drawerPuzzleBtn.addEventListener('click', () => showPage('puzzle'));
   if (drawerAdBtn) drawerAdBtn.addEventListener('click', () => showPage('ad'));
   if (drawerCompositionBtn) drawerCompositionBtn.addEventListener('click', () => showPage('composition'));
   if (drawerContactBtn) drawerContactBtn.addEventListener('click', () => showPage('contact'));
@@ -705,6 +739,7 @@ function setupNavigation() {
   if (favBackBtn) favBackBtn.addEventListener('click', () => showPage('main'));
   if (mapBackBtn) mapBackBtn.addEventListener('click', () => showPage('main'));
   if (gameBackBtn) gameBackBtn.addEventListener('click', () => showPage('main'));
+  if (puzzleBackBtn) puzzleBackBtn.addEventListener('click', () => showPage('main'));
   if (adBackBtn) adBackBtn.addEventListener('click', () => showPage('main'));
   if (compositionBackBtn) compositionBackBtn.addEventListener('click', () => showPage('main'));
   if (contactBackBtn) contactBackBtn.addEventListener('click', () => showPage('main'));
@@ -864,3 +899,458 @@ async function initializeApp() {
 
 // 監聽 DOM 載入
 document.addEventListener('DOMContentLoaded', initializeApp);
+
+// ==========================================
+// 小鶴拼圖 邏輯與控制器
+// ==========================================
+
+const PUZZLE_LIST = [
+  {
+    id: 'wuhe_crane',
+    name: '舞鶴',
+    image: 'images/puzzle_wuhe_crane.jpg',
+    rows: 4,
+    cols: 3,
+    medalName: '舞鶴之金勳章',
+    medalIcon: '🕊️'
+  },
+  {
+    id: 'kiispring',
+    name: '古伊之泉',
+    image: 'images/map_kiispring_new_3.jpg',
+    rows: 3,
+    cols: 3,
+    medalName: '古伊之泉湧泉勳章',
+    medalIcon: '⛲'
+  },
+  {
+    id: 'xiangji_stone',
+    name: '香積',
+    image: 'images/puzzle_xiangji_stone.jpg',
+    rows: 4,
+    cols: 3,
+    medalName: '香積之石勳章',
+    medalIcon: '🪨'
+  }
+];
+
+let activePuzzleId = 'wuhe_crane';
+
+function getPuzzleProgress() {
+  const defaultProgress = {
+    "wuhe_crane": { "unlockedCount": 0, "completed": false },
+    "kiispring": { "unlockedCount": 0, "completed": false },
+    "xiangji_stone": { "unlockedCount": 0, "completed": false }
+  };
+  return JSON.parse(localStorage.getItem('puzzleProgress')) || defaultProgress;
+}
+
+function savePuzzleProgress(progress) {
+  localStorage.setItem('puzzleProgress', JSON.stringify(progress));
+}
+
+function getSolvedPieces(puzzleId) {
+  const solved = JSON.parse(localStorage.getItem('puzzleSolvedPieces')) || {};
+  return solved[puzzleId] || [];
+}
+
+function saveSolvedPieces(puzzleId, solvedArray) {
+  const solved = JSON.parse(localStorage.getItem('puzzleSolvedPieces')) || {};
+  solved[puzzleId] = solvedArray;
+  localStorage.setItem('puzzleSolvedPieces', JSON.stringify(solved));
+}
+
+function getPuzzleMedals() {
+  return JSON.parse(localStorage.getItem('puzzleMedals')) || [];
+}
+
+function savePuzzleMedals(medals) {
+  localStorage.setItem('puzzleMedals', JSON.stringify(medals));
+}
+
+function getPuzzleMedalDates() {
+  return JSON.parse(localStorage.getItem('puzzleMedalDates')) || {};
+}
+
+function savePuzzleMedalDates(dates) {
+  localStorage.setItem('puzzleMedalDates', JSON.stringify(dates));
+}
+
+function unlockPuzzlePiecesForToday() {
+  const progress = getPuzzleProgress();
+  
+  // Find first incomplete puzzle in config order
+  let activeId = null;
+  let activePuzzle = null;
+  for (let p of PUZZLE_LIST) {
+    if (!progress[p.id] || !progress[p.id].completed) {
+      activeId = p.id;
+      activePuzzle = p;
+      break;
+    }
+  }
+  
+  if (!activeId) return; // All puzzles completed!
+  
+  const maxPieces = activePuzzle.rows * activePuzzle.cols;
+  let currentUnlocked = progress[activeId] ? progress[activeId].unlockedCount : 0;
+  
+  if (currentUnlocked < maxPieces) {
+    let newUnlocked = Math.min(currentUnlocked + 3, maxPieces);
+    if (!progress[activeId]) {
+      progress[activeId] = { unlockedCount: 0, completed: false };
+    }
+    progress[activeId].unlockedCount = newUnlocked;
+    savePuzzleProgress(progress);
+    console.log(`[Puzzle] Unlocked +3 pieces for ${activeId}. New: ${newUnlocked}/${maxPieces}`);
+  }
+}
+
+// Render medals list in favorites
+function renderMedalsList() {
+  const container = document.getElementById('medals-container');
+  if (!container) return;
+  
+  const medals = getPuzzleMedals();
+  const dates = getPuzzleMedalDates();
+  
+  if (medals.length === 0) {
+    container.innerHTML = `
+      <div class="empty-medals">
+        <p>🧩 尚未獲得任何獎牌</p>
+        <p style="font-size: 13px; margin-top: 8px;">快去「小鶴拼圖」完成挑戰獲得首張勳章吧！</p>
+      </div>
+    `;
+    return;
+  }
+  
+  let html = '';
+  medals.forEach(medalId => {
+    const puzzle = PUZZLE_LIST.find(p => p.id === medalId) || {
+      name: medalId,
+      medalName: medalId,
+      medalIcon: '🏅'
+    };
+    const date = dates[medalId] || '';
+    
+    html += `
+      <div class="medal-badge-item">
+        <div class="medal-badge-icon">${puzzle.medalIcon}</div>
+        <div class="medal-badge-name">${puzzle.medalName}</div>
+        <div class="medal-badge-desc">完成《${puzzle.name}》拼圖</div>
+        ${date ? `<div class="medal-badge-date">${date} 獲得</div>` : ''}
+      </div>
+    `;
+  });
+  
+  container.innerHTML = html;
+}
+
+// Initialize active Jigsaw game
+function initPuzzleGame() {
+  const progress = getPuzzleProgress();
+  const puzzle = PUZZLE_LIST.find(p => p.id === activePuzzleId);
+  if (!puzzle) return;
+  
+  const totalPieces = puzzle.rows * puzzle.cols;
+  const unlockedCount = progress[activePuzzleId] ? progress[activePuzzleId].unlockedCount : 0;
+  const solved = getSolvedPieces(activePuzzleId);
+  const completed = progress[activePuzzleId] ? progress[activePuzzleId].completed : false;
+  
+  // Render selector badges
+  PUZZLE_LIST.forEach(p => {
+    const badgeEl = document.getElementById(`badge-${p.id}`);
+    const btnEl = document.querySelector(`.puzzle-sel-btn[data-id="${p.id}"]`);
+    
+    if (badgeEl && btnEl) {
+      // Set active button class
+      if (p.id === activePuzzleId) {
+        btnEl.classList.add('active');
+      } else {
+        btnEl.classList.remove('active');
+      }
+      
+      const pProg = progress[p.id];
+      if (pProg && pProg.completed) {
+        badgeEl.textContent = '🏅';
+      } else {
+        const unl = pProg ? pProg.unlockedCount : 0;
+        const max = p.rows * p.cols;
+        badgeEl.textContent = unl === 0 ? '🔒' : `${unl}/${max}`;
+      }
+    }
+  });
+
+  // Setup info card
+  const titleEl = document.getElementById('puzzle-info-title');
+  const progressEl = document.getElementById('puzzle-info-progress');
+  if (titleEl) titleEl.textContent = `《${puzzle.name}》拼圖挑戰`;
+  if (progressEl) {
+    progressEl.textContent = completed
+      ? "🎉 已成功獲得勳章！"
+      : `目前進度：已解鎖 ${unlockedCount}/${totalPieces} 片`;
+  }
+  
+  // Setup Board size based on screen width
+  const boardEl = document.getElementById('puzzle-board');
+  if (!boardEl) return;
+  
+  const parentWidth = boardEl.parentElement.clientWidth || 320;
+  const boardWidth = Math.min(parentWidth - 32, 320); // padding safe
+  const boardHeight = boardWidth * (puzzle.rows / puzzle.cols);
+  
+  boardEl.style.width = boardWidth + 'px';
+  boardEl.style.height = boardHeight + 'px';
+  boardEl.innerHTML = '';
+  
+  const cellWidth = boardWidth / puzzle.cols;
+  const cellHeight = boardHeight / puzzle.rows;
+  
+  // Setup Tray pieces
+  let trayUnsolved = [];
+  
+  // Render cells
+  for (let i = 0; i < totalPieces; i++) {
+    const col = i % puzzle.cols;
+    const row = Math.floor(i / puzzle.cols);
+    const isLocked = i >= unlockedCount;
+    const isSolved = solved.includes(i);
+    
+    const cell = document.createElement('div');
+    cell.className = 'puzzle-cell';
+    cell.id = `slot-${activePuzzleId}-${i}`;
+    cell.style.width = cellWidth + 'px';
+    cell.style.height = cellHeight + 'px';
+    cell.style.left = (col * cellWidth) + 'px';
+    cell.style.top = (row * cellHeight) + 'px';
+    
+    if (isSolved) {
+      // Render solved piece inside the board cell
+      const piece = document.createElement('div');
+      piece.className = 'puzzle-piece snapped';
+      piece.style.backgroundImage = `url(${puzzle.image})`;
+      piece.style.backgroundSize = `${boardWidth}px ${boardHeight}px`;
+      piece.style.backgroundPosition = `-${col * cellWidth}px -${row * cellHeight}px`;
+      cell.appendChild(piece);
+    } else if (isLocked) {
+      cell.classList.add('locked');
+      cell.textContent = '?';
+    } else {
+      // Unsolved and unlocked, goes to tray
+      trayUnsolved.push(i);
+    }
+    
+    boardEl.appendChild(cell);
+  }
+  
+  // Render tray pieces
+  const trayEl = document.getElementById('puzzle-tray');
+  if (!trayEl) return;
+  trayEl.innerHTML = '';
+  
+  if (trayUnsolved.length === 0) {
+    if (solved.length === totalPieces) {
+      trayEl.innerHTML = '<div style="color: var(--color-accent); font-weight: bold; padding: 20px;">✨ 拼圖完成！太棒了 🕊️</div>';
+    } else if (unlockedCount === 0) {
+      trayEl.innerHTML = '<div style="color: var(--color-text-sub); padding: 20px;">🔒 今日尚未登入解鎖，請先抽籤</div>';
+    } else {
+      trayEl.innerHTML = '<div style="color: var(--color-text-sub); padding: 20px;">🎉 已放置所有可用碎片！</div>';
+    }
+  } else {
+    // Shuffle unsnapped pieces
+    trayUnsolved.sort(() => Math.random() - 0.5);
+    
+    trayUnsolved.forEach(index => {
+      const col = index % puzzle.cols;
+      const row = Math.floor(index / puzzle.cols);
+      
+      const piece = document.createElement('div');
+      piece.className = 'puzzle-piece';
+      piece.id = `piece-${activePuzzleId}-${index}`;
+      piece.style.width = cellWidth + 'px';
+      piece.style.height = cellHeight + 'px';
+      piece.style.backgroundImage = `url(${puzzle.image})`;
+      piece.style.backgroundSize = `${boardWidth}px ${boardHeight}px`;
+      piece.style.backgroundPosition = `-${col * cellWidth}px -${row * cellHeight}px`;
+      
+      const slotEl = document.getElementById(`slot-${activePuzzleId}-${index}`);
+      if (slotEl) {
+        setupPointerDragging(piece, slotEl, index);
+      }
+      
+      trayEl.appendChild(piece);
+    });
+  }
+}
+
+// Unified mobile-friendly Pointer Events dragging
+function setupPointerDragging(pieceEl, slotEl, index) {
+  let isDragging = false;
+  let startX = 0;
+  let startY = 0;
+  let elStartX = 0;
+  let elStartY = 0;
+  
+  pieceEl.addEventListener('pointerdown', (e) => {
+    // Only drag on left click or touch
+    if (e.button !== 0 && e.pointerType === 'mouse') return;
+    
+    isDragging = true;
+    pieceEl.setPointerCapture(e.pointerId);
+    
+    startX = e.clientX;
+    startY = e.clientY;
+    
+    pieceEl.style.zIndex = 1000;
+    
+    const rect = pieceEl.getBoundingClientRect();
+    elStartX = rect.left;
+    elStartY = rect.top;
+    
+    // Position fixed to allow dragging outside layout boundaries
+    pieceEl.style.position = 'fixed';
+    pieceEl.style.left = elStartX + 'px';
+    pieceEl.style.top = elStartY + 'px';
+    pieceEl.style.margin = '0';
+  });
+  
+  pieceEl.addEventListener('pointermove', (e) => {
+    if (!isDragging) return;
+    
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+    
+    pieceEl.style.left = (elStartX + dx) + 'px';
+    pieceEl.style.top = (elStartY + dy) + 'px';
+  });
+  
+  pieceEl.addEventListener('pointerup', (e) => {
+    if (!isDragging) return;
+    isDragging = false;
+    pieceEl.releasePointerCapture(e.pointerId);
+    
+    pieceEl.style.zIndex = '';
+    
+    // Check snap tolerance (Bounding rect comparing)
+    const rect = pieceEl.getBoundingClientRect();
+    const slotRect = slotEl.getBoundingClientRect();
+    
+    const dx = (rect.left + rect.width / 2) - (slotRect.left + slotRect.width / 2);
+    const dy = (rect.top + rect.height / 2) - (slotRect.top + slotRect.height / 2);
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    
+    if (distance < 45) { // 45px snap radius
+      // Snapped successfully!
+      const solved = getSolvedPieces(activePuzzleId);
+      if (!solved.includes(index)) {
+        solved.push(index);
+        saveSolvedPieces(activePuzzleId, solved);
+        
+        // Check complete
+        const puzzle = PUZZLE_LIST.find(p => p.id === activePuzzleId);
+        const total = puzzle.rows * puzzle.cols;
+        if (solved.length === total) {
+          triggerPuzzleCompletion(puzzle);
+        } else {
+          // Re-render to place piece on board cell
+          initPuzzleGame();
+        }
+      }
+    } else {
+      // Revert piece position to tray flow
+      pieceEl.style.position = '';
+      pieceEl.style.left = '';
+      pieceEl.style.top = '';
+      pieceEl.style.margin = '';
+    }
+  });
+}
+
+function triggerPuzzleCompletion(puzzle) {
+  const progress = getPuzzleProgress();
+  const medals = getPuzzleMedals();
+  const dates = getPuzzleMedalDates();
+  
+  const isFirstTime = !progress[puzzle.id] || !progress[puzzle.id].completed;
+  
+  // Set completed progress state
+  if (!progress[puzzle.id]) {
+    progress[puzzle.id] = { unlockedCount: puzzle.rows * puzzle.cols, completed: true };
+  } else {
+    progress[puzzle.id].completed = true;
+  }
+  savePuzzleProgress(progress);
+  
+  if (isFirstTime) {
+    // Grant medal
+    if (!medals.includes(puzzle.id)) {
+      medals.push(puzzle.id);
+      savePuzzleMedals(medals);
+    }
+    
+    // Save earned date
+    const today = new Date();
+    dates[puzzle.id] = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+    savePuzzleMedalDates(dates);
+  }
+  
+  // Trigger UI celebration modal
+  const overlay = document.getElementById('puzzle-celebration-overlay');
+  const descEl = document.getElementById('celebration-desc');
+  const iconEl = document.getElementById('celebration-medal-icon');
+  const nameEl = document.getElementById('celebration-medal-name');
+  
+  if (descEl) descEl.textContent = `你已成功拼出《${puzzle.name}》拼圖！`;
+  if (iconEl) iconEl.textContent = puzzle.medalIcon;
+  if (nameEl) nameEl.textContent = puzzle.medalName;
+  
+  if (overlay) {
+    overlay.classList.add('show');
+  }
+  
+  // Refresh layout
+  initPuzzleGame();
+}
+
+// Setup static event bindings on document load
+function setupPuzzleBindings() {
+  // Selector buttons
+  document.querySelectorAll('.puzzle-sel-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.getAttribute('data-id');
+      if (id && id !== activePuzzleId) {
+        activePuzzleId = id;
+        initPuzzleGame();
+      }
+    });
+  });
+  
+  // Reset button
+  const resetBtn = document.getElementById('puzzle-reset-btn');
+  if (resetBtn) {
+    resetBtn.addEventListener('click', () => {
+      if (confirm('確定要重新挑戰嗎？這將會清除您本張拼圖的放置記錄，重置待放置碎片。')) {
+        saveSolvedPieces(activePuzzleId, []);
+        initPuzzleGame();
+      }
+    });
+  }
+  
+  // Dismiss celebration card
+  const dismissBtn = document.getElementById('celebration-dismiss-btn');
+  if (dismissBtn) {
+    dismissBtn.addEventListener('click', () => {
+      const overlay = document.getElementById('puzzle-celebration-overlay');
+      if (overlay) overlay.classList.remove('show');
+    });
+  }
+}
+
+// Decorator pattern on load initialization
+(function() {
+  const originalInit = initializeApp;
+  initializeApp = async function() {
+    await originalInit();
+    setupPuzzleBindings();
+  };
+})();

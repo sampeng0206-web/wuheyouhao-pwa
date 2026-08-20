@@ -898,7 +898,10 @@ async function initializeApp() {
 }
 
 // 監聽 DOM 載入
-document.addEventListener('DOMContentLoaded', initializeApp);
+document.addEventListener('DOMContentLoaded', async () => {
+  await initializeApp();
+  setupPuzzleBindings();
+});
 
 // ==========================================
 // 小鶴拼圖 邏輯與控制器
@@ -1345,12 +1348,3 @@ function setupPuzzleBindings() {
     });
   }
 }
-
-// Decorator pattern on load initialization
-(function() {
-  const originalInit = initializeApp;
-  initializeApp = async function() {
-    await originalInit();
-    setupPuzzleBindings();
-  };
-})();

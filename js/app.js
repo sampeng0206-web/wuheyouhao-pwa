@@ -1202,6 +1202,37 @@ function generatePuzzleClipPaths(puzzle) {
   container.innerHTML = svgContent;
 }
 
+// Deterministic Random Unlocked Indices Generator based on Puzzle ID and unlockedCount
+function getUnlockedIndices(puzzle, unlockedCount) {
+  const total = puzzle.rows * puzzle.cols;
+  const indices = Array.from({ length: total }, (_, i) => i);
+  
+  function hash(str) {
+    let h = 0;
+    for (let i = 0; i < str.length; i++) {
+      h = (h << 5) - h + str.charCodeAt(i);
+      h |= 0;
+    }
+    return h;
+  }
+  
+  let seed = hash(puzzle.id);
+  function random() {
+    let x = Math.sin(seed++) * 10000;
+    return x - Math.floor(x);
+  }
+  
+  // Fisher-Yates shuffle using deterministic random LCG
+  for (let i = indices.length - 1; i > 0; i--) {
+    const j = Math.floor(random() * (i + 1));
+    const temp = indices[i];
+    indices[i] = indices[j];
+    indices[j] = temp;
+  }
+  
+  return indices.slice(0, unlockedCount);
+}
+
 // Initialize active Jigsaw game
 function initPuzzleGame() {
   const progress = getPuzzleProgress();
@@ -1212,6 +1243,7 @@ function initPuzzleGame() {
   
   const totalPieces = puzzle.rows * puzzle.cols;
   const unlockedCount = progress[activePuzzleId] ? progress[activePuzzleId].unlockedCount : 0;
+  const unlockedIndices = getUnlockedIndices(puzzle, unlockedCount);
   const solved = getSolvedPieces(activePuzzleId);
   const completed = progress[activePuzzleId] ? progress[activePuzzleId].completed : false;
   
@@ -1271,8 +1303,8 @@ function initPuzzleGame() {
   for (let i = 0; i < totalPieces; i++) {
     const col = i % puzzle.cols;
     const row = Math.floor(i / puzzle.cols);
-    const isLocked = i >= unlockedCount;
-    const isSolved = solved.includes(i);
+    const isLocked = !unlockedIndices.includes(i);
+    const isSolved = solved.includes(i) && unlockedIndices.includes(i);
     
     const cell = document.createElement('div');
     cell.className = 'puzzle-cell';

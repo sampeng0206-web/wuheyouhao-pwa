@@ -1242,10 +1242,11 @@ function initPuzzleGame() {
   generatePuzzleClipPaths(puzzle);
   
   const totalPieces = puzzle.rows * puzzle.cols;
-  const unlockedCount = progress[activePuzzleId] ? progress[activePuzzleId].unlockedCount : 0;
-  const unlockedIndices = getUnlockedIndices(puzzle, unlockedCount);
-  const solved = getSolvedPieces(activePuzzleId);
-  const completed = progress[activePuzzleId] ? progress[activePuzzleId].completed : false;
+  const isDebug = new URLSearchParams(window.location.search).get('debug') === '1';
+  const unlockedCount = isDebug ? totalPieces : (progress[activePuzzleId] ? progress[activePuzzleId].unlockedCount : 0);
+  const unlockedIndices = isDebug ? Array.from({ length: totalPieces }, (_, i) => i) : getUnlockedIndices(puzzle, unlockedCount);
+  const solved = isDebug ? Array.from({ length: totalPieces }, (_, i) => i) : getSolvedPieces(activePuzzleId);
+  const completed = isDebug ? true : (progress[activePuzzleId] ? progress[activePuzzleId].completed : false);
   
   // Render selector badges
   PUZZLE_LIST.forEach(p => {
@@ -1261,7 +1262,7 @@ function initPuzzleGame() {
       }
       
       const pProg = progress[p.id];
-      if (pProg && pProg.completed) {
+      if (isDebug || (pProg && pProg.completed)) {
         badgeEl.textContent = '🏅';
       } else {
         const unl = pProg ? pProg.unlockedCount : 0;

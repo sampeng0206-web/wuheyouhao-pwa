@@ -1331,7 +1331,7 @@ function initPuzzleGame() {
       
       piece.style.backgroundImage = `url(${puzzle.image})`;
       piece.style.backgroundSize = `${boardWidth}px ${boardHeight}px`;
-      piece.style.backgroundPosition = `-${col * cellWidth - offsetW}px -${row * cellHeight - offsetH}px`;
+      piece.style.backgroundPosition = `${offsetW - col * cellWidth}px ${offsetH - row * cellHeight}px`;
       cell.appendChild(piece);
     } else if (isLocked) {
       cell.classList.add('locked');
@@ -1389,7 +1389,7 @@ function initPuzzleGame() {
       
       piece.style.backgroundImage = `url(${puzzle.image})`;
       piece.style.backgroundSize = `${boardWidth}px ${boardHeight}px`;
-      piece.style.backgroundPosition = `-${col * cellWidth - offsetW}px -${row * cellHeight - offsetH}px`;
+      piece.style.backgroundPosition = `${offsetW - col * cellWidth}px ${offsetH - row * cellHeight}px`;
       
       const slotEl = document.getElementById(`slot-${activePuzzleId}-${index}`);
       if (slotEl) {

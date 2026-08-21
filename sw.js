@@ -1,9 +1,9 @@
-const CACHE_NAME = 'wuheyouhao-v31';
+const CACHE_NAME = 'wuheyouhao-v32';
 const urlsToCache = [
   './',
   './index.html',
   './css/style.css?v=16',
-  './js/app.js?v=17',
+  './js/app.js?v=18',
   './data/fortunes.json',
   './audio/youhao.mp3',
   './images/crane_front_v2.jpg',

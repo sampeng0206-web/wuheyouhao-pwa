@@ -743,6 +743,12 @@ function setupNavigation() {
   if (adBackBtn) adBackBtn.addEventListener('click', () => showPage('main'));
   if (compositionBackBtn) compositionBackBtn.addEventListener('click', () => showPage('main'));
   if (contactBackBtn) contactBackBtn.addEventListener('click', () => showPage('main'));
+  
+  // 偵錯模式下自動跳轉至拼圖頁面
+  const isDebug = new URLSearchParams(window.location.search).get('debug') === '1';
+  if (isDebug) {
+    showPage('puzzle');
+  }
 }
 
 // ----------------------------------------------------

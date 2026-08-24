@@ -711,6 +711,17 @@ function setupNavigation() {
       if (gamePage) gamePage.classList.add('active');
     } else if (pageId === 'puzzle') {
       if (puzzlePage) puzzlePage.classList.add('active');
+      // Auto-select first incomplete puzzle if the current active one is completed
+      const progress = getPuzzleProgress();
+      const currentProg = progress[activePuzzleId];
+      if (currentProg && currentProg.completed) {
+        for (let p of PUZZLE_LIST) {
+          if (!progress[p.id] || !progress[p.id].completed) {
+            activePuzzleId = p.id;
+            break;
+          }
+        }
+      }
       initPuzzleGame();
     } else if (pageId === 'ad') {
       if (adPage) adPage.classList.add('active');
@@ -1141,19 +1152,19 @@ function generateEdge(p1, p2, type) {
   }
   
   const pts = [
-    getPoint(p1, p2, 0.38, 0, type),
-    getPoint(p1, p2, 0.38, 0.05, type),
-    getPoint(p1, p2, 0.42, 0.09, type),
-    getPoint(p1, p2, 0.44, 0.09, type),
-    getPoint(p1, p2, 0.46, 0.09, type),
-    getPoint(p1, p2, 0.46, 0.13, type),
-    getPoint(p1, p2, 0.50, 0.13, type),
-    getPoint(p1, p2, 0.54, 0.13, type),
-    getPoint(p1, p2, 0.54, 0.09, type),
-    getPoint(p1, p2, 0.56, 0.09, type),
-    getPoint(p1, p2, 0.58, 0.09, type),
-    getPoint(p1, p2, 0.62, 0.05, type),
-    getPoint(p1, p2, 0.62, 0, type)
+    getPoint(p1, p2, 0.31, 0, type),
+    getPoint(p1, p2, 0.31, 0.04, type),
+    getPoint(p1, p2, 0.38, 0.045, type),
+    getPoint(p1, p2, 0.42, 0.045, type),
+    getPoint(p1, p2, 0.32, 0.045, type),
+    getPoint(p1, p2, 0.28, 0.145, type),
+    getPoint(p1, p2, 0.50, 0.145, type),
+    getPoint(p1, p2, 0.72, 0.145, type),
+    getPoint(p1, p2, 0.68, 0.045, type),
+    getPoint(p1, p2, 0.58, 0.045, type),
+    getPoint(p1, p2, 0.62, 0.045, type),
+    getPoint(p1, p2, 0.69, 0.045, type),
+    getPoint(p1, p2, 0.69, 0, type)
   ];
   
   return ` L ${pts[0].x.toFixed(4)} ${pts[0].y.toFixed(4)}` +
@@ -1292,7 +1303,10 @@ function initPuzzleGame() {
   const boardEl = document.getElementById('puzzle-board');
   if (!boardEl) return;
   
-  const parentWidth = boardEl.parentElement.clientWidth || 320;
+  let parentWidth = boardEl.parentElement.clientWidth;
+  if (!parentWidth || parentWidth < 100) {
+    parentWidth = 352; // Fallback so that boardWidth becomes exactly 320px
+  }
   const boardWidth = Math.min(parentWidth - 32, 320); // padding safe
   const boardHeight = boardWidth * (puzzle.rows / puzzle.cols);
   

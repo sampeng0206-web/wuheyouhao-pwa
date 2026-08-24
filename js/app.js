@@ -847,6 +847,15 @@ function handleDraw() {
 
 // 頁面載入初始化
 async function initializeApp() {
+  // Reset puzzle rules and progress if not done yet to prevent data conflicts
+  if (!localStorage.getItem('puzzleRulesV2Reset')) {
+    localStorage.removeItem('puzzleProgress');
+    localStorage.removeItem('puzzleSolvedPieces');
+    localStorage.removeItem('puzzleMedals');
+    localStorage.removeItem('puzzleMedalDates');
+    localStorage.setItem('puzzleRulesV2Reset', 'true');
+  }
+
   setupNavigation();
   setupSlidingBook();
   
@@ -951,6 +960,60 @@ const PUZZLE_LIST = [
     cols: 3,
     medalName: '香積之石勳章',
     medalIcon: '🪨'
+  },
+  {
+    id: 'puzzle_kiispring_dog',
+    name: '古伊石畔與黑狗',
+    image: 'images/puzzle_kiispring_dog.jpg',
+    rows: 3,
+    cols: 4,
+    medalName: '石畔忠犬勳章',
+    medalIcon: '🐕'
+  },
+  {
+    id: 'puzzle_pond',
+    name: '生態水塘',
+    image: 'images/puzzle_pond.jpg',
+    rows: 3,
+    cols: 4,
+    medalName: '生態水塘勳章',
+    medalIcon: '🍀'
+  },
+  {
+    id: 'puzzle_waterfall',
+    name: '山中瀑布',
+    image: 'images/puzzle_waterfall.jpg',
+    rows: 4,
+    cols: 2,
+    medalName: '山谷瀑布勳章',
+    medalIcon: '🏞️'
+  },
+  {
+    id: 'puzzle_bird',
+    name: '飛羽精靈',
+    image: 'images/puzzle_bird.jpg',
+    rows: 3,
+    cols: 3,
+    medalName: '飛羽精靈勳章',
+    medalIcon: '🐦'
+  },
+  {
+    id: 'puzzle_xiangji_stone2',
+    name: '香積石碑近照',
+    image: 'images/puzzle_xiangji_stone2.jpg',
+    rows: 4,
+    cols: 3,
+    medalName: '香積石刻勳章',
+    medalIcon: '🗿'
+  },
+  {
+    id: 'puzzle_xiangji_stone3',
+    name: '香積石碑遠景',
+    image: 'images/puzzle_xiangji_stone3.jpg',
+    rows: 3,
+    cols: 4,
+    medalName: '香積禪意勳章',
+    medalIcon: '⛩️'
   }
 ];
 
@@ -960,7 +1023,13 @@ function getPuzzleProgress() {
   const defaultProgress = {
     "wuhe_crane": { "unlockedCount": 0, "completed": false },
     "kiispring": { "unlockedCount": 0, "completed": false },
-    "xiangji_stone": { "unlockedCount": 0, "completed": false }
+    "xiangji_stone": { "unlockedCount": 0, "completed": false },
+    "puzzle_kiispring_dog": { "unlockedCount": 0, "completed": false },
+    "puzzle_pond": { "unlockedCount": 0, "completed": false },
+    "puzzle_waterfall": { "unlockedCount": 0, "completed": false },
+    "puzzle_bird": { "unlockedCount": 0, "completed": false },
+    "puzzle_xiangji_stone2": { "unlockedCount": 0, "completed": false },
+    "puzzle_xiangji_stone3": { "unlockedCount": 0, "completed": false }
   };
   return JSON.parse(localStorage.getItem('puzzleProgress')) || defaultProgress;
 }
@@ -1016,13 +1085,13 @@ function unlockPuzzlePiecesForToday() {
   let currentUnlocked = progress[activeId] ? progress[activeId].unlockedCount : 0;
   
   if (currentUnlocked < maxPieces) {
-    let newUnlocked = Math.min(currentUnlocked + 3, maxPieces);
+    let newUnlocked = maxPieces;
     if (!progress[activeId]) {
       progress[activeId] = { unlockedCount: 0, completed: false };
     }
     progress[activeId].unlockedCount = newUnlocked;
     savePuzzleProgress(progress);
-    console.log(`[Puzzle] Unlocked +3 pieces for ${activeId}. New: ${newUnlocked}/${maxPieces}`);
+    console.log(`[Puzzle] Unlocked all pieces for ${activeId}. New: ${newUnlocked}/${maxPieces}`);
   }
 }
 

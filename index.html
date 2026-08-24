@@ -24,7 +24,7 @@
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js?v=12')
+        navigator.serviceWorker.register('sw.js?v=13')
           .then(reg => console.log('Service Worker 註冊成功:', reg.scope))
           .catch(err => console.log('Service Worker 註冊失敗:', err));
       });
@@ -32,7 +32,7 @@
   </script>
   
   <!-- 引入邏輯腳本 -->
-  <script src="js/app.js?v=19" defer></script>
+  <script src="js/app.js?v=20" defer></script>
 </head>
 <body>
 
@@ -793,6 +793,30 @@
           <button class="puzzle-sel-btn" data-id="xiangji_stone">
             香積
             <div class="puzzle-badge" id="badge-xiangji_stone">0/12</div>
+          </button>
+          <button class="puzzle-sel-btn" data-id="puzzle_kiispring_dog">
+            古伊石畔與黑狗
+            <div class="puzzle-badge" id="badge-puzzle_kiispring_dog">0/12</div>
+          </button>
+          <button class="puzzle-sel-btn" data-id="puzzle_pond">
+            生態水塘
+            <div class="puzzle-badge" id="badge-puzzle_pond">0/12</div>
+          </button>
+          <button class="puzzle-sel-btn" data-id="puzzle_waterfall">
+            山中瀑布
+            <div class="puzzle-badge" id="badge-puzzle_waterfall">0/8</div>
+          </button>
+          <button class="puzzle-sel-btn" data-id="puzzle_bird">
+            飛羽精靈
+            <div class="puzzle-badge" id="badge-puzzle_bird">0/9</div>
+          </button>
+          <button class="puzzle-sel-btn" data-id="puzzle_xiangji_stone2">
+            香積石碑近照
+            <div class="puzzle-badge" id="badge-puzzle_xiangji_stone2">0/12</div>
+          </button>
+          <button class="puzzle-sel-btn" data-id="puzzle_xiangji_stone3">
+            香積石碑遠景
+            <div class="puzzle-badge" id="badge-puzzle_xiangji_stone3">0/12</div>
           </button>
         </div>
 

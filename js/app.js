@@ -854,13 +854,6 @@ async function initializeApp() {
     localStorage.removeItem('puzzleMedals');
     localStorage.removeItem('puzzleMedalDates');
     localStorage.setItem('puzzleRulesV3Reset', 'true');
-    
-    // 如果今天已經打卡過，因為重置清空了進度，必須立刻重新解鎖今天的拼圖，避免今日無法遊玩
-    const lastCheckInStr = localStorage.getItem('lastCheckInDate');
-    const todayStr = formatDate(new Date());
-    if (lastCheckInStr === todayStr) {
-      unlockPuzzlePiecesForToday();
-    }
   }
 
   setupNavigation();
@@ -1372,7 +1365,36 @@ function getUnlockedIndices(puzzle, unlockedCount) {
 
 // Initialize active Jigsaw game
 function initPuzzleGame() {
-  const progress = getPuzzleProgress();
+  let progress = getPuzzleProgress();
+  
+  // Auto-healing: 如果今天已經打卡過，且當前進行的拼圖解鎖數為 0，且今天未完成過任何拼圖，則自動解鎖當前拼圖以防止死鎖
+  const lastCheckInStr = localStorage.getItem('lastCheckInDate');
+  const todayStr = formatDate(new Date());
+  if (lastCheckInStr === todayStr) {
+    let activeId = null;
+    let activePuzzle = null;
+    for (let p of PUZZLE_LIST) {
+      if (!progress[p.id] || !progress[p.id].completed) {
+        activeId = p.id;
+        activePuzzle = p;
+        break;
+      }
+    }
+    if (activeId && (!progress[activeId] || progress[activeId].unlockedCount === 0)) {
+      const dates = getPuzzleMedalDates();
+      const completedToday = Object.values(dates).includes(todayStr);
+      if (!completedToday) {
+        if (!progress[activeId]) {
+          progress[activeId] = { unlockedCount: 0, completed: false };
+        }
+        progress[activeId].unlockedCount = activePuzzle.rows * activePuzzle.cols;
+        savePuzzleProgress(progress);
+        console.log(`[Puzzle Auto-Heal] Recovered unlocked pieces for ${activeId}`);
+        progress = getPuzzleProgress(); // Reload progress after healing
+      }
+    }
+  }
+
   const puzzle = PUZZLE_LIST.find(p => p.id === activePuzzleId);
   if (!puzzle) return;
   

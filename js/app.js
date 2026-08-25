@@ -953,11 +953,11 @@ const PUZZLE_LIST = [
   },
   {
     id: 'xiangji_stone',
-    name: '香積',
+    name: '香積園',
     image: 'images/puzzle_xiangji_stone.jpg',
     rows: 4,
     cols: 3,
-    medalName: '香積之石勳章',
+    medalName: '香積園之石勳章',
     medalIcon: '🪨'
   },
   {
@@ -1492,7 +1492,7 @@ function initPuzzleGame() {
     if (solved.length === totalPieces) {
       trayEl.innerHTML = '<div style="color: var(--color-accent); font-weight: bold; padding: 20px;">✨ 拼圖完成！太棒了 🕊️</div>';
     } else if (unlockedCount === 0) {
-      trayEl.innerHTML = '<div style="color: var(--color-text-sub); padding: 20px;">🔒 今日尚未登入解鎖，請先抽籤</div>';
+      trayEl.innerHTML = '<div style="color: var(--color-text-sub); padding: 20px;">🔒 請先完成前一張拼圖，才能解鎖這一張</div>';
     } else {
       trayEl.innerHTML = '<div style="color: var(--color-text-sub); padding: 20px;">🎉 已放置所有可用碎片！</div>';
     }

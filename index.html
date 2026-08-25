@@ -18,13 +18,13 @@
   <link rel="apple-touch-icon" href="images/icons/icon-192.png?v=5">
   
   <!-- 引入樣式表 -->
-  <link rel="stylesheet" href="css/style.css?v=19">
+  <link rel="stylesheet" href="css/style.css?v=20">
   
   <!-- 註冊 Service Worker -->
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js?v=16')
+        navigator.serviceWorker.register('sw.js?v=17')
           .then(reg => console.log('Service Worker 註冊成功:', reg.scope))
           .catch(err => console.log('Service Worker 註冊失敗:', err));
       });
@@ -32,7 +32,7 @@
   </script>
   
   <!-- 引入邏輯腳本 -->
-  <script src="js/app.js?v=23" defer></script>
+  <script src="js/app.js?v=24" defer></script>
 </head>
 <body>
 
@@ -783,7 +783,7 @@
         <!-- 拼圖切換選擇欄 -->
         <div class="puzzle-selector">
           <button class="puzzle-sel-btn active" data-id="wuhe_crane">
-            <span class="puzzle-name">舞鶴</span>
+            <span class="puzzle-name">舞鶴~坤母</span>
             <div class="puzzle-badge" id="badge-wuhe_crane">0/12</div>
           </button>
           <button class="puzzle-sel-btn" data-id="kiispring">
@@ -830,11 +830,15 @@
             <span class="puzzle-name">舞鶴山頂彩虹橋</span>
             <div class="puzzle-badge" id="badge-puzzle_mountain_rainbow">0/8</div>
           </button>
+          <button class="puzzle-sel-btn" data-id="puzzle_wuhe_qiangong">
+            <span class="puzzle-name">舞鶴~乾公</span>
+            <div class="puzzle-badge" id="badge-puzzle_wuhe_qiangong">0/12</div>
+          </button>
         </div>
 
         <!-- 拼圖挑戰資訊卡 -->
         <div class="puzzle-info-card">
-          <h3 class="puzzle-info-title" id="puzzle-info-title">《舞鶴》拼圖挑戰</h3>
+          <h3 class="puzzle-info-title" id="puzzle-info-title">《舞鶴~坤母》拼圖挑戰</h3>
           <p class="puzzle-info-progress" id="puzzle-info-progress">目前進度：已解鎖 0/12 片</p>
         </div>
 

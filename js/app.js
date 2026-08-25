@@ -936,11 +936,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 const PUZZLE_LIST = [
   {
     id: 'wuhe_crane',
-    name: '舞鶴',
+    name: '舞鶴~坤母',
     image: 'images/puzzle_wuhe_crane.jpg',
     rows: 4,
     cols: 3,
-    medalName: '舞鶴之金勳章',
+    medalName: '舞鶴坤母勳章',
     medalIcon: '🕊️'
   },
   {
@@ -1041,6 +1041,15 @@ const PUZZLE_LIST = [
     cols: 4,
     medalName: '彩虹橋勳章',
     medalIcon: '🌈'
+  },
+  {
+    id: 'puzzle_wuhe_qiangong',
+    name: '舞鶴~乾公',
+    image: 'images/puzzle_wuhe_qiangong.jpg',
+    rows: 4,
+    cols: 3,
+    medalName: '舞鶴乾公勳章',
+    medalIcon: '🦅'
   }
 ];
 
@@ -1059,7 +1068,8 @@ function getPuzzleProgress() {
     "puzzle_xiangji_stone3": { "unlockedCount": 0, "completed": false },
     "puzzle_xiangji_fayin_stone": { "unlockedCount": 0, "completed": false },
     "puzzle_kiispring_new": { "unlockedCount": 0, "completed": false },
-    "puzzle_mountain_rainbow": { "unlockedCount": 0, "completed": false }
+    "puzzle_mountain_rainbow": { "unlockedCount": 0, "completed": false },
+    "puzzle_wuhe_qiangong": { "unlockedCount": 0, "completed": false }
   };
   const stored = JSON.parse(localStorage.getItem('puzzleProgress'));
   if (stored) {

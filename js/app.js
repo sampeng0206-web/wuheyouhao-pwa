@@ -1049,6 +1049,15 @@ const PUZZLE_LIST = [
     cols: 3,
     medalName: '舞鶴乾公勳章',
     medalIcon: '🦅'
+  },
+  {
+    id: 'puzzle_yushan',
+    name: '日照金山',
+    image: 'images/puzzle_yushan.png',
+    rows: 3,
+    cols: 4,
+    medalName: '金山勳章',
+    medalIcon: '🏔️'
   }
 ];
 
@@ -1068,7 +1077,8 @@ function getPuzzleProgress() {
     "puzzle_xiangji_fayin_stone": { "unlockedCount": 0, "completed": false },
     "puzzle_kiispring_new": { "unlockedCount": 0, "completed": false },
     "puzzle_mountain_rainbow": { "unlockedCount": 0, "completed": false },
-    "puzzle_wuhe_qiangong": { "unlockedCount": 0, "completed": false }
+    "puzzle_wuhe_qiangong": { "unlockedCount": 0, "completed": false },
+    "puzzle_yushan": { "unlockedCount": 0, "completed": false }
   };
   const stored = JSON.parse(localStorage.getItem('puzzleProgress'));
   if (stored) {

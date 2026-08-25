@@ -18,13 +18,13 @@
   <link rel="apple-touch-icon" href="images/icons/icon-192.png?v=5">
   
   <!-- 引入樣式表 -->
-  <link rel="stylesheet" href="css/style.css?v=23">
+  <link rel="stylesheet" href="css/style.css?v=25">
   
   <!-- 註冊 Service Worker -->
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js?v=20')
+        navigator.serviceWorker.register('sw.js?v=22')
           .then(reg => console.log('Service Worker 註冊成功:', reg.scope))
           .catch(err => console.log('Service Worker 註冊失敗:', err));
       });
@@ -32,7 +32,7 @@
   </script>
   
   <!-- 引入邏輯腳本 -->
-  <script src="js/app.js?v=27" defer></script>
+  <script src="js/app.js?v=29" defer></script>
 </head>
 <body>
 
@@ -833,6 +833,10 @@
           <button class="puzzle-sel-btn" data-id="puzzle_wuhe_qiangong">
             <span class="puzzle-name">舞鶴~乾公</span>
             <div class="puzzle-badge" id="badge-puzzle_wuhe_qiangong">0/12</div>
+          </button>
+          <button class="puzzle-sel-btn" data-id="puzzle_yushan">
+            <span class="puzzle-name">日照金山</span>
+            <div class="puzzle-badge" id="badge-puzzle_yushan">0/12</div>
           </button>
         </div>
 

@@ -848,12 +848,12 @@ function handleDraw() {
 // 頁面載入初始化
 async function initializeApp() {
   // Reset puzzle rules and progress if not done yet to prevent data conflicts
-  if (!localStorage.getItem('puzzleRulesV2Reset')) {
+  if (!localStorage.getItem('puzzleRulesV3Reset')) {
     localStorage.removeItem('puzzleProgress');
     localStorage.removeItem('puzzleSolvedPieces');
     localStorage.removeItem('puzzleMedals');
     localStorage.removeItem('puzzleMedalDates');
-    localStorage.setItem('puzzleRulesV2Reset', 'true');
+    localStorage.setItem('puzzleRulesV3Reset', 'true');
   }
 
   setupNavigation();

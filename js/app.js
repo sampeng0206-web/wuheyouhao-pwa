@@ -854,6 +854,13 @@ async function initializeApp() {
     localStorage.removeItem('puzzleMedals');
     localStorage.removeItem('puzzleMedalDates');
     localStorage.setItem('puzzleRulesV3Reset', 'true');
+    
+    // 如果今天已經打卡過，因為重置清空了進度，必須立刻重新解鎖今天的拼圖，避免今日無法遊玩
+    const lastCheckInStr = localStorage.getItem('lastCheckInDate');
+    const todayStr = formatDate(new Date());
+    if (lastCheckInStr === todayStr) {
+      unlockPuzzlePiecesForToday();
+    }
   }
 
   setupNavigation();

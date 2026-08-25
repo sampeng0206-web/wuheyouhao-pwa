@@ -945,11 +945,11 @@ const PUZZLE_LIST = [
   },
   {
     id: 'kiispring',
-    name: '古伊之泉',
+    name: '古伊之泉碑',
     image: 'images/map_kiispring_new_3.jpg',
     rows: 3,
     cols: 3,
-    medalName: '古伊之泉湧泉勳章',
+    medalName: '古伊之泉碑勳章',
     medalIcon: '⛲'
   },
   {
@@ -1008,11 +1008,11 @@ const PUZZLE_LIST = [
   },
   {
     id: 'puzzle_xiangji_stone3',
-    name: '香積園法印石',
+    name: '香積石',
     image: 'images/puzzle_xiangji_stone3.jpg',
     rows: 3,
     cols: 4,
-    medalName: '香積法印勳章',
+    medalName: '香積石勳章',
     medalIcon: '⛩️'
   },
   {

@@ -18,13 +18,13 @@
   <link rel="apple-touch-icon" href="images/icons/icon-192.png?v=5">
   
   <!-- 引入樣式表 -->
-  <link rel="stylesheet" href="css/style.css?v=17">
+  <link rel="stylesheet" href="css/style.css?v=18">
   
   <!-- 註冊 Service Worker -->
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js?v=14')
+        navigator.serviceWorker.register('sw.js?v=15')
           .then(reg => console.log('Service Worker 註冊成功:', reg.scope))
           .catch(err => console.log('Service Worker 註冊失敗:', err));
       });
@@ -32,7 +32,7 @@
   </script>
   
   <!-- 引入邏輯腳本 -->
-  <script src="js/app.js?v=21" defer></script>
+  <script src="js/app.js?v=22" defer></script>
 </head>
 <body>
 
@@ -787,7 +787,7 @@
             <div class="puzzle-badge" id="badge-wuhe_crane">0/12</div>
           </button>
           <button class="puzzle-sel-btn" data-id="kiispring">
-            <span class="puzzle-name">古伊之泉</span>
+            <span class="puzzle-name">古伊之泉碑</span>
             <div class="puzzle-badge" id="badge-kiispring">0/9</div>
           </button>
           <button class="puzzle-sel-btn" data-id="xiangji_stone">
@@ -815,7 +815,7 @@
             <div class="puzzle-badge" id="badge-puzzle_xiangji_stone2">0/12</div>
           </button>
           <button class="puzzle-sel-btn" data-id="puzzle_xiangji_stone3">
-            <span class="puzzle-name">香積園法印石</span>
+            <span class="puzzle-name">香積石</span>
             <div class="puzzle-badge" id="badge-puzzle_xiangji_stone3">0/12</div>
           </button>
           <button class="puzzle-sel-btn" data-id="puzzle_xiangji_fayin_stone">

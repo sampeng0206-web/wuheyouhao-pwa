@@ -1,15 +1,15 @@
-const CACHE_NAME = 'wuheyouhao-v34';
+const CACHE_NAME = 'wuheyouhao-v35';
 const urlsToCache = [
   './',
   './index.html',
-  './css/style.css?v=16',
-  './js/app.js?v=20',
+  './css/style.css?v=17',
+  './js/app.js?v=21',
   './data/fortunes.json',
   './audio/youhao.mp3',
   './images/crane_front_v2.jpg',
   './images/crane_back_v2.png',
-  './images/icons/icon-192.png?v=4',
-  './images/icons/icon-512.png?v=4',
+  './images/icons/icon-192.png?v=5',
+  './images/icons/icon-512.png?v=5',
   './images/intro_bg_panorama_v2.png',
   './images/product_xiangji_books.jpg',
   './images/product_wuhe_cards.jpg',
@@ -51,7 +51,16 @@ const urlsToCache = [
   './images/product_bingsi_accessories.png',
   './images/product_wuhe_sachet.png',
   './images/puzzle_wuhe_crane.jpg',
-  './images/puzzle_xiangji_stone.jpg'
+  './images/puzzle_xiangji_stone.jpg',
+  './images/puzzle_kiispring_dog.jpg',
+  './images/puzzle_pond.jpg',
+  './images/puzzle_waterfall.jpg',
+  './images/puzzle_bird.jpg',
+  './images/puzzle_xiangji_stone2.jpg',
+  './images/puzzle_xiangji_stone3.jpg',
+  './images/puzzle_xiangji_fayin_stone.jpg',
+  './images/puzzle_kiispring_new.jpg',
+  './images/puzzle_mountain_rainbow.jpg'
 ];
 
 self.addEventListener('install', e => {

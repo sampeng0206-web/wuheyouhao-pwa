@@ -1895,26 +1895,37 @@ section {
 .puzzle-selector {
   display: flex;
   width: 100%;
-  justify-content: space-around;
-  margin-bottom: 20px;
+  overflow-x: auto;
   gap: 8px;
+  margin-bottom: 20px;
+  padding-bottom: 6px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+}
+
+.puzzle-selector::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
 
 .puzzle-sel-btn {
-  flex: 1;
+  flex: 0 0 52px;
   background-color: #FFFFFF;
   border: 1px solid var(--color-gold);
   border-radius: 8px;
-  padding: 10px 4px;
+  padding: 8px 2px;
   font-family: 'Noto Serif TC', serif;
-  font-size: 14px;
-  font-weight: 700;
   color: var(--color-text-main);
   cursor: pointer;
   transition: all 0.2s ease;
   text-align: center;
   box-shadow: 0 2px 6px rgba(44, 24, 16, 0.02);
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 95px;
+  box-sizing: border-box;
 }
 
 .puzzle-sel-btn:hover {
@@ -1928,11 +1939,36 @@ section {
   color: #FFFFFF;
 }
 
+.puzzle-name {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.2;
+  word-break: break-all;
+}
+
+/* Dynamic Font Sizes based on name length */
+.puzzle-sel-btn.len-8-up .puzzle-name {
+  font-size: 9.5px;
+}
+
+.puzzle-sel-btn.len-7 .puzzle-name {
+  font-size: 10.5px;
+}
+
+.puzzle-sel-btn.len-5-6 .puzzle-name {
+  font-size: 12px;
+}
+
 .puzzle-badge {
   font-size: 10px;
   font-weight: 600;
   color: var(--color-text-sub);
   margin-top: 2px;
+  flex-shrink: 0;
 }
 
 .puzzle-sel-btn.active .puzzle-badge {

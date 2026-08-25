@@ -10,21 +10,21 @@
   <meta name="keywords" content="今日舞鶴, PWA, 小鶴帶路, 每日抽籤, 山林智慧, 祥鶴牌, 有好收藏, 舞鶴地圖">
   
   <!-- PWA 設定 -->
-  <link rel="manifest" href="manifest.json?v=4">
+  <link rel="manifest" href="manifest.json?v=5">
   <meta name="theme-color" content="#D4A843">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="今日舞鶴">
-  <link rel="apple-touch-icon" href="images/icons/icon-192.png?v=4">
+  <link rel="apple-touch-icon" href="images/icons/icon-192.png?v=5">
   
   <!-- 引入樣式表 -->
-  <link rel="stylesheet" href="css/style.css?v=16">
+  <link rel="stylesheet" href="css/style.css?v=17">
   
   <!-- 註冊 Service Worker -->
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js?v=13')
+        navigator.serviceWorker.register('sw.js?v=14')
           .then(reg => console.log('Service Worker 註冊成功:', reg.scope))
           .catch(err => console.log('Service Worker 註冊失敗:', err));
       });
@@ -32,7 +32,7 @@
   </script>
   
   <!-- 引入邏輯腳本 -->
-  <script src="js/app.js?v=20" defer></script>
+  <script src="js/app.js?v=21" defer></script>
 </head>
 <body>
 
@@ -783,40 +783,52 @@
         <!-- 拼圖切換選擇欄 -->
         <div class="puzzle-selector">
           <button class="puzzle-sel-btn active" data-id="wuhe_crane">
-            舞鶴
+            <span class="puzzle-name">舞鶴</span>
             <div class="puzzle-badge" id="badge-wuhe_crane">0/12</div>
           </button>
           <button class="puzzle-sel-btn" data-id="kiispring">
-            古伊之泉
+            <span class="puzzle-name">古伊之泉</span>
             <div class="puzzle-badge" id="badge-kiispring">0/9</div>
           </button>
           <button class="puzzle-sel-btn" data-id="xiangji_stone">
-            香積
+            <span class="puzzle-name">香積</span>
             <div class="puzzle-badge" id="badge-xiangji_stone">0/12</div>
           </button>
           <button class="puzzle-sel-btn" data-id="puzzle_kiispring_dog">
-            古伊石畔與黑狗
+            <span class="puzzle-name">古伊之泉碑與小黑</span>
             <div class="puzzle-badge" id="badge-puzzle_kiispring_dog">0/12</div>
           </button>
           <button class="puzzle-sel-btn" data-id="puzzle_pond">
-            生態水塘
+            <span class="puzzle-name">香積園看虎頭山</span>
             <div class="puzzle-badge" id="badge-puzzle_pond">0/12</div>
           </button>
           <button class="puzzle-sel-btn" data-id="puzzle_waterfall">
-            山中瀑布
+            <span class="puzzle-name">撒固兒瀑布</span>
             <div class="puzzle-badge" id="badge-puzzle_waterfall">0/8</div>
           </button>
           <button class="puzzle-sel-btn" data-id="puzzle_bird">
-            飛羽精靈
+            <span class="puzzle-name">紅眼金背鳩</span>
             <div class="puzzle-badge" id="badge-puzzle_bird">0/9</div>
           </button>
           <button class="puzzle-sel-btn" data-id="puzzle_xiangji_stone2">
-            香積石碑近照
+            <span class="puzzle-name">香積如來心咒</span>
             <div class="puzzle-badge" id="badge-puzzle_xiangji_stone2">0/12</div>
           </button>
           <button class="puzzle-sel-btn" data-id="puzzle_xiangji_stone3">
-            香積石碑遠景
+            <span class="puzzle-name">香積園法印石</span>
             <div class="puzzle-badge" id="badge-puzzle_xiangji_stone3">0/12</div>
+          </button>
+          <button class="puzzle-sel-btn" data-id="puzzle_xiangji_fayin_stone">
+            <span class="puzzle-name">香積園法印石</span>
+            <div class="puzzle-badge" id="badge-puzzle_xiangji_fayin_stone">0/12</div>
+          </button>
+          <button class="puzzle-sel-btn" data-id="puzzle_kiispring_new">
+            <span class="puzzle-name">古伊之泉</span>
+            <div class="puzzle-badge" id="badge-puzzle_kiispring_new">0/12</div>
+          </button>
+          <button class="puzzle-sel-btn" data-id="puzzle_mountain_rainbow">
+            <span class="puzzle-name">舞鶴山頂彩虹橋</span>
+            <div class="puzzle-badge" id="badge-puzzle_mountain_rainbow">0/8</div>
           </button>
         </div>
 

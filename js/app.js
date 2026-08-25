@@ -963,57 +963,84 @@ const PUZZLE_LIST = [
   },
   {
     id: 'puzzle_kiispring_dog',
-    name: '古伊石畔與黑狗',
+    name: '古伊之泉碑與小黑',
     image: 'images/puzzle_kiispring_dog.jpg',
     rows: 3,
     cols: 4,
-    medalName: '石畔忠犬勳章',
+    medalName: '泉碑小黑勳章',
     medalIcon: '🐕'
   },
   {
     id: 'puzzle_pond',
-    name: '生態水塘',
+    name: '香積園看虎頭山',
     image: 'images/puzzle_pond.jpg',
     rows: 3,
     cols: 4,
-    medalName: '生態水塘勳章',
+    medalName: '虎頭山景勳章',
     medalIcon: '🍀'
   },
   {
     id: 'puzzle_waterfall',
-    name: '山中瀑布',
+    name: '撒固兒瀑布',
     image: 'images/puzzle_waterfall.jpg',
     rows: 4,
     cols: 2,
-    medalName: '山谷瀑布勳章',
+    medalName: '撒固兒瀑布勳章',
     medalIcon: '🏞️'
   },
   {
     id: 'puzzle_bird',
-    name: '飛羽精靈',
+    name: '紅眼金背鳩',
     image: 'images/puzzle_bird.jpg',
     rows: 3,
     cols: 3,
-    medalName: '飛羽精靈勳章',
+    medalName: '金背鳩勳章',
     medalIcon: '🐦'
   },
   {
     id: 'puzzle_xiangji_stone2',
-    name: '香積石碑近照',
+    name: '香積如來心咒',
     image: 'images/puzzle_xiangji_stone2.jpg',
     rows: 4,
     cols: 3,
-    medalName: '香積石刻勳章',
+    medalName: '香積心咒勳章',
     medalIcon: '🗿'
   },
   {
     id: 'puzzle_xiangji_stone3',
-    name: '香積石碑遠景',
+    name: '香積園法印石',
     image: 'images/puzzle_xiangji_stone3.jpg',
     rows: 3,
     cols: 4,
-    medalName: '香積禪意勳章',
+    medalName: '香積法印勳章',
     medalIcon: '⛩️'
+  },
+  {
+    id: 'puzzle_xiangji_fayin_stone',
+    name: '香積園法印石',
+    image: 'images/puzzle_xiangji_fayin_stone.jpg',
+    rows: 3,
+    cols: 4,
+    medalName: '法印石勳章',
+    medalIcon: '🪨'
+  },
+  {
+    id: 'puzzle_kiispring_new',
+    name: '古伊之泉',
+    image: 'images/puzzle_kiispring_new.jpg',
+    rows: 3,
+    cols: 4,
+    medalName: '古伊之泉勳章',
+    medalIcon: '⛲'
+  },
+  {
+    id: 'puzzle_mountain_rainbow',
+    name: '舞鶴山頂彩虹橋',
+    image: 'images/puzzle_mountain_rainbow.jpg',
+    rows: 2,
+    cols: 4,
+    medalName: '彩虹橋勳章',
+    medalIcon: '🌈'
   }
 ];
 
@@ -1029,9 +1056,16 @@ function getPuzzleProgress() {
     "puzzle_waterfall": { "unlockedCount": 0, "completed": false },
     "puzzle_bird": { "unlockedCount": 0, "completed": false },
     "puzzle_xiangji_stone2": { "unlockedCount": 0, "completed": false },
-    "puzzle_xiangji_stone3": { "unlockedCount": 0, "completed": false }
+    "puzzle_xiangji_stone3": { "unlockedCount": 0, "completed": false },
+    "puzzle_xiangji_fayin_stone": { "unlockedCount": 0, "completed": false },
+    "puzzle_kiispring_new": { "unlockedCount": 0, "completed": false },
+    "puzzle_mountain_rainbow": { "unlockedCount": 0, "completed": false }
   };
-  return JSON.parse(localStorage.getItem('puzzleProgress')) || defaultProgress;
+  const stored = JSON.parse(localStorage.getItem('puzzleProgress'));
+  if (stored) {
+    return Object.assign({}, defaultProgress, stored);
+  }
+  return defaultProgress;
 }
 
 function savePuzzleProgress(progress) {
@@ -1628,6 +1662,21 @@ function triggerPuzzleCompletion(puzzle) {
 
 // Setup static event bindings on document load
 function setupPuzzleBindings() {
+  // Add font size classes based on name length
+  PUZZLE_LIST.forEach(p => {
+    const btnEl = document.querySelector(`.puzzle-sel-btn[data-id="${p.id}"]`);
+    if (btnEl) {
+      const len = p.name.length;
+      if (len >= 8) {
+        btnEl.classList.add('len-8-up');
+      } else if (len === 7) {
+        btnEl.classList.add('len-7');
+      } else if (len >= 5) {
+        btnEl.classList.add('len-5-6');
+      }
+    }
+  });
+
   // Selector buttons
   document.querySelectorAll('.puzzle-sel-btn').forEach(btn => {
     btn.addEventListener('click', () => {

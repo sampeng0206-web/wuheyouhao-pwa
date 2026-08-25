@@ -75,8 +75,7 @@ function updateCheckInStreak() {
   localStorage.setItem('lastCheckInDate', todayStr);
   localStorage.setItem('streakDays', streakDays);
   
-  // 每日登入時解鎖拼圖碎片
-  unlockPuzzlePiecesForToday();
+
   
   renderStreak(streakDays);
 }
@@ -1109,35 +1108,7 @@ function savePuzzleMedalDates(dates) {
   localStorage.setItem('puzzleMedalDates', JSON.stringify(dates));
 }
 
-function unlockPuzzlePiecesForToday() {
-  const progress = getPuzzleProgress();
-  
-  // Find first incomplete puzzle in config order
-  let activeId = null;
-  let activePuzzle = null;
-  for (let p of PUZZLE_LIST) {
-    if (!progress[p.id] || !progress[p.id].completed) {
-      activeId = p.id;
-      activePuzzle = p;
-      break;
-    }
-  }
-  
-  if (!activeId) return; // All puzzles completed!
-  
-  const maxPieces = activePuzzle.rows * activePuzzle.cols;
-  let currentUnlocked = progress[activeId] ? progress[activeId].unlockedCount : 0;
-  
-  if (currentUnlocked < maxPieces) {
-    let newUnlocked = maxPieces;
-    if (!progress[activeId]) {
-      progress[activeId] = { unlockedCount: 0, completed: false };
-    }
-    progress[activeId].unlockedCount = newUnlocked;
-    savePuzzleProgress(progress);
-    console.log(`[Puzzle] Unlocked all pieces for ${activeId}. New: ${newUnlocked}/${maxPieces}`);
-  }
-}
+
 
 // Render medals list in favorites
 function renderMedalsList() {
@@ -1363,38 +1334,33 @@ function getUnlockedIndices(puzzle, unlockedCount) {
   return indices.slice(0, unlockedCount);
 }
 
-// Initialize active Jigsaw game
-function initPuzzleGame() {
-  let progress = getPuzzleProgress();
-  
-  // Auto-healing: 如果今天已經打卡過，且當前進行的拼圖解鎖數為 0，且今天未完成過任何拼圖，則自動解鎖當前拼圖以防止死鎖
-  const lastCheckInStr = localStorage.getItem('lastCheckInDate');
-  const todayStr = formatDate(new Date());
-  if (lastCheckInStr === todayStr) {
-    let activeId = null;
-    let activePuzzle = null;
-    for (let p of PUZZLE_LIST) {
-      if (!progress[p.id] || !progress[p.id].completed) {
-        activeId = p.id;
-        activePuzzle = p;
-        break;
-      }
-    }
-    if (activeId && (!progress[activeId] || progress[activeId].unlockedCount === 0)) {
-      const dates = getPuzzleMedalDates();
-      const completedToday = Object.values(dates).includes(todayStr);
-      if (!completedToday) {
-        if (!progress[activeId]) {
-          progress[activeId] = { unlockedCount: 0, completed: false };
-        }
-        progress[activeId].unlockedCount = activePuzzle.rows * activePuzzle.cols;
-        savePuzzleProgress(progress);
-        console.log(`[Puzzle Auto-Heal] Recovered unlocked pieces for ${activeId}`);
-        progress = getPuzzleProgress(); // Reload progress after healing
-      }
+function getUnlockedCountForPuzzle(puzzleId, progress) {
+  // Find first incomplete puzzle in config order
+  let firstIncompleteId = null;
+  for (let p of PUZZLE_LIST) {
+    if (!progress[p.id] || !progress[p.id].completed) {
+      firstIncompleteId = p.id;
+      break;
     }
   }
+  
+  if (!firstIncompleteId) {
+    // All completed
+    const p = PUZZLE_LIST.find(p => p.id === puzzleId);
+    return p ? p.rows * p.cols : 0;
+  }
+  
+  if (puzzleId === firstIncompleteId || (progress[puzzleId] && progress[puzzleId].completed)) {
+    const p = PUZZLE_LIST.find(p => p.id === puzzleId);
+    return p ? p.rows * p.cols : 0;
+  }
+  
+  return 0;
+}
 
+// Initialize active Jigsaw game
+function initPuzzleGame() {
+  const progress = getPuzzleProgress();
   const puzzle = PUZZLE_LIST.find(p => p.id === activePuzzleId);
   if (!puzzle) return;
   
@@ -1402,7 +1368,7 @@ function initPuzzleGame() {
   
   const totalPieces = puzzle.rows * puzzle.cols;
   const isDebug = new URLSearchParams(window.location.search).get('debug') === '1';
-  const unlockedCount = isDebug ? totalPieces : (progress[activePuzzleId] ? progress[activePuzzleId].unlockedCount : 0);
+  const unlockedCount = isDebug ? totalPieces : getUnlockedCountForPuzzle(activePuzzleId, progress);
   const unlockedIndices = isDebug ? Array.from({ length: totalPieces }, (_, i) => i) : getUnlockedIndices(puzzle, unlockedCount);
   const solved = isDebug ? Array.from({ length: totalPieces }, (_, i) => i) : getSolvedPieces(activePuzzleId);
   const completed = isDebug ? true : (progress[activePuzzleId] ? progress[activePuzzleId].completed : false);
@@ -1424,7 +1390,7 @@ function initPuzzleGame() {
       if (isDebug || (pProg && pProg.completed)) {
         badgeEl.textContent = '🏅';
       } else {
-        const unl = pProg ? pProg.unlockedCount : 0;
+        const unl = getUnlockedCountForPuzzle(p.id, progress);
         const max = p.rows * p.cols;
         badgeEl.textContent = unl === 0 ? '🔒' : `${unl}/${max}`;
       }

@@ -1045,7 +1045,7 @@ const PUZZLE_LIST = [
     id: 'puzzle_wuhe_qiangong',
     name: '舞鶴~乾公',
     image: 'images/puzzle_wuhe_qiangong.jpg',
-    rows: 4,
+    rows: 3,
     cols: 3,
     medalName: '舞鶴乾公勳章',
     medalIcon: '🦅'

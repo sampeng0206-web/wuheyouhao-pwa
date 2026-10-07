@@ -1058,6 +1058,15 @@ const PUZZLE_LIST = [
     cols: 4,
     medalName: '金山勳章',
     medalIcon: '🏔️'
+  },
+  {
+    id: 'puzzle_shideng_yingyue',
+    name: '石燈映月',
+    image: 'images/puzzle_shideng_yingyue.jpg',
+    rows: 3,
+    cols: 4,
+    medalName: '石燈映月勳章',
+    medalIcon: '🏮'
   }
 ];
 
@@ -1078,7 +1087,8 @@ function getPuzzleProgress() {
     "puzzle_kiispring_new": { "unlockedCount": 0, "completed": false },
     "puzzle_mountain_rainbow": { "unlockedCount": 0, "completed": false },
     "puzzle_wuhe_qiangong": { "unlockedCount": 0, "completed": false },
-    "puzzle_yushan": { "unlockedCount": 0, "completed": false }
+    "puzzle_yushan": { "unlockedCount": 0, "completed": false },
+    "puzzle_shideng_yingyue": { "unlockedCount": 0, "completed": false }
   };
   const stored = JSON.parse(localStorage.getItem('puzzleProgress'));
   if (stored) {

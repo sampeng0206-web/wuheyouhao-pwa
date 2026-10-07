@@ -18,13 +18,13 @@
   <link rel="apple-touch-icon" href="images/icons/icon-192.png?v=5">
   
   <!-- 引入樣式表 -->
-  <link rel="stylesheet" href="css/style.css?v=27">
+  <link rel="stylesheet" href="css/style.css?v=28">
   
   <!-- 註冊 Service Worker -->
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js?v=24')
+        navigator.serviceWorker.register('sw.js?v=25')
           .then(reg => console.log('Service Worker 註冊成功:', reg.scope))
           .catch(err => console.log('Service Worker 註冊失敗:', err));
       });
@@ -32,7 +32,7 @@
   </script>
   
   <!-- 引入邏輯腳本 -->
-  <script src="js/app.js?v=31" defer></script>
+  <script src="js/app.js?v=32" defer></script>
 </head>
 <body>
 
@@ -628,11 +628,16 @@
                 <h4 class="product-title">舞鶴木牌</h4>
                 <p class="product-desc" style="white-space: pre-line; line-height: 1.5; font-size: 12.5px;">36 x 52 x 8 mm
 舞鶴木牌擴香掛飾
-限量108件
 黃楊木與駝鹿角完美組合
 大陸天工獎微雕大師作品
 附精緻天地蓋桐木收藏盒
 ✽ 開放預購 ✽</p>
+                <div class="wood-tag-card-box" style="margin-top: 10px; padding: 10px 8px; background-color: #FAF6ED; border: 1px solid rgba(184, 134, 11, 0.22); border-radius: 6px;">
+                  <div style="font-family: 'Noto Serif TC', serif; font-size: 13px; font-weight: 700; color: #8B4513; text-align: center; letter-spacing: 2px; margin-bottom: 5px; border-bottom: 1px dashed rgba(184, 134, 11, 0.3); padding-bottom: 4px;">典藏卡</div>
+                  <div style="font-size: 12px; font-weight: 600; color: var(--color-text-main); margin-bottom: 6px;">作品名稱：舞鶴</div>
+                  <div style="font-size: 11.5px; line-height: 1.65; color: var(--color-text-sub); text-align: justify; margin-bottom: 6px;">祥鶴回首梳羽，自在隨順因緣，外境萬般流轉，內心泰然自若。隸書「舞鶴」，既承載花蓮瑞穗舞鶴山川靈氣地方意象，亦藉台語諧音祝福有緣人萬事「有好」心想事成。本品乃黃楊木與駝鹿角異質和合精雕祥鶴，由精微透雕藝術之都獲大陸天工獎殊榮微雕大師山工匠心創作監刻而成。陰陽相應合一、禪定福慧無量，平凡中見不凡，值得典藏微雕藝術珍品。</div>
+                  <div style="font-size: 11px; font-weight: 600; color: #8B4513; text-align: right;">香積園有限公司</div>
+                </div>
               </div>
             </div>
             <div class="product-card">
@@ -837,6 +842,10 @@
           <button class="puzzle-sel-btn" data-id="puzzle_yushan">
             <span class="puzzle-name">日照金山</span>
             <div class="puzzle-badge" id="badge-puzzle_yushan">0/12</div>
+          </button>
+          <button class="puzzle-sel-btn" data-id="puzzle_shideng_yingyue">
+            <span class="puzzle-name">石燈映月</span>
+            <div class="puzzle-badge" id="badge-puzzle_shideng_yingyue">0/12</div>
           </button>
         </div>
 

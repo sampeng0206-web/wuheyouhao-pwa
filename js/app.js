@@ -722,6 +722,9 @@ function setupNavigation() {
         }
       }
       initPuzzleGame();
+      requestAnimationFrame(() => {
+        initPuzzleGame();
+      });
     } else if (pageId === 'ad') {
       if (adPage) adPage.classList.add('active');
     } else if (pageId === 'composition') {
@@ -924,8 +927,8 @@ async function initializeApp() {
 
 // 監聽 DOM 載入
 document.addEventListener('DOMContentLoaded', async () => {
-  await initializeApp();
   setupPuzzleBindings();
+  await initializeApp();
 });
 
 // ==========================================
@@ -1380,67 +1383,73 @@ function getUnlockedCountForPuzzle(puzzleId, progress) {
 
 // Initialize active Jigsaw game
 function initPuzzleGame() {
-  const progress = getPuzzleProgress();
-  const puzzle = PUZZLE_LIST.find(p => p.id === activePuzzleId);
-  if (!puzzle) return;
-  
-  generatePuzzleClipPaths(puzzle);
-  
-  const totalPieces = puzzle.rows * puzzle.cols;
-  const isDebug = new URLSearchParams(window.location.search).get('debug') === '1';
-  const unlockedCount = isDebug ? totalPieces : getUnlockedCountForPuzzle(activePuzzleId, progress);
-  const unlockedIndices = isDebug ? Array.from({ length: totalPieces }, (_, i) => i) : getUnlockedIndices(puzzle, unlockedCount);
-  const solved = isDebug ? Array.from({ length: totalPieces }, (_, i) => i) : getSolvedPieces(activePuzzleId);
-  const completed = isDebug ? true : (progress[activePuzzleId] ? progress[activePuzzleId].completed : false);
-  
-  // Render selector badges
-  PUZZLE_LIST.forEach(p => {
-    const badgeEl = document.getElementById(`badge-${p.id}`);
-    const btnEl = document.querySelector(`.puzzle-sel-btn[data-id="${p.id}"]`);
+  try {
+    const progress = getPuzzleProgress();
+    const puzzle = PUZZLE_LIST.find(p => p.id === activePuzzleId);
+    if (!puzzle) return;
     
-    if (badgeEl && btnEl) {
-      // Set active button class
-      if (p.id === activePuzzleId) {
-        btnEl.classList.add('active');
-      } else {
-        btnEl.classList.remove('active');
-      }
+    generatePuzzleClipPaths(puzzle);
+    
+    const totalPieces = puzzle.rows * puzzle.cols;
+    const isDebug = new URLSearchParams(window.location.search).get('debug') === '1';
+    const unlockedCount = isDebug ? totalPieces : getUnlockedCountForPuzzle(activePuzzleId, progress);
+    const unlockedIndices = isDebug ? Array.from({ length: totalPieces }, (_, i) => i) : getUnlockedIndices(puzzle, unlockedCount);
+    const solved = isDebug ? Array.from({ length: totalPieces }, (_, i) => i) : getSolvedPieces(activePuzzleId);
+    const completed = isDebug ? true : (progress[activePuzzleId] ? progress[activePuzzleId].completed : false);
+    
+    // Render selector badges
+    PUZZLE_LIST.forEach(p => {
+      const badgeEl = document.getElementById(`badge-${p.id}`);
+      const btnEl = document.querySelector(`.puzzle-sel-btn[data-id="${p.id}"]`);
       
-      const pProg = progress[p.id];
-      if (isDebug || (pProg && pProg.completed)) {
-        badgeEl.textContent = '🏅';
+      if (badgeEl && btnEl) {
+        // Set active button class
+        if (p.id === activePuzzleId) {
+          btnEl.classList.add('active');
+        } else {
+          btnEl.classList.remove('active');
+        }
+        
+        const pProg = progress[p.id];
+        if (isDebug || (pProg && pProg.completed)) {
+          badgeEl.textContent = '🏅';
+        } else {
+          const unl = getUnlockedCountForPuzzle(p.id, progress);
+          const max = p.rows * p.cols;
+          badgeEl.textContent = unl === 0 ? '🔒' : `${unl}/${max}`;
+        }
+      }
+    });
+
+    // Setup info card
+    const titleEl = document.getElementById('puzzle-info-title');
+    const progressEl = document.getElementById('puzzle-info-progress');
+    if (titleEl) titleEl.textContent = `《${puzzle.name}》拼圖挑戰`;
+    if (progressEl) {
+      progressEl.textContent = completed
+        ? "🎉 已成功獲得勳章！"
+        : `目前進度：已解鎖 ${unlockedCount}/${totalPieces} 片`;
+    }
+    
+    // Setup Board size based on container or screen width
+    const boardEl = document.getElementById('puzzle-board');
+    if (!boardEl) return;
+    
+    let parentWidth = boardEl.parentElement ? boardEl.parentElement.clientWidth : 0;
+    if (!parentWidth || parentWidth < 100) {
+      const container = document.querySelector('.puzzle-container');
+      if (container && container.clientWidth >= 100) {
+        parentWidth = container.clientWidth;
       } else {
-        const unl = getUnlockedCountForPuzzle(p.id, progress);
-        const max = p.rows * p.cols;
-        badgeEl.textContent = unl === 0 ? '🔒' : `${unl}/${max}`;
+        parentWidth = Math.min(window.innerWidth || 352, 500);
       }
     }
-  });
-
-  // Setup info card
-  const titleEl = document.getElementById('puzzle-info-title');
-  const progressEl = document.getElementById('puzzle-info-progress');
-  if (titleEl) titleEl.textContent = `《${puzzle.name}》拼圖挑戰`;
-  if (progressEl) {
-    progressEl.textContent = completed
-      ? "🎉 已成功獲得勳章！"
-      : `目前進度：已解鎖 ${unlockedCount}/${totalPieces} 片`;
-  }
-  
-  // Setup Board size based on screen width
-  const boardEl = document.getElementById('puzzle-board');
-  if (!boardEl) return;
-  
-  let parentWidth = boardEl.parentElement.clientWidth;
-  if (!parentWidth || parentWidth < 100) {
-    parentWidth = 352; // Fallback so that boardWidth becomes exactly 320px
-  }
-  const boardWidth = Math.min(parentWidth - 32, 320); // padding safe
-  const boardHeight = boardWidth * (puzzle.rows / puzzle.cols);
-  
-  boardEl.style.width = boardWidth + 'px';
-  boardEl.style.height = boardHeight + 'px';
-  boardEl.innerHTML = '';
+    const boardWidth = Math.min(Math.max(parentWidth - 32, 200), 320); // padding safe and clamped
+    const boardHeight = boardWidth * (puzzle.rows / puzzle.cols);
+    
+    boardEl.style.width = boardWidth + 'px';
+    boardEl.style.height = boardHeight + 'px';
+    boardEl.innerHTML = '';
   
   const cellWidth = boardWidth / puzzle.cols;
   const cellHeight = boardHeight / puzzle.rows;
@@ -1548,6 +1557,9 @@ function initPuzzleGame() {
       wrapper.appendChild(piece);
       trayEl.appendChild(wrapper);
     });
+  }
+  } catch (err) {
+    console.error('[小鶴拼圖] initPuzzleGame 執行例外:', err);
   }
 }
 
@@ -1706,12 +1718,27 @@ function setupPuzzleBindings() {
   document.querySelectorAll('.puzzle-sel-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const id = btn.getAttribute('data-id');
-      if (id && id !== activePuzzleId) {
+      if (id) {
         activePuzzleId = id;
         initPuzzleGame();
       }
     });
   });
+  
+  // Window resize handler with debounce for responsive layout recomputation
+  if (!window._puzzleResizeAttached) {
+    window._puzzleResizeAttached = true;
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      const pPage = document.getElementById('puzzle-page');
+      if (pPage && pPage.classList.contains('active')) {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+          initPuzzleGame();
+        }, 100);
+      }
+    });
+  }
   
   // Reset button
   const resetBtn = document.getElementById('puzzle-reset-btn');

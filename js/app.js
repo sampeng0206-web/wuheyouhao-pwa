@@ -1282,6 +1282,58 @@ function generateEdge(p1, p2, type) {
          ` L ${p2.x.toFixed(4)} ${p2.y.toFixed(4)}`;
 }
 
+// Get normalized 0~1 SVG path string for a puzzle piece
+function getPieceNormalizedPath(puzzle, index) {
+  const A = 0.15 / 1.30;
+  const B = 1.15 / 1.30;
+  
+  const edges = getPuzzleEdges(puzzle);
+  const cellEdges = edges[index];
+  const p1 = { x: A, y: A };
+  const p2 = { x: B, y: A };
+  const p3 = { x: B, y: B };
+  const p4 = { x: A, y: B };
+  
+  let path = `M ${A.toFixed(4)} ${A.toFixed(4)}`;
+  path += generateEdge(p1, p2, cellEdges.top);
+  path += generateEdge(p2, p3, cellEdges.right);
+  path += generateEdge(p3, p4, cellEdges.bottom);
+  path += generateEdge(p4, p1, cellEdges.left);
+  path += ' Z';
+  return path;
+}
+
+// Convert normalized 0~1 path coordinates to pixel coordinates
+function convertNormalizedPathToPixels(d, width, height) {
+  let isX = true;
+  return d.replace(/[-+]?[0-9]*\.?[0-9]+(?:e[-+]?[0-9]+)?/gi, (match) => {
+    const val = parseFloat(match);
+    const scaled = isX ? (val * width) : (val * height);
+    isX = !isX;
+    return scaled.toFixed(3);
+  });
+}
+
+// Check if browser supports CSS clip-path: path(...)
+function canUsePathClip() {
+  try {
+    return typeof CSS !== 'undefined' && typeof CSS.supports === 'function' && CSS.supports('clip-path', 'path("M 0 0")');
+  } catch (e) {
+    return false;
+  }
+}
+
+// Apply clip-path to a puzzle piece element (CSS path() if supported, fallback to SVG url(#id))
+function applyPieceClipPath(pieceEl, puzzle, index, pieceWidth, pieceHeight) {
+  if (canUsePathClip()) {
+    const normalizedPath = getPieceNormalizedPath(puzzle, index);
+    const pixelPath = convertNormalizedPathToPixels(normalizedPath, pieceWidth, pieceHeight);
+    pieceEl.style.clipPath = `path('${pixelPath}')`;
+  } else {
+    pieceEl.style.clipPath = `url(#puzzle-clip-${puzzle.id}-${index})`;
+  }
+}
+
 // Generate the responsive SVG clip-paths in document body
 function generatePuzzleClipPaths(puzzle) {
   let container = document.getElementById('puzzle-clip-paths');
@@ -1298,25 +1350,9 @@ function generatePuzzleClipPaths(puzzle) {
   
   let svgContent = `<svg id="puzzle-clip-svg" style="width: 0; height: 0; position: absolute;"><defs>`;
   const total = puzzle.rows * puzzle.cols;
-  const A = 0.15 / 1.30;
-  const B = 1.15 / 1.30;
-  
-  const edges = getPuzzleEdges(puzzle);
   
   for (let i = 0; i < total; i++) {
-    const cellEdges = edges[i];
-    const p1 = { x: A, y: A };
-    const p2 = { x: B, y: A };
-    const p3 = { x: B, y: B };
-    const p4 = { x: A, y: B };
-    
-    let path = `M ${A.toFixed(4)} ${A.toFixed(4)}`;
-    path += generateEdge(p1, p2, cellEdges.top);
-    path += generateEdge(p2, p3, cellEdges.right);
-    path += generateEdge(p3, p4, cellEdges.bottom);
-    path += generateEdge(p4, p1, cellEdges.left);
-    path += ' Z';
-    
+    const path = getPieceNormalizedPath(puzzle, i);
     svgContent += `<clipPath id="puzzle-clip-${puzzle.id}-${i}" clipPathUnits="objectBoundingBox">`;
     svgContent += `<path d="${path}" />`;
     svgContent += `</clipPath>`;
@@ -1480,12 +1516,14 @@ function initPuzzleGame() {
       
       const offsetW = cellWidth * 0.15;
       const offsetH = cellHeight * 0.15;
-      piece.style.width = (cellWidth * 1.3) + 'px';
-      piece.style.height = (cellHeight * 1.3) + 'px';
+      const pieceWidth = cellWidth * 1.3;
+      const pieceHeight = cellHeight * 1.3;
+      piece.style.width = pieceWidth + 'px';
+      piece.style.height = pieceHeight + 'px';
       piece.style.position = 'absolute';
       piece.style.left = -offsetW + 'px';
       piece.style.top = -offsetH + 'px';
-      piece.style.clipPath = `url(#puzzle-clip-${activePuzzleId}-${i})`;
+      applyPieceClipPath(piece, puzzle, i, pieceWidth, pieceHeight);
       
       piece.style.backgroundImage = `url(${puzzle.image})`;
       piece.style.backgroundSize = `${boardWidth}px ${boardHeight}px`;
@@ -1538,12 +1576,14 @@ function initPuzzleGame() {
       
       const offsetW = cellWidth * 0.15;
       const offsetH = cellHeight * 0.15;
-      piece.style.width = (cellWidth * 1.3) + 'px';
-      piece.style.height = (cellHeight * 1.3) + 'px';
+      const pieceWidth = cellWidth * 1.3;
+      const pieceHeight = cellHeight * 1.3;
+      piece.style.width = pieceWidth + 'px';
+      piece.style.height = pieceHeight + 'px';
       piece.style.position = 'absolute';
       piece.style.left = -offsetW + 'px';
       piece.style.top = -offsetH + 'px';
-      piece.style.clipPath = `url(#puzzle-clip-${activePuzzleId}-${index})`;
+      applyPieceClipPath(piece, puzzle, index, pieceWidth, pieceHeight);
       
       piece.style.backgroundImage = `url(${puzzle.image})`;
       piece.style.backgroundSize = `${boardWidth}px ${boardHeight}px`;

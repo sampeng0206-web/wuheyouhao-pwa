@@ -1,4 +1,4 @@
-const CACHE_NAME = 'wuheyouhao-v48';
+const CACHE_NAME = 'wuheyouhao-v49';
 const urlsToCache = [
   './',
   './index.html',
@@ -84,6 +84,24 @@ self.addEventListener('activate', e => {
 });
 
 self.addEventListener('fetch', e => {
+  const isNavigate = e.request.mode === 'navigate' || e.request.url.includes('index.html');
+  if (isNavigate) {
+    e.respondWith(
+      fetch(e.request)
+        .then(response => {
+          if (response && response.status === 200) {
+            const responseClone = response.clone();
+            caches.open(CACHE_NAME).then(cache => {
+              cache.put(e.request, responseClone);
+            });
+          }
+          return response;
+        })
+        .catch(() => caches.match(e.request).then(cached => cached || caches.match('./index.html') || caches.match('./')))
+    );
+    return;
+  }
+
   e.respondWith(
     caches.match(e.request).then(r => r || fetch(e.request))
   );

@@ -23,10 +23,18 @@
   <!-- 註冊 Service Worker -->
   <script>
     if ('serviceWorker' in navigator) {
+      let refreshing = false;
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js?v=27')
+        navigator.serviceWorker.register('sw.js?v=28')
           .then(reg => console.log('Service Worker 註冊成功:', reg.scope))
           .catch(err => console.log('Service Worker 註冊失敗:', err));
+
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (!refreshing) {
+            refreshing = true;
+            window.location.reload();
+          }
+        });
       });
     }
   </script>

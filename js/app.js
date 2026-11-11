@@ -965,7 +965,7 @@ const PRODUCTS_LIST = [
   {
     title: '萬法惟心惟信根',
     image: 'images/product_wanfa_weixin_xingen.png',
-    url: ''
+    url: 'https://shopee.tw/%E3%80%8A%E8%90%AC%E6%B3%95%E6%83%9F%E5%BF%83-%E6%83%9F%E4%BF%A1%E6%A0%B9%E3%80%8B%E9%A6%99%E7%A9%8D%E6%B3%95%E9%96%80%E5%8F%A2%E6%9B%B8%E7%B3%BB%E5%88%97-3-%E6%9B%B8%E7%B1%8D-%E6%9E%97%E5%AE%B6%E4%BA%A8-%E8%91%97%E4%BD%9C-i.1934369696.28647051286?extraParams=%7B%22display_model_id%22%3A326722242100%2C%22model_selection_logic%22%3A3%7D&image_ids=tw-11134207-820l6-mve0ktqvtlae2b'
   },
   {
     title: '日照金山',

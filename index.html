@@ -25,7 +25,7 @@
     if ('serviceWorker' in navigator) {
       let refreshing = false;
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js?v=29')
+        navigator.serviceWorker.register('sw.js?v=30')
           .then(reg => console.log('Service Worker 註冊成功:', reg.scope))
           .catch(err => console.log('Service Worker 註冊失敗:', err));
 
@@ -40,7 +40,7 @@
   </script>
   
   <!-- 引入邏輯腳本 -->
-  <script src="js/app.js?v=35" defer></script>
+  <script src="js/app.js?v=36" defer></script>
 </head>
 <body>
 
@@ -609,14 +609,17 @@
               </a>
             </div>
             <!-- 書籍 6：萬法惟心惟信根 -->
-            <div class="product-card" data-url="">
-              <div class="product-img-wrapper">
-                <img src="images/product_wanfa_weixin_xingen.png" alt="萬法惟心惟信根" class="product-img">
-              </div>
-              <div class="product-info">
-                <h4 class="product-title">萬法惟心惟信根</h4>
-                <p class="product-desc">香積法門叢書系列第3輯作者親身經歷殊勝事蹟的珍貴紀錄，發人深省，驗證萬法惟心、萬法惟信的修行不二心法。逾9萬字內容，以電子書發行，節省出版及購書費用，也方便讀者攜行閱讀。</p>
-              </div>
+            <div class="product-card" data-url="https://shopee.tw/%E3%80%8A%E8%90%AC%E6%B3%95%E6%83%9F%E5%BF%83-%E6%83%9F%E4%BF%A1%E6%A0%B9%E3%80%8B%E9%A6%99%E7%A9%8D%E6%B3%95%E9%96%80%E5%8F%A2%E6%9B%B8%E7%B3%BB%E5%88%97-3-%E6%9B%B8%E7%B1%8D-%E6%9E%97%E5%AE%B6%E4%BA%A8-%E8%91%97%E4%BD%9C-i.1934369696.28647051286?extraParams=%7B%22display_model_id%22%3A326722242100%2C%22model_selection_logic%22%3A3%7D&image_ids=tw-11134207-820l6-mve0ktqvtlae2b">
+              <a href="https://shopee.tw/%E3%80%8A%E8%90%AC%E6%B3%95%E6%83%9F%E5%BF%83-%E6%83%9F%E4%BF%A1%E6%A0%B9%E3%80%8B%E9%A6%99%E7%A9%8D%E6%B3%95%E9%96%80%E5%8F%A2%E6%9B%B8%E7%B3%BB%E5%88%97-3-%E6%9B%B8%E7%B1%8D-%E6%9E%97%E5%AE%B6%E4%BA%A8-%E8%91%97%E4%BD%9C-i.1934369696.28647051286?extraParams=%7B%22display_model_id%22%3A326722242100%2C%22model_selection_logic%22%3A3%7D&image_ids=tw-11134207-820l6-mve0ktqvtlae2b" target="_blank" rel="noopener noreferrer" class="product-card-link">
+                <div class="product-img-wrapper">
+                  <img src="images/product_wanfa_weixin_xingen.png" alt="萬法惟心惟信根" class="product-img">
+                </div>
+                <div class="product-info">
+                  <h4 class="product-title">萬法惟心惟信根</h4>
+                  <p class="product-desc">香積法門叢書系列第3輯作者親身經歷殊勝事蹟的珍貴紀錄，發人深省，驗證萬法惟心、萬法惟信的修行不二心法。逾9萬字內容，以電子書發行，節省出版及購書費用，也方便讀者攜行閱讀。</p>
+                  <span class="product-buy-btn">前往購買 →</span>
+                </div>
+              </a>
             </div>
             <!-- 商品 7：日照金山 -->
             <div class="product-card" data-url="https://shopee.tw/%E6%B2%B9%E7%95%AB%E3%80%8A%E6%97%A5%E7%85%A7%E9%87%91%E5%B1%B1%E3%80%8B%E8%97%9D%E8%A1%93%E7%95%AB-%E8%A4%87%E8%A3%BD%E7%95%AB-%E8%A3%9D%E9%A3%BE-i.1934369696.47518898260?extraParams=%7B%22display_model_id%22%3A381585129121%2C%22model_selection_logic%22%3A3%7D&image_ids=tw-11134207-820lh-mu1keypl1nuy68">

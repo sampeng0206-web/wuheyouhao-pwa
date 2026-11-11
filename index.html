@@ -18,14 +18,14 @@
   <link rel="apple-touch-icon" href="images/icons/icon-192.png?v=5">
   
   <!-- 引入樣式表 -->
-  <link rel="stylesheet" href="css/style.css?v=29">
+  <link rel="stylesheet" href="css/style.css?v=30">
   
   <!-- 註冊 Service Worker -->
   <script>
     if ('serviceWorker' in navigator) {
       let refreshing = false;
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js?v=30')
+        navigator.serviceWorker.register('sw.js?v=31')
           .then(reg => console.log('Service Worker 註冊成功:', reg.scope))
           .catch(err => console.log('Service Worker 註冊失敗:', err));
 
@@ -40,7 +40,7 @@
   </script>
   
   <!-- 引入邏輯腳本 -->
-  <script src="js/app.js?v=36" defer></script>
+  <script src="js/app.js?v=37" defer></script>
 </head>
 <body>
 
@@ -209,7 +209,7 @@
     <div id="map-page" class="page-view">
       <div class="subpage-header">
         <button class="back-btn" id="map-back-btn" aria-label="返回主頁">← 返回</button>
-        <h2 class="subpage-title">舞鶴地圖</h2>
+        <h2 class="subpage-title">小鶴導遊</h2>
       </div>
       
       <!-- 地圖靜態文章 -->
@@ -586,24 +586,14 @@
               </a>
             </div>
             <!-- 書籍 4 -->
-            <div class="product-card" data-url="">
-              <div class="product-img-wrapper">
-                <img src="images/book_cover_lalashan_gongzuoji.png" alt="拉拉山林打工記" class="product-img">
-              </div>
-              <div class="product-info">
-                <h4 class="product-title">拉拉山林打工記</h4>
-                <p class="product-desc">回憶記錄30年前，大學四年暑假在拉拉山打工的趣事，與深受啟發的山林生活體驗。</p>
-              </div>
-            </div>
-            <!-- 書籍 5 -->
             <div class="product-card" data-url="https://shopee.tw/%E3%80%8A%E6%8B%89%E6%8B%89%E5%B1%B1%E6%9E%97%E5%A5%87%E9%81%87%E8%A8%98%E3%80%8B%E6%9B%B8%E7%B1%8D-%E6%9E%97%E5%AE%B6%E4%BA%A8-%E8%91%97%E4%BD%9C-i.1934369696.52868879287?extraParams=%7B%22display_model_id%22%3A431585078720%2C%22model_selection_logic%22%3A3%7D&image_ids=tw-11134207-820li-mu1jv30l5gjqa2">
               <a href="https://shopee.tw/%E3%80%8A%E6%8B%89%E6%8B%89%E5%B1%B1%E6%9E%97%E5%A5%87%E9%81%87%E8%A8%98%E3%80%8B%E6%9B%B8%E7%B1%8D-%E6%9E%97%E5%AE%B6%E4%BA%A8-%E8%91%97%E4%BD%9C-i.1934369696.52868879287?extraParams=%7B%22display_model_id%22%3A431585078720%2C%22model_selection_logic%22%3A3%7D&image_ids=tw-11134207-820li-mu1jv30l5gjqa2" target="_blank" rel="noopener noreferrer" class="product-card-link">
                 <div class="product-img-wrapper">
-                  <img src="images/book_cover_lalashan_qiyuji.png" alt="拉拉山林奇遇記" class="product-img">
+                  <img src="images/book_cover_lalashan_gongzuoji.png" alt="拉拉山林打工記" class="product-img">
                 </div>
                 <div class="product-info">
-                  <h4 class="product-title">拉拉山林奇遇記</h4>
-                  <p class="product-desc">拉拉山林，也是作者的外號，以第一人稱的視角記錄分享親身經歷的不可思議的奇遇。</p>
+                  <h4 class="product-title">拉拉山林打工記</h4>
+                  <p class="product-desc">回憶記錄30年前，大學四年暑假在拉拉山打工的趣事，與深受啟發的山林生活體驗。</p>
                   <span class="product-buy-btn">前往購買 →</span>
                 </div>
               </a>

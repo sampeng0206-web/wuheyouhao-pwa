@@ -955,11 +955,6 @@ const PRODUCTS_LIST = [
   {
     title: '拉拉山林打工記',
     image: 'images/book_cover_lalashan_gongzuoji.png',
-    url: ''
-  },
-  {
-    title: '拉拉山林奇遇記',
-    image: 'images/book_cover_lalashan_qiyuji.png',
     url: 'https://shopee.tw/%E3%80%8A%E6%8B%89%E6%8B%89%E5%B1%B1%E6%9E%97%E5%A5%87%E9%81%87%E8%A8%98%E3%80%8B%E6%9B%B8%E7%B1%8D-%E6%9E%97%E5%AE%B6%E4%BA%A8-%E8%91%97%E4%BD%9C-i.1934369696.52868879287?extraParams=%7B%22display_model_id%22%3A431585078720%2C%22model_selection_logic%22%3A3%7D&image_ids=tw-11134207-820li-mu1jv30l5gjqa2'
   },
   {

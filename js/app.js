@@ -746,6 +746,8 @@ function setupNavigation() {
   if (drawerAdBtn) drawerAdBtn.addEventListener('click', () => showPage('ad'));
   if (drawerCompositionBtn) drawerCompositionBtn.addEventListener('click', () => showPage('composition'));
   if (drawerContactBtn) drawerContactBtn.addEventListener('click', () => showPage('contact'));
+  const drawerShopeeBtn = document.getElementById('drawer-shopee-btn');
+  if (drawerShopeeBtn) drawerShopeeBtn.addEventListener('click', () => closeDrawer());
   
   if (appLogo) appLogo.addEventListener('click', () => showPage('main'));
   
@@ -932,6 +934,57 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 // ==========================================
+// 好物分享 商品清單（預留 url 欄位，有 url 才顯示購買連結與按鈕）
+// ==========================================
+const PRODUCTS_LIST = [
+  {
+    title: '虛實相應香積園',
+    image: 'images/product_xiangji_books.jpg',
+    url: 'https://shopee.tw/%E3%80%8A%E8%99%9B%E5%AF%A6%E7%9B%B8%E6%87%89%E9%A6%99%E7%A9%8D%E5%9C%92%E3%80%8B%E9%A6%99%E7%A9%8D%E6%B3%95%E5%80%91%E5%8F%A2%E6%9B%B8-2-%E6%9B%B8%E7%B1%8D-%E6%9E%97%E5%AE%B6%E4%BA%A8-%E8%91%97%E4%BD%9C-i.1934369696.53968864583?extraParams=%7B%22display_model_id%22%3A331585117745%2C%22model_selection_logic%22%3A3%7D&image_ids=tw-11134207-820le-mu1k2xzzgwlh72'
+  },
+  {
+    title: '原來我是 Milo Pazik（電子書）',
+    image: 'images/book_cover_milopazik.png',
+    url: 'https://shopee.tw/%E3%80%8A%E5%8E%9F%E4%BE%86%E6%88%91%E6%98%AFMilo-Pazik~%E6%92%92%E5%A5%87%E8%90%8A%E9%9B%85%E6%97%8F%E3%80%8B-(%E4%B8%8A)-%E6%9B%B8%E7%B1%8D-%E6%9E%97%E5%AE%B6%E4%BA%A8-%E8%91%97%E4%BD%9C-%E9%9B%BB%E5%AD%90%E6%9B%B8-i.1934369696.47819163588?extraParams=%7B%22display_model_id%22%3A263015942752%2C%22model_selection_logic%22%3A3%7D&image_ids=tw-11134207-820la-mu8tk6o1osn89e'
+  },
+  {
+    title: '快人快語揭天幕',
+    image: 'images/book_cover_kuairenkuaiyu.jpg',
+    url: 'https://shopee.tw/%E3%80%8A%E5%BF%AB%E4%BA%BA%E5%BF%AB%E8%AA%9E%E6%8F%AD%E5%A4%A9%E5%B9%95%E3%80%8B%E9%A6%99%E7%A9%8D%E6%B3%95%E5%80%91%E5%8F%A2%E6%9B%B8-1-%E6%9B%B8%E7%B1%8D-%E6%9E%97%E5%AE%B6%E4%BA%A8-%E8%91%97%E4%BD%9C-i.1934369696.56168869285?extraParams=%7B%22display_model_id%22%3A244358840387%2C%22model_selection_logic%22%3A3%7D&image_ids=tw-11134207-820lf-mu1jzwd6328a7c'
+  },
+  {
+    title: '拉拉山林打工記',
+    image: 'images/book_cover_lalashan_gongzuoji.png',
+    url: ''
+  },
+  {
+    title: '拉拉山林奇遇記',
+    image: 'images/book_cover_lalashan_qiyuji.png',
+    url: 'https://shopee.tw/%E3%80%8A%E6%8B%89%E6%8B%89%E5%B1%B1%E6%9E%97%E5%A5%87%E9%81%87%E8%A8%98%E3%80%8B%E6%9B%B8%E7%B1%8D-%E6%9E%97%E5%AE%B6%E4%BA%A8-%E8%91%97%E4%BD%9C-i.1934369696.52868879287?extraParams=%7B%22display_model_id%22%3A431585078720%2C%22model_selection_logic%22%3A3%7D&image_ids=tw-11134207-820li-mu1jv30l5gjqa2'
+  },
+  {
+    title: '萬法惟心惟信根',
+    image: 'images/product_wanfa_weixin_xingen.png',
+    url: ''
+  },
+  {
+    title: '日照金山',
+    image: 'images/product_rizhaojinshan.png',
+    url: 'https://shopee.tw/%E6%B2%B9%E7%95%AB%E3%80%8A%E6%97%A5%E7%85%A7%E9%87%91%E5%B1%B1%E3%80%8B%E8%97%9D%E8%A1%93%E7%95%AB-%E8%A4%87%E8%A3%BD%E7%95%AB-%E8%A3%9D%E9%A3%BE-i.1934369696.47518898260?extraParams=%7B%22display_model_id%22%3A381585129121%2C%22model_selection_logic%22%3A3%7D&image_ids=tw-11134207-820lh-mu1keypl1nuy68'
+  },
+  {
+    title: '三世佛金唐',
+    image: 'images/product_sanshifo_jintang.png',
+    url: 'https://shopee.tw/%E3%80%8A%E4%B8%89%E4%B8%96%E4%BD%9B%E9%87%91%E5%94%90%E3%80%8B%E6%96%87%E5%89%B5%E5%95%86%E5%93%81-%E5%94%90%E5%8D%A1-i.1934369696.47668899448?extraParams=%7B%22display_model_id%22%3A376585130513%2C%22model_selection_logic%22%3A3%7D&image_ids=tw-11134207-820l5-mu1k6rngz4zqf0'
+  },
+  {
+    title: '舞鶴木牌',
+    image: 'images/product_wuhe_wood_tag_v2.png',
+    url: 'https://shopee.tw/%E8%88%9E%E9%B6%B4%E5%BE%A1%E5%AE%88-%E5%85%B8%E9%9B%85%E6%8E%9B%E9%A3%BE-%E6%9C%A8%E8%A3%BD-%E6%8E%9B%E4%BB%B6-%E6%93%B4%E9%A6%99-i.1934369696.50169162886?extraParams=%7B%22display_model_id%22%3A436606999573%2C%22model_selection_logic%22%3A3%7D&image_ids=tw-11134207-820lb-mu8ttowovtoo07'
+  }
+];
+
+// ==========================================
 // 小鶴拼圖 邏輯與控制器
 // ==========================================
 
@@ -1070,6 +1123,46 @@ const PUZZLE_LIST = [
     cols: 4,
     medalName: '石燈映月勳章',
     medalIcon: '🏮'
+  },
+  {
+    id: 'puzzle_baoku_kaimen',
+    name: '寶庫開門',
+    image: 'images/puzzle_baoku_kaimen.jpg',
+    rows: 3,
+    cols: 4,
+    aspectRatio: 850 / 638,
+    medalName: '寶庫開門勳章',
+    medalIcon: '🗝️'
+  },
+  {
+    id: 'puzzle_horse_year_couplets',
+    name: '馬年春聯',
+    image: 'images/puzzle_horse_year_couplets.jpg',
+    rows: 4,
+    cols: 3,
+    aspectRatio: 542 / 720,
+    medalName: '馬年春聯勳章',
+    medalIcon: '🐴'
+  },
+  {
+    id: 'puzzle_meizhou_mazu_seal',
+    name: '湄洲媽祖廟大印',
+    image: 'images/puzzle_meizhou_mazu_seal.jpg',
+    rows: 3,
+    cols: 4,
+    aspectRatio: 960 / 720,
+    medalName: '媽祖大印勳章',
+    medalIcon: '🏮'
+  },
+  {
+    id: 'puzzle_dari_rulai_zijindan',
+    name: '大日如來紫金丹',
+    image: 'images/puzzle_dari_rulai_zijindan.jpg',
+    rows: 4,
+    cols: 3,
+    aspectRatio: 575 / 720,
+    medalName: '紫金丹勳章',
+    medalIcon: '✨'
   }
 ];
 
@@ -1091,7 +1184,11 @@ function getPuzzleProgress() {
     "puzzle_mountain_rainbow": { "unlockedCount": 0, "completed": false },
     "puzzle_wuhe_qiangong": { "unlockedCount": 0, "completed": false },
     "puzzle_yushan": { "unlockedCount": 0, "completed": false },
-    "puzzle_shideng_yingyue": { "unlockedCount": 0, "completed": false }
+    "puzzle_shideng_yingyue": { "unlockedCount": 0, "completed": false },
+    "puzzle_baoku_kaimen": { "unlockedCount": 0, "completed": false },
+    "puzzle_horse_year_couplets": { "unlockedCount": 0, "completed": false },
+    "puzzle_meizhou_mazu_seal": { "unlockedCount": 0, "completed": false },
+    "puzzle_dari_rulai_zijindan": { "unlockedCount": 0, "completed": false }
   };
   const stored = JSON.parse(localStorage.getItem('puzzleProgress'));
   if (stored) {
@@ -1481,7 +1578,9 @@ function initPuzzleGame() {
       }
     }
     const boardWidth = Math.min(Math.max(parentWidth - 32, 200), 320); // padding safe and clamped
-    const boardHeight = boardWidth * (puzzle.rows / puzzle.cols);
+    const boardHeight = puzzle.aspectRatio
+      ? Math.round(boardWidth / puzzle.aspectRatio)
+      : boardWidth * (puzzle.rows / puzzle.cols);
     
     boardEl.style.width = boardWidth + 'px';
     boardEl.style.height = boardHeight + 'px';

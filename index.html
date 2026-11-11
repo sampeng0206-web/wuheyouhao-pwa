@@ -18,14 +18,14 @@
   <link rel="apple-touch-icon" href="images/icons/icon-192.png?v=5">
   
   <!-- 引入樣式表 -->
-  <link rel="stylesheet" href="css/style.css?v=28">
+  <link rel="stylesheet" href="css/style.css?v=29">
   
   <!-- 註冊 Service Worker -->
   <script>
     if ('serviceWorker' in navigator) {
       let refreshing = false;
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js?v=28')
+        navigator.serviceWorker.register('sw.js?v=29')
           .then(reg => console.log('Service Worker 註冊成功:', reg.scope))
           .catch(err => console.log('Service Worker 註冊失敗:', err));
 
@@ -40,7 +40,7 @@
   </script>
   
   <!-- 引入邏輯腳本 -->
-  <script src="js/app.js?v=34" defer></script>
+  <script src="js/app.js?v=35" defer></script>
 </head>
 <body>
 
@@ -59,11 +59,12 @@
     </div>
     <nav class="drawer-nav">
       <button class="drawer-item" id="drawer-fav-btn" data-page="favorites">收藏 ♥</button>
-      <button class="drawer-item" id="drawer-map-btn" data-page="map">地圖 🗺</button>
+      <button class="drawer-item" id="drawer-map-btn" data-page="map">小鶴導遊 🗺</button>
       <button class="drawer-item" id="drawer-main-btn" data-page="main">今日舞鶴 🕊</button>
-      <button class="drawer-item" id="drawer-game-btn" data-page="game">遊戲 🕊</button>
+      <button class="drawer-item" id="drawer-game-btn" data-page="game">小遊戲 🕊</button>
       <button class="drawer-item" id="drawer-puzzle-btn" data-page="puzzle">小鶴拼圖 🧩</button>
-      <button class="drawer-item" id="drawer-ad-btn" data-page="ad">好物 🛍</button>
+      <button class="drawer-item" id="drawer-ad-btn" data-page="ad">好物分享 🛍</button>
+      <a class="drawer-item" id="drawer-shopee-btn" href="https://shopee.tw/xjy2026?entryPoint=ShopBySearch&searchKeyword=%E9%A6%99%E7%A9%8D%E5%9C%92" target="_blank" rel="noopener noreferrer">蝦皮賣場 🛒</a>
       <button class="drawer-item" id="drawer-composition-btn" data-page="composition">小鶴作文 ✍</button>
       <button class="drawer-item" id="drawer-contact-btn" data-page="contact">聯絡小鶴 📞</button>
     </nav>
@@ -536,7 +537,7 @@
     <div id="ad-page" class="page-view">
       <div class="subpage-header">
         <button class="back-btn" id="ad-back-btn" aria-label="返回主頁">← 返回</button>
-        <h2 class="subpage-title">舞鶴好物</h2>
+        <h2 class="subpage-title">好物分享</h2>
       </div>
       
       <div class="ad-container">
@@ -546,37 +547,46 @@
           <h3 class="ad-section-title">現有可訂購商品</h3>
           <div class="products-grid">
             <!-- 書籍 1 -->
-            <div class="product-card">
-              <div class="product-img-wrapper">
-                <img src="images/product_xiangji_books.jpg" alt="虛實相應香積園" class="product-img">
-              </div>
-              <div class="product-info">
-                <h4 class="product-title">虛實相應香積園</h4>
-                <p class="product-desc">香積園從無到有，在香積法門驗證虛實相應合一的故事，引領您體悟清靜的心靈空間。</p>
-              </div>
+            <div class="product-card" data-url="https://shopee.tw/%E3%80%8A%E8%99%9B%E5%AF%A6%E7%9B%B8%E6%87%89%E9%A6%99%E7%A9%8D%E5%9C%92%E3%80%8B%E9%A6%99%E7%A9%8D%E6%B3%95%E5%80%91%E5%8F%A2%E6%9B%B8-2-%E6%9B%B8%E7%B1%8D-%E6%9E%97%E5%AE%B6%E4%BA%A8-%E8%91%97%E4%BD%9C-i.1934369696.53968864583?extraParams=%7B%22display_model_id%22%3A331585117745%2C%22model_selection_logic%22%3A3%7D&image_ids=tw-11134207-820le-mu1k2xzzgwlh72">
+              <a href="https://shopee.tw/%E3%80%8A%E8%99%9B%E5%AF%A6%E7%9B%B8%E6%87%89%E9%A6%99%E7%A9%8D%E5%9C%92%E3%80%8B%E9%A6%99%E7%A9%8D%E6%B3%95%E5%80%91%E5%8F%A2%E6%9B%B8-2-%E6%9B%B8%E7%B1%8D-%E6%9E%97%E5%AE%B6%E4%BA%A8-%E8%91%97%E4%BD%9C-i.1934369696.53968864583?extraParams=%7B%22display_model_id%22%3A331585117745%2C%22model_selection_logic%22%3A3%7D&image_ids=tw-11134207-820le-mu1k2xzzgwlh72" target="_blank" rel="noopener noreferrer" class="product-card-link">
+                <div class="product-img-wrapper">
+                  <img src="images/product_xiangji_books.jpg" alt="虛實相應香積園" class="product-img">
+                </div>
+                <div class="product-info">
+                  <h4 class="product-title">虛實相應香積園</h4>
+                  <p class="product-desc">香積園從無到有，在香積法門驗證虛實相應合一的故事，引領您體悟清靜的心靈空間。</p>
+                  <span class="product-buy-btn">前往購買 →</span>
+                </div>
+              </a>
             </div>
             <!-- 書籍 2 -->
-            <div class="product-card">
-              <div class="product-img-wrapper">
-                <img src="images/book_cover_milopazik.png" alt="原來我是 Milo Pazik 撒奇萊雅族，電子書" class="product-img">
-              </div>
-              <div class="product-info">
-                <h4 class="product-title">原來我是 Milo Pazik（電子書）</h4>
-                <p class="product-desc">撒奇萊雅族，在清朝幾乎被抄家滅族，相隔一個多世紀後才發現，原來我是 Milo Pazik，Sakizaya！部落尋根與自我認同的旅程故事。</p>
-              </div>
+            <div class="product-card" data-url="https://shopee.tw/%E3%80%8A%E5%8E%9F%E4%BE%86%E6%88%91%E6%98%AFMilo-Pazik~%E6%92%92%E5%A5%87%E8%90%8A%E9%9B%85%E6%97%8F%E3%80%8B-(%E4%B8%8A)-%E6%9B%B8%E7%B1%8D-%E6%9E%97%E5%AE%B6%E4%BA%A8-%E8%91%97%E4%BD%9C-%E9%9B%BB%E5%AD%90%E6%9B%B8-i.1934369696.47819163588?extraParams=%7B%22display_model_id%22%3A263015942752%2C%22model_selection_logic%22%3A3%7D&image_ids=tw-11134207-820la-mu8tk6o1osn89e">
+              <a href="https://shopee.tw/%E3%80%8A%E5%8E%9F%E4%BE%86%E6%88%91%E6%98%AFMilo-Pazik~%E6%92%92%E5%A5%87%E8%90%8A%E9%9B%85%E6%97%8F%E3%80%8B-(%E4%B8%8A)-%E6%9B%B8%E7%B1%8D-%E6%9E%97%E5%AE%B6%E4%BA%A8-%E8%91%97%E4%BD%9C-%E9%9B%BB%E5%AD%90%E6%9B%B8-i.1934369696.47819163588?extraParams=%7B%22display_model_id%22%3A263015942752%2C%22model_selection_logic%22%3A3%7D&image_ids=tw-11134207-820la-mu8tk6o1osn89e" target="_blank" rel="noopener noreferrer" class="product-card-link">
+                <div class="product-img-wrapper">
+                  <img src="images/book_cover_milopazik.png" alt="原來我是 Milo Pazik 撒奇萊雅族，電子書" class="product-img">
+                </div>
+                <div class="product-info">
+                  <h4 class="product-title">原來我是 Milo Pazik（電子書）</h4>
+                  <p class="product-desc">撒奇萊雅族，在清朝幾乎被抄家滅族，相隔一個多世紀後才發現，原來我是 Milo Pazik，Sakizaya！部落尋根與自我認同的旅程故事。</p>
+                  <span class="product-buy-btn">前往購買 →</span>
+                </div>
+              </a>
             </div>
             <!-- 書籍 3 -->
-            <div class="product-card">
-              <div class="product-img-wrapper">
-                <img src="images/book_cover_kuairenkuaiyu.jpg" alt="快人快語揭天幕" class="product-img">
-              </div>
-              <div class="product-info">
-                <h4 class="product-title">快人快語揭天幕</h4>
-                <p class="product-desc">作者在香積法門修持驗證大法至簡、大法必簡的方便法門，快語直言天地萬物的虛實存在。</p>
-              </div>
+            <div class="product-card" data-url="https://shopee.tw/%E3%80%8A%E5%BF%AB%E4%BA%BA%E5%BF%AB%E8%AA%9E%E6%8F%AD%E5%A4%A9%E5%B9%95%E3%80%8B%E9%A6%99%E7%A9%8D%E6%B3%95%E5%80%91%E5%8F%A2%E6%9B%B8-1-%E6%9B%B8%E7%B1%8D-%E6%9E%97%E5%AE%B6%E4%BA%A8-%E8%91%97%E4%BD%9C-i.1934369696.56168869285?extraParams=%7B%22display_model_id%22%3A244358840387%2C%22model_selection_logic%22%3A3%7D&image_ids=tw-11134207-820lf-mu1jzwd6328a7c">
+              <a href="https://shopee.tw/%E3%80%8A%E5%BF%AB%E4%BA%BA%E5%BF%AB%E8%AA%9E%E6%8F%AD%E5%A4%A9%E5%B9%95%E3%80%8B%E9%A6%99%E7%A9%8D%E6%B3%95%E5%80%91%E5%8F%A2%E6%9B%B8-1-%E6%9B%B8%E7%B1%8D-%E6%9E%97%E5%AE%B6%E4%BA%A8-%E8%91%97%E4%BD%9C-i.1934369696.56168869285?extraParams=%7B%22display_model_id%22%3A244358840387%2C%22model_selection_logic%22%3A3%7D&image_ids=tw-11134207-820lf-mu1jzwd6328a7c" target="_blank" rel="noopener noreferrer" class="product-card-link">
+                <div class="product-img-wrapper">
+                  <img src="images/book_cover_kuairenkuaiyu.jpg" alt="快人快語揭天幕" class="product-img">
+                </div>
+                <div class="product-info">
+                  <h4 class="product-title">快人快語揭天幕</h4>
+                  <p class="product-desc">作者在香積法門修持驗證大法至簡、大法必簡的方便法門，快語直言天地萬物的虛實存在。</p>
+                  <span class="product-buy-btn">前往購買 →</span>
+                </div>
+              </a>
             </div>
             <!-- 書籍 4 -->
-            <div class="product-card">
+            <div class="product-card" data-url="">
               <div class="product-img-wrapper">
                 <img src="images/book_cover_lalashan_gongzuoji.png" alt="拉拉山林打工記" class="product-img">
               </div>
@@ -586,37 +596,81 @@
               </div>
             </div>
             <!-- 書籍 5 -->
-            <div class="product-card">
+            <div class="product-card" data-url="https://shopee.tw/%E3%80%8A%E6%8B%89%E6%8B%89%E5%B1%B1%E6%9E%97%E5%A5%87%E9%81%87%E8%A8%98%E3%80%8B%E6%9B%B8%E7%B1%8D-%E6%9E%97%E5%AE%B6%E4%BA%A8-%E8%91%97%E4%BD%9C-i.1934369696.52868879287?extraParams=%7B%22display_model_id%22%3A431585078720%2C%22model_selection_logic%22%3A3%7D&image_ids=tw-11134207-820li-mu1jv30l5gjqa2">
+              <a href="https://shopee.tw/%E3%80%8A%E6%8B%89%E6%8B%89%E5%B1%B1%E6%9E%97%E5%A5%87%E9%81%87%E8%A8%98%E3%80%8B%E6%9B%B8%E7%B1%8D-%E6%9E%97%E5%AE%B6%E4%BA%A8-%E8%91%97%E4%BD%9C-i.1934369696.52868879287?extraParams=%7B%22display_model_id%22%3A431585078720%2C%22model_selection_logic%22%3A3%7D&image_ids=tw-11134207-820li-mu1jv30l5gjqa2" target="_blank" rel="noopener noreferrer" class="product-card-link">
+                <div class="product-img-wrapper">
+                  <img src="images/book_cover_lalashan_qiyuji.png" alt="拉拉山林奇遇記" class="product-img">
+                </div>
+                <div class="product-info">
+                  <h4 class="product-title">拉拉山林奇遇記</h4>
+                  <p class="product-desc">拉拉山林，也是作者的外號，以第一人稱的視角記錄分享親身經歷的不可思議的奇遇。</p>
+                  <span class="product-buy-btn">前往購買 →</span>
+                </div>
+              </a>
+            </div>
+            <!-- 書籍 6：萬法惟心惟信根 -->
+            <div class="product-card" data-url="">
               <div class="product-img-wrapper">
-                <img src="images/book_cover_lalashan_qiyuji.png" alt="拉拉山林奇遇記" class="product-img">
+                <img src="images/product_wanfa_weixin_xingen.png" alt="萬法惟心惟信根" class="product-img">
               </div>
               <div class="product-info">
-                <h4 class="product-title">拉拉山林奇遇記</h4>
-                <p class="product-desc">拉拉山林，也是作者的外號，以第一人稱的視角記錄分享親身經歷的不可思議的奇遇。</p>
+                <h4 class="product-title">萬法惟心惟信根</h4>
+                <p class="product-desc">香積法門叢書系列第3輯作者親身經歷殊勝事蹟的珍貴紀錄，發人深省，驗證萬法惟心、萬法惟信的修行不二心法。逾9萬字內容，以電子書發行，節省出版及購書費用，也方便讀者攜行閱讀。</p>
               </div>
             </div>
-            <!-- 商品 6：日照金山 -->
-            <div class="product-card">
-              <div class="product-img-wrapper">
-                <img src="images/product_rizhaojinshan.png" alt="日照金山" class="product-img">
-              </div>
-              <div class="product-info">
-                <h4 class="product-title">日照金山</h4>
-                <p class="product-desc" style="white-space: pre-line; line-height: 1.5; font-size: 12.5px;">台灣之最－玉山油畫
+            <!-- 商品 7：日照金山 -->
+            <div class="product-card" data-url="https://shopee.tw/%E6%B2%B9%E7%95%AB%E3%80%8A%E6%97%A5%E7%85%A7%E9%87%91%E5%B1%B1%E3%80%8B%E8%97%9D%E8%A1%93%E7%95%AB-%E8%A4%87%E8%A3%BD%E7%95%AB-%E8%A3%9D%E9%A3%BE-i.1934369696.47518898260?extraParams=%7B%22display_model_id%22%3A381585129121%2C%22model_selection_logic%22%3A3%7D&image_ids=tw-11134207-820lh-mu1keypl1nuy68">
+              <a href="https://shopee.tw/%E6%B2%B9%E7%95%AB%E3%80%8A%E6%97%A5%E7%85%A7%E9%87%91%E5%B1%B1%E3%80%8B%E8%97%9D%E8%A1%93%E7%95%AB-%E8%A4%87%E8%A3%BD%E7%95%AB-%E8%A3%9D%E9%A3%BE-i.1934369696.47518898260?extraParams=%7B%22display_model_id%22%3A381585129121%2C%22model_selection_logic%22%3A3%7D&image_ids=tw-11134207-820lh-mu1keypl1nuy68" target="_blank" rel="noopener noreferrer" class="product-card-link">
+                <div class="product-img-wrapper">
+                  <img src="images/product_rizhaojinshan.png" alt="日照金山" class="product-img">
+                </div>
+                <div class="product-info">
+                  <h4 class="product-title">日照金山</h4>
+                  <p class="product-desc" style="white-space: pre-line; line-height: 1.5; font-size: 12.5px;">台灣之最－玉山油畫
 高解析度掃描專業輸出複製畫
 尺寸：91.5 x 73.5 cm</p>
-              </div>
+                  <span class="product-buy-btn">前往購買 →</span>
+                </div>
+              </a>
             </div>
-            <!-- 商品 7：三世佛金唐 -->
-            <div class="product-card">
-              <div class="product-img-wrapper">
-                <img src="images/product_sanshifo_jintang.png" alt="三世佛金唐" class="product-img">
-              </div>
-              <div class="product-info">
-                <h4 class="product-title">三世佛金唐</h4>
-                <p class="product-desc" style="white-space: pre-line; line-height: 1.5; font-size: 12.5px;">有段因緣俱足殊勝故事的三世佛金唐
+            <!-- 商品 8：三世佛金唐 -->
+            <div class="product-card" data-url="https://shopee.tw/%E3%80%8A%E4%B8%89%E4%B8%96%E4%BD%9B%E9%87%91%E5%94%90%E3%80%8B%E6%96%87%E5%89%B5%E5%95%86%E5%93%81-%E5%94%90%E5%8D%A1-i.1934369696.47668899448?extraParams=%7B%22display_model_id%22%3A376585130513%2C%22model_selection_logic%22%3A3%7D&image_ids=tw-11134207-820l5-mu1k6rngz4zqf0">
+              <a href="https://shopee.tw/%E3%80%8A%E4%B8%89%E4%B8%96%E4%BD%9B%E9%87%91%E5%94%90%E3%80%8B%E6%96%87%E5%89%B5%E5%95%86%E5%93%81-%E5%94%90%E5%8D%A1-i.1934369696.47668899448?extraParams=%7B%22display_model_id%22%3A376585130513%2C%22model_selection_logic%22%3A3%7D&image_ids=tw-11134207-820l5-mu1k6rngz4zqf0" target="_blank" rel="noopener noreferrer" class="product-card-link">
+                <div class="product-img-wrapper">
+                  <img src="images/product_sanshifo_jintang.png" alt="三世佛金唐" class="product-img">
+                </div>
+                <div class="product-info">
+                  <h4 class="product-title">三世佛金唐</h4>
+                  <p class="product-desc" style="white-space: pre-line; line-height: 1.5; font-size: 12.5px;">有段因緣俱足殊勝故事的三世佛金唐
 高解析度掃描專業輸出複製，質感如真
 尺寸：43.5 x 60 cm、39 x 54.5 cm</p>
+                  <span class="product-buy-btn">前往購買 →</span>
+                </div>
+              </a>
+            </div>
+            <!-- 商品 9：舞鶴木牌 -->
+            <div class="product-card" data-url="https://shopee.tw/%E8%88%9E%E9%B6%B4%E5%BE%A1%E5%AE%88-%E5%85%B8%E9%9B%85%E6%8E%9B%E9%A3%BE-%E6%9C%A8%E8%A3%BD-%E6%8E%9B%E4%BB%B6-%E6%93%B4%E9%A6%99-i.1934369696.50169162886?extraParams=%7B%22display_model_id%22%3A436606999573%2C%22model_selection_logic%22%3A3%7D&image_ids=tw-11134207-820lb-mu8ttowovtoo07">
+              <a href="https://shopee.tw/%E8%88%9E%E9%B6%B4%E5%BE%A1%E5%AE%88-%E5%85%B8%E9%9B%85%E6%8E%9B%E9%A3%BE-%E6%9C%A8%E8%A3%BD-%E6%8E%9B%E4%BB%B6-%E6%93%B4%E9%A6%99-i.1934369696.50169162886?extraParams=%7B%22display_model_id%22%3A436606999573%2C%22model_selection_logic%22%3A3%7D&image_ids=tw-11134207-820lb-mu8ttowovtoo07" target="_blank" rel="noopener noreferrer" class="product-card-link">
+                <div class="product-img-wrapper tag-img-wrapper">
+                  <img src="images/product_wuhe_wood_tag_v2.png" alt="舞鶴木牌正面" class="product-img">
+                  <img src="images/product_wuhe_wood_tag_v3.jpg" alt="舞鶴木牌背面" class="product-img">
+                </div>
+                <div class="product-info">
+                  <h4 class="product-title">舞鶴木牌</h4>
+                  <p class="product-desc" style="white-space: pre-line; line-height: 1.5; font-size: 12.5px;">36 x 52 x 8 mm
+舞鶴木牌擴香掛飾
+黃楊木與駝鹿角完美組合
+大陸天工獎微雕大師作品
+附精緻天地蓋桐木收藏盒
+✽ 開放預購 ✽</p>
+                  <span class="product-buy-btn">前往購買 →</span>
+                </div>
+              </a>
+              <div class="wood-tag-card-box" style="margin: 0 16px 16px 16px; padding: 10px 8px; background-color: #FAF6ED; border: 1px solid rgba(184, 134, 11, 0.22); border-radius: 6px;">
+                <div style="font-family: 'Noto Serif TC', serif; font-size: 13px; font-weight: 700; color: #8B4513; text-align: center; letter-spacing: 2px; margin-bottom: 5px; border-bottom: 1px dashed rgba(184, 134, 11, 0.3); padding-bottom: 4px;">典藏卡</div>
+                <div style="font-size: 12px; font-weight: 600; color: var(--color-text-main); margin-bottom: 6px;">作品名稱：舞鶴</div>
+                <div style="font-size: 11.5px; line-height: 1.65; color: var(--color-text-sub); text-align: justify; margin-bottom: 6px;">祥鶴回首梳羽，自在隨順因緣，外境萬般流轉，內心泰然自若。隸書「舞鶴」，既承載花蓮瑞穗舞鶴山川靈氣地方意象，亦藉台語諧音祝福有緣人萬事「有好」心想事成。本品乃黃楊木與駝鹿角異質和合精雕祥鶴，由精微透雕藝術之都獲大陸天工獎殊榮微雕大師山工匠心創作監刻而成。陰陽相應合一、禪定福慧無量，平凡中見不凡，值得典藏微雕藝術珍品。</div>
+                <div style="font-size: 11px; font-weight: 600; color: #8B4513; text-align: right;">香積園有限公司</div>
               </div>
             </div>
           </div>
@@ -627,28 +681,7 @@
           <div class="ad-section-badge badge-upcoming">即將開放預購</div>
           <h3 class="ad-section-title">即將開放預購商品</h3>
           <div class="products-grid">
-            <div class="product-card">
-              <div class="product-img-wrapper tag-img-wrapper">
-                <img src="images/product_wuhe_wood_tag_v2.png" alt="舞鶴木牌正面" class="product-img">
-                <img src="images/product_wuhe_wood_tag_v3.jpg" alt="舞鶴木牌背面" class="product-img">
-              </div>
-              <div class="product-info">
-                <h4 class="product-title">舞鶴木牌</h4>
-                <p class="product-desc" style="white-space: pre-line; line-height: 1.5; font-size: 12.5px;">36 x 52 x 8 mm
-舞鶴木牌擴香掛飾
-黃楊木與駝鹿角完美組合
-大陸天工獎微雕大師作品
-附精緻天地蓋桐木收藏盒
-✽ 開放預購 ✽</p>
-                <div class="wood-tag-card-box" style="margin-top: 10px; padding: 10px 8px; background-color: #FAF6ED; border: 1px solid rgba(184, 134, 11, 0.22); border-radius: 6px;">
-                  <div style="font-family: 'Noto Serif TC', serif; font-size: 13px; font-weight: 700; color: #8B4513; text-align: center; letter-spacing: 2px; margin-bottom: 5px; border-bottom: 1px dashed rgba(184, 134, 11, 0.3); padding-bottom: 4px;">典藏卡</div>
-                  <div style="font-size: 12px; font-weight: 600; color: var(--color-text-main); margin-bottom: 6px;">作品名稱：舞鶴</div>
-                  <div style="font-size: 11.5px; line-height: 1.65; color: var(--color-text-sub); text-align: justify; margin-bottom: 6px;">祥鶴回首梳羽，自在隨順因緣，外境萬般流轉，內心泰然自若。隸書「舞鶴」，既承載花蓮瑞穗舞鶴山川靈氣地方意象，亦藉台語諧音祝福有緣人萬事「有好」心想事成。本品乃黃楊木與駝鹿角異質和合精雕祥鶴，由精微透雕藝術之都獲大陸天工獎殊榮微雕大師山工匠心創作監刻而成。陰陽相應合一、禪定福慧無量，平凡中見不凡，值得典藏微雕藝術珍品。</div>
-                  <div style="font-size: 11px; font-weight: 600; color: #8B4513; text-align: right;">香積園有限公司</div>
-                </div>
-              </div>
-            </div>
-            <div class="product-card">
+            <div class="product-card" data-url="">
               <div class="product-img-wrapper">
                 <img src="images/product_wuhe_cards.jpg" alt="舞鶴撲克牌" class="product-img">
               </div>
@@ -719,6 +752,24 @@
             <img src="images/wuhe_library_cover.jpg" alt="小鶴作文" class="library-img">
             <div class="library-preface-label">作者序節錄：</div>
             <p class="library-preface-content">「生活中只要有心多加留意，就不難發現許多令人驚奇的故事——虛實相應，色即是空，空即是色。」</p>
+          </article>
+        </a>
+
+        <!-- 方格子部落格卡片 -->
+        <a href="https://vocus.cc/user/@MiloPazik" target="_blank" rel="noopener noreferrer" class="library-card-link vocus-profile-link" id="vocus-profile-link">
+          <article class="map-article library-card vocus-profile-card">
+            <div class="vocus-profile-header">
+              <img src="images/crane_front_v2.jpg" alt="MiloPazik叫小鶴的沙龍" class="vocus-profile-avatar">
+              <h3 class="vocus-profile-title">MiloPazik叫小鶴的沙龍</h3>
+            </div>
+            <div class="vocus-profile-lines">
+              <p>Milo Pazik，外號叫小鶴</p>
+              <p>浪跡花蓮瑞穗舞鶴山下</p>
+              <p>記錄親身經歷虛實合一的故事</p>
+              <p>希望有緣人能理解我的明白...</p>
+            </div>
+            <p class="vocus-profile-highlight" style="color: #C0392B;">※小鶴的精彩作文盡在方格子※</p>
+            <div class="vocus-profile-more">前往方格子 →</div>
           </article>
         </a>
 
@@ -854,6 +905,22 @@
           <button class="puzzle-sel-btn" data-id="puzzle_shideng_yingyue">
             <span class="puzzle-name">石燈映月</span>
             <div class="puzzle-badge" id="badge-puzzle_shideng_yingyue">0/12</div>
+          </button>
+          <button class="puzzle-sel-btn" data-id="puzzle_baoku_kaimen">
+            <span class="puzzle-name">寶庫開門</span>
+            <div class="puzzle-badge" id="badge-puzzle_baoku_kaimen">0/12</div>
+          </button>
+          <button class="puzzle-sel-btn" data-id="puzzle_horse_year_couplets">
+            <span class="puzzle-name">馬年春聯</span>
+            <div class="puzzle-badge" id="badge-puzzle_horse_year_couplets">0/12</div>
+          </button>
+          <button class="puzzle-sel-btn" data-id="puzzle_meizhou_mazu_seal">
+            <span class="puzzle-name">湄洲媽祖廟大印</span>
+            <div class="puzzle-badge" id="badge-puzzle_meizhou_mazu_seal">0/12</div>
+          </button>
+          <button class="puzzle-sel-btn" data-id="puzzle_dari_rulai_zijindan">
+            <span class="puzzle-name">大日如來紫金丹</span>
+            <div class="puzzle-badge" id="badge-puzzle_dari_rulai_zijindan">0/12</div>
           </button>
         </div>
 

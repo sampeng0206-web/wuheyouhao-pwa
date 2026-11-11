@@ -1,9 +1,9 @@
-const CACHE_NAME = 'wuheyouhao-v49';
+const CACHE_NAME = 'wuheyouhao-v50';
 const urlsToCache = [
   './',
   './index.html',
-  './css/style.css?v=28',
-  './js/app.js?v=34',
+  './css/style.css?v=29',
+  './js/app.js?v=35',
   './data/fortunes.json',
   './audio/youhao.mp3',
   './images/crane_front_v2.jpg',
@@ -63,7 +63,12 @@ const urlsToCache = [
   './images/puzzle_mountain_rainbow.jpg',
   './images/puzzle_wuhe_qiangong.jpg',
   './images/puzzle_yushan.png',
-  './images/puzzle_shideng_yingyue.jpg'
+  './images/puzzle_shideng_yingyue.jpg',
+  './images/product_wanfa_weixin_xingen.png',
+  './images/puzzle_baoku_kaimen.jpg',
+  './images/puzzle_horse_year_couplets.jpg',
+  './images/puzzle_meizhou_mazu_seal.jpg',
+  './images/puzzle_dari_rulai_zijindan.jpg'
 ];
 
 self.addEventListener('install', e => {

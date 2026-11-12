@@ -945,7 +945,7 @@ const PRODUCTS_LIST = [
   {
     title: '原來我是 Milo Pazik（電子書）',
     image: 'images/book_cover_milopazik.png',
-    url: 'https://shopee.tw/%E3%80%8A%E5%8E%9F%E4%BE%86%E6%88%91%E6%98%AFMilo-Pazik~%E6%92%92%E5%A5%87%E8%90%8A%E9%9B%85%E6%97%8F%E3%80%8B-(%E4%B8%8A)-%E6%9B%B8%E7%B1%8D-%E6%9E%97%E5%AE%B6%E4%BA%A8-%E8%91%97%E4%BD%9C-%E9%9B%BB%E5%AD%90%E6%9B%B8-i.1934369696.47819163588?extraParams=%7B%22display_model_id%22%3A263015942752%2C%22model_selection_logic%22%3A3%7D&image_ids=tw-11134207-820la-mu8tk6o1osn89e'
+    url: 'https://tw.shp.ee/1GWcFXAa'
   },
   {
     title: '快人快語揭天幕',

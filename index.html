@@ -18,14 +18,14 @@
   <link rel="apple-touch-icon" href="images/icons/icon-192.png?v=5">
   
   <!-- 引入樣式表 -->
-  <link rel="stylesheet" href="css/style.css?v=32">
+  <link rel="stylesheet" href="css/style.css?v=33">
   
   <!-- 註冊 Service Worker -->
   <script>
     if ('serviceWorker' in navigator) {
       let refreshing = false;
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js?v=33')
+        navigator.serviceWorker.register('sw.js?v=34')
           .then(reg => console.log('Service Worker 註冊成功:', reg.scope))
           .catch(err => console.log('Service Worker 註冊失敗:', err));
 
@@ -40,7 +40,7 @@
   </script>
   
   <!-- 引入邏輯腳本 -->
-  <script src="js/app.js?v=39" defer></script>
+  <script src="js/app.js?v=40" defer></script>
 </head>
 <body>
 
@@ -645,11 +645,11 @@
             <div class="product-card" data-url="https://shopee.tw/%E8%88%9E%E9%B6%B4%E5%BE%A1%E5%AE%88-%E5%85%B8%E9%9B%85%E6%8E%9B%E9%A3%BE-%E6%9C%A8%E8%A3%BD-%E6%8E%9B%E4%BB%B6-%E6%93%B4%E9%A6%99-i.1934369696.50169162886?extraParams=%7B%22display_model_id%22%3A436606999573%2C%22model_selection_logic%22%3A3%7D&image_ids=tw-11134207-820lb-mu8ttowovtoo07">
               <a href="https://shopee.tw/%E8%88%9E%E9%B6%B4%E5%BE%A1%E5%AE%88-%E5%85%B8%E9%9B%85%E6%8E%9B%E9%A3%BE-%E6%9C%A8%E8%A3%BD-%E6%8E%9B%E4%BB%B6-%E6%93%B4%E9%A6%99-i.1934369696.50169162886?extraParams=%7B%22display_model_id%22%3A436606999573%2C%22model_selection_logic%22%3A3%7D&image_ids=tw-11134207-820lb-mu8ttowovtoo07" target="_blank" rel="noopener noreferrer" class="product-card-link">
                 <div class="product-img-wrapper tag-img-wrapper">
-                  <img src="images/product_wuhe_wood_tag_v2.png" alt="舞鶴木牌正面" class="product-img">
-                  <img src="images/product_wuhe_wood_tag_v3.jpg" alt="舞鶴木牌背面" class="product-img">
+                  <img src="images/product_wuhe_wood_tag_v2.png" alt="舞鶴御守正面" class="product-img">
+                  <img src="images/product_wuhe_wood_tag_v3.jpg" alt="舞鶴御守背面" class="product-img">
                 </div>
                 <div class="product-info">
-                  <h4 class="product-title">舞鶴木牌</h4>
+                  <h4 class="product-title">舞鶴御守</h4>
                   <p class="product-desc" style="white-space: pre-line; line-height: 1.5; font-size: 12.5px;">36 x 52 x 8 mm
 舞鶴木牌擴香掛飾
 黃楊木與駝鹿角完美組合
@@ -907,6 +907,10 @@
           <button class="puzzle-sel-btn" data-id="puzzle_dari_rulai_zijindan">
             <span class="puzzle-name">大日如來紫金丹</span>
             <div class="puzzle-badge" id="badge-puzzle_dari_rulai_zijindan">0/12</div>
+          </button>
+          <button class="puzzle-sel-btn" data-id="puzzle_present_buddha_shakyamuni">
+            <span class="puzzle-name">現在佛-釋迦牟尼佛</span>
+            <div class="puzzle-badge" id="badge-puzzle_present_buddha_shakyamuni">0/12</div>
           </button>
         </div>
 

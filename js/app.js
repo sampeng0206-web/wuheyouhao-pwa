@@ -973,7 +973,7 @@ const PRODUCTS_LIST = [
     url: 'https://shopee.tw/%E3%80%8A%E4%B8%89%E4%B8%96%E4%BD%9B%E9%87%91%E5%94%90%E3%80%8B%E6%96%87%E5%89%B5%E5%95%86%E5%93%81-%E5%94%90%E5%8D%A1-i.1934369696.47668899448?extraParams=%7B%22display_model_id%22%3A376585130513%2C%22model_selection_logic%22%3A3%7D&image_ids=tw-11134207-820l5-mu1k6rngz4zqf0'
   },
   {
-    title: '舞鶴木牌',
+    title: '舞鶴御守',
     image: 'images/product_wuhe_wood_tag_v2.png',
     url: 'https://shopee.tw/%E8%88%9E%E9%B6%B4%E5%BE%A1%E5%AE%88-%E5%85%B8%E9%9B%85%E6%8E%9B%E9%A3%BE-%E6%9C%A8%E8%A3%BD-%E6%8E%9B%E4%BB%B6-%E6%93%B4%E9%A6%99-i.1934369696.50169162886?extraParams=%7B%22display_model_id%22%3A436606999573%2C%22model_selection_logic%22%3A3%7D&image_ids=tw-11134207-820lb-mu8ttowovtoo07'
   }
@@ -1158,10 +1158,40 @@ const PUZZLE_LIST = [
     aspectRatio: 575 / 720,
     medalName: '紫金丹勳章',
     medalIcon: '✨'
+  },
+  {
+    id: 'puzzle_present_buddha_shakyamuni',
+    name: '現在佛-釋迦牟尼佛',
+    image: 'images/puzzle_present_buddha_shakyamuni.jpg',
+    rows: 4,
+    cols: 3,
+    aspectRatio: 704 / 984,
+    medalName: '現在佛勳章',
+    medalIcon: '🪷'
   }
 ];
 
 let activePuzzleId = 'wuhe_crane';
+let currentPuzzleScale = 1;
+window.getPuzzleScale = () => currentPuzzleScale;
+
+function getDvhHeight() {
+  let probe = document.getElementById('puzzle-dvh-probe');
+  if (!probe) {
+    probe = document.createElement('div');
+    probe.id = 'puzzle-dvh-probe';
+    probe.style.position = 'fixed';
+    probe.style.top = '0';
+    probe.style.left = '0';
+    probe.style.width = '0';
+    probe.style.height = '100dvh';
+    probe.style.visibility = 'hidden';
+    probe.style.pointerEvents = 'none';
+    document.body.appendChild(probe);
+  }
+  const h = probe.getBoundingClientRect().height;
+  return h > 0 ? h : (window.innerHeight || 640);
+}
 
 function getPuzzleProgress() {
   const defaultProgress = {
@@ -1183,7 +1213,8 @@ function getPuzzleProgress() {
     "puzzle_baoku_kaimen": { "unlockedCount": 0, "completed": false },
     "puzzle_horse_year_couplets": { "unlockedCount": 0, "completed": false },
     "puzzle_meizhou_mazu_seal": { "unlockedCount": 0, "completed": false },
-    "puzzle_dari_rulai_zijindan": { "unlockedCount": 0, "completed": false }
+    "puzzle_dari_rulai_zijindan": { "unlockedCount": 0, "completed": false },
+    "puzzle_present_buddha_shakyamuni": { "unlockedCount": 0, "completed": false }
   };
   const stored = JSON.parse(localStorage.getItem('puzzleProgress'));
   if (stored) {
@@ -1561,7 +1592,8 @@ function initPuzzleGame() {
     
     // Setup Board size based on container or screen width
     const boardEl = document.getElementById('puzzle-board');
-    if (!boardEl) return;
+    const trayEl = document.getElementById('puzzle-tray');
+    if (!boardEl || !trayEl) return;
     
     let parentWidth = boardEl.parentElement ? boardEl.parentElement.clientWidth : 0;
     if (!parentWidth || parentWidth < 100) {
@@ -1572,126 +1604,195 @@ function initPuzzleGame() {
         parentWidth = Math.min(window.innerWidth || 352, 500);
       }
     }
-    const boardWidth = Math.min(Math.max(parentWidth - 32, 200), 320); // padding safe and clamped
-    const boardHeight = puzzle.aspectRatio
-      ? Math.round(boardWidth / puzzle.aspectRatio)
-      : boardWidth * (puzzle.rows / puzzle.cols);
-    
-    boardEl.style.width = boardWidth + 'px';
-    boardEl.style.height = boardHeight + 'px';
-    boardEl.innerHTML = '';
-  
-  const cellWidth = boardWidth / puzzle.cols;
-  const cellHeight = boardHeight / puzzle.rows;
-  
-  // Setup Tray pieces
-  let trayUnsolved = [];
-  
-  // Render cells
-  for (let i = 0; i < totalPieces; i++) {
-    const col = i % puzzle.cols;
-    const row = Math.floor(i / puzzle.cols);
-    const isLocked = !unlockedIndices.includes(i);
-    const isSolved = solved.includes(i) && unlockedIndices.includes(i);
-    
-    const cell = document.createElement('div');
-    cell.className = 'puzzle-cell';
-    cell.id = `slot-${activePuzzleId}-${i}`;
-    cell.style.width = cellWidth + 'px';
-    cell.style.height = cellHeight + 'px';
-    cell.style.left = (col * cellWidth) + 'px';
-    cell.style.top = (row * cellHeight) + 'px';
-    cell.style.overflow = 'visible';
-    
-    if (isSolved) {
-      // Render solved piece inside the board cell
-      const piece = document.createElement('div');
-      piece.className = 'puzzle-piece snapped';
-      
-      const offsetW = cellWidth * 0.15;
-      const offsetH = cellHeight * 0.15;
-      const pieceWidth = cellWidth * 1.3;
-      const pieceHeight = cellHeight * 1.3;
-      piece.style.width = pieceWidth + 'px';
-      piece.style.height = pieceHeight + 'px';
-      piece.style.position = 'absolute';
-      piece.style.left = -offsetW + 'px';
-      piece.style.top = -offsetH + 'px';
-      applyPieceClipPath(piece, puzzle, i, pieceWidth, pieceHeight);
-      
-      piece.style.backgroundImage = `url(${puzzle.image})`;
-      piece.style.backgroundSize = `${boardWidth}px ${boardHeight}px`;
-      piece.style.backgroundPosition = `${offsetW - col * cellWidth}px ${offsetH - row * cellHeight}px`;
-      cell.appendChild(piece);
-    } else if (isLocked) {
-      cell.classList.add('locked');
-      cell.textContent = '?';
-    } else {
-      // Unsolved and unlocked, goes to tray
-      trayUnsolved.push(i);
-    }
-    
-    boardEl.appendChild(cell);
-  }
-  
-  // Render tray pieces
-  const trayEl = document.getElementById('puzzle-tray');
-  if (!trayEl) return;
-  trayEl.innerHTML = '';
-  
-  if (trayUnsolved.length === 0) {
-    if (solved.length === totalPieces) {
-      trayEl.innerHTML = '<div style="color: var(--color-accent); font-weight: bold; padding: 20px;">✨ 拼圖完成！太棒了 🕊️</div>';
-    } else if (unlockedCount === 0) {
-      trayEl.innerHTML = '<div style="color: var(--color-text-sub); padding: 20px;">🔒 請先完成前一張拼圖，才能解鎖這一張</div>';
-    } else {
-      trayEl.innerHTML = '<div style="color: var(--color-text-sub); padding: 20px;">🎉 已放置所有可用碎片！</div>';
-    }
-  } else {
-    // Shuffle unsnapped pieces
-    trayUnsolved.sort(() => Math.random() - 0.5);
-    
-    trayUnsolved.forEach(index => {
-      const col = index % puzzle.cols;
-      const row = Math.floor(index / puzzle.cols);
-      
-      const wrapper = document.createElement('div');
-      wrapper.className = 'puzzle-piece-wrapper';
-      wrapper.style.width = cellWidth + 'px';
-      wrapper.style.height = cellHeight + 'px';
-      wrapper.style.position = 'relative';
-      wrapper.style.display = 'inline-block';
-      wrapper.style.margin = '12px';
-      wrapper.style.overflow = 'visible';
-      
-      const piece = document.createElement('div');
-      piece.className = 'puzzle-piece';
-      piece.id = `piece-${activePuzzleId}-${index}`;
-      
-      const offsetW = cellWidth * 0.15;
-      const offsetH = cellHeight * 0.15;
-      const pieceWidth = cellWidth * 1.3;
-      const pieceHeight = cellHeight * 1.3;
-      piece.style.width = pieceWidth + 'px';
-      piece.style.height = pieceHeight + 'px';
-      piece.style.position = 'absolute';
-      piece.style.left = -offsetW + 'px';
-      piece.style.top = -offsetH + 'px';
-      applyPieceClipPath(piece, puzzle, index, pieceWidth, pieceHeight);
-      
-      piece.style.backgroundImage = `url(${puzzle.image})`;
-      piece.style.backgroundSize = `${boardWidth}px ${boardHeight}px`;
-      piece.style.backgroundPosition = `${offsetW - col * cellWidth}px ${offsetH - row * cellHeight}px`;
-      
-      const slotEl = document.getElementById(`slot-${activePuzzleId}-${index}`);
-      if (slotEl) {
-        setupPointerDragging(piece, slotEl, index);
+    const baseBoardWidth = Math.min(Math.max(parentWidth - 32, 200), 320); // padding safe and clamped
+    const baseBoardHeight = puzzle.aspectRatio
+      ? Math.round(baseBoardWidth / puzzle.aspectRatio)
+      : baseBoardWidth * (puzzle.rows / puzzle.cols);
+
+    // 計算可用高度（100dvh 扣除頂部標題列、拼圖頁其他固定元件與間距），僅在手機畫面且內容超出時等比縮小
+    const isMobileViewport = (window.innerWidth || 390) < 768;
+    currentPuzzleScale = 1;
+
+    if (isMobileViewport) {
+      const dvh = getDvhHeight();
+      const boardTop = boardEl.getBoundingClientRect().top + window.scrollY;
+      const trayTitleEl = document.querySelector('.puzzle-tray-title');
+      const trayTitleH = trayTitleEl ? trayTitleEl.getBoundingClientRect().height : 19;
+      const boardMarginBottom = 6;
+      const trayTitleMarginBottom = 4;
+      const boardBorder = 4;
+      const bottomSafeMargin = 10;
+      const availableHeight = dvh - boardTop - boardBorder - boardMarginBottom - trayTitleH - trayTitleMarginBottom - bottomSafeMargin;
+      const trayOuterW = trayEl.getBoundingClientRect().width || parentWidth;
+
+      function estimateBoardAndTrayHeight(s) {
+        const bW = baseBoardWidth * s;
+        const bH = baseBoardHeight * s;
+        const cW = bW / puzzle.cols;
+        const cH = bH / puzzle.rows;
+        const margin = Math.max(2, Math.round(2 * s));
+        const gap = Math.max(2, Math.round(2 * s));
+        const pad = Math.max(3, Math.round(3 * s));
+        const trayInnerW = Math.max(50, trayOuterW - 2 - 2 * pad);
+        const itemW = cW + 2 * margin;
+        const itemH = cH + 2 * margin;
+        const colsInTray = Math.max(1, Math.floor((trayInnerW + gap) / (itemW + gap)));
+        const rowsInTray = Math.ceil(totalPieces / colsInTray);
+        const trayH = Math.max(60, rowsInTray * itemH + Math.max(0, rowsInTray - 1) * gap + 2 * pad + 2);
+        return bH + trayH;
       }
-      
-      wrapper.appendChild(piece);
-      trayEl.appendChild(wrapper);
-    });
-  }
+
+      if (estimateBoardAndTrayHeight(1.0) > availableHeight) {
+        let lo = 0.1;
+        let hi = 1.0;
+        for (let iter = 0; iter < 25; iter++) {
+          const mid = (lo + hi) / 2;
+          if (estimateBoardAndTrayHeight(mid) <= availableHeight) {
+            lo = mid;
+          } else {
+            hi = mid;
+          }
+        }
+        currentPuzzleScale = Math.max(0.1, Math.floor(lo * 100) / 100);
+      }
+    }
+
+    // Prepare shuffled tray pieces once per render
+    let trayUnsolved = [];
+    for (let i = 0; i < totalPieces; i++) {
+      const isLocked = !unlockedIndices.includes(i);
+      const isSolved = solved.includes(i) && unlockedIndices.includes(i);
+      if (!isSolved && !isLocked) {
+        trayUnsolved.push(i);
+      }
+    }
+    trayUnsolved.sort(() => Math.random() - 0.5);
+
+    function renderBoardAndTrayAtScale(scale) {
+      const boardWidth = baseBoardWidth * scale;
+      const boardHeight = baseBoardHeight * scale;
+      boardEl.dataset.scale = String(scale);
+      boardEl.style.width = boardWidth + 'px';
+      boardEl.style.height = boardHeight + 'px';
+      boardEl.innerHTML = '';
+
+      const cellWidth = boardWidth / puzzle.cols;
+      const cellHeight = boardHeight / puzzle.rows;
+
+      for (let i = 0; i < totalPieces; i++) {
+        const col = i % puzzle.cols;
+        const row = Math.floor(i / puzzle.cols);
+        const isLocked = !unlockedIndices.includes(i);
+        const isSolved = solved.includes(i) && unlockedIndices.includes(i);
+
+        const cell = document.createElement('div');
+        cell.className = 'puzzle-cell';
+        cell.id = `slot-${activePuzzleId}-${i}`;
+        cell.style.width = cellWidth + 'px';
+        cell.style.height = cellHeight + 'px';
+        cell.style.left = (col * cellWidth) + 'px';
+        cell.style.top = (row * cellHeight) + 'px';
+        cell.style.overflow = 'visible';
+
+        if (isSolved) {
+          const piece = document.createElement('div');
+          piece.className = 'puzzle-piece snapped';
+
+          const offsetW = cellWidth * 0.15;
+          const offsetH = cellHeight * 0.15;
+          const pieceWidth = cellWidth * 1.3;
+          const pieceHeight = cellHeight * 1.3;
+          piece.style.width = pieceWidth + 'px';
+          piece.style.height = pieceHeight + 'px';
+          piece.style.position = 'absolute';
+          piece.style.left = -offsetW + 'px';
+          piece.style.top = -offsetH + 'px';
+          applyPieceClipPath(piece, puzzle, i, pieceWidth, pieceHeight);
+
+          piece.style.backgroundImage = `url(${puzzle.image})`;
+          piece.style.backgroundSize = `${boardWidth}px ${boardHeight}px`;
+          piece.style.backgroundPosition = `${offsetW - col * cellWidth}px ${offsetH - row * cellHeight}px`;
+          cell.appendChild(piece);
+        } else if (isLocked) {
+          cell.classList.add('locked');
+          cell.textContent = '?';
+        }
+
+        boardEl.appendChild(cell);
+      }
+
+      trayEl.innerHTML = '';
+      const wrapperMargin = isMobileViewport ? Math.max(2, Math.round(2 * scale)) : 12;
+      const trayGap = isMobileViewport ? Math.max(2, Math.round(2 * scale)) : 12;
+      const trayPad = isMobileViewport ? Math.max(3, Math.round(3 * scale)) : 12;
+      trayEl.style.gap = trayGap + 'px';
+      trayEl.style.padding = trayPad + 'px';
+
+      if (trayUnsolved.length === 0) {
+        const msgPad = isMobileViewport ? '10px' : '20px';
+        if (solved.length === totalPieces) {
+          trayEl.innerHTML = `<div style="color: var(--color-accent); font-weight: bold; padding: ${msgPad};">✨ 拼圖完成！太棒了 🕊️</div>`;
+        } else if (unlockedCount === 0) {
+          trayEl.innerHTML = `<div style="color: var(--color-text-sub); padding: ${msgPad};">🔒 請先完成前一張拼圖，才能解鎖這一張</div>`;
+        } else {
+          trayEl.innerHTML = `<div style="color: var(--color-text-sub); padding: ${msgPad};">🎉 已放置所有可用碎片！</div>`;
+        }
+      } else {
+        trayUnsolved.forEach(index => {
+          const col = index % puzzle.cols;
+          const row = Math.floor(index / puzzle.cols);
+
+          const wrapper = document.createElement('div');
+          wrapper.className = 'puzzle-piece-wrapper';
+          wrapper.style.width = cellWidth + 'px';
+          wrapper.style.height = cellHeight + 'px';
+          wrapper.style.position = 'relative';
+          wrapper.style.display = 'inline-block';
+          wrapper.style.margin = wrapperMargin + 'px';
+          wrapper.style.overflow = 'visible';
+
+          const piece = document.createElement('div');
+          piece.className = 'puzzle-piece';
+          piece.id = `piece-${activePuzzleId}-${index}`;
+
+          const offsetW = cellWidth * 0.15;
+          const offsetH = cellHeight * 0.15;
+          const pieceWidth = cellWidth * 1.3;
+          const pieceHeight = cellHeight * 1.3;
+          piece.style.width = pieceWidth + 'px';
+          piece.style.height = pieceHeight + 'px';
+          piece.style.position = 'absolute';
+          piece.style.left = -offsetW + 'px';
+          piece.style.top = -offsetH + 'px';
+          applyPieceClipPath(piece, puzzle, index, pieceWidth, pieceHeight);
+
+          piece.style.backgroundImage = `url(${puzzle.image})`;
+          piece.style.backgroundSize = `${boardWidth}px ${boardHeight}px`;
+          piece.style.backgroundPosition = `${offsetW - col * cellWidth}px ${offsetH - row * cellHeight}px`;
+
+          const slotEl = document.getElementById(`slot-${activePuzzleId}-${index}`);
+          if (slotEl) {
+            setupPointerDragging(piece, slotEl, index);
+          }
+
+          wrapper.appendChild(piece);
+          trayEl.appendChild(wrapper);
+        });
+      }
+    }
+
+    renderBoardAndTrayAtScale(currentPuzzleScale);
+
+    // 若實際渲染後碎片區底部因小數點進位超出視窗，微調縮放比例確保完整在視窗內
+    if (isMobileViewport && currentPuzzleScale < 1) {
+      const dvh = getDvhHeight();
+      let safetySteps = 0;
+      while ((trayEl.getBoundingClientRect().bottom + window.scrollY) > dvh - 8 && currentPuzzleScale > 0.2 && safetySteps < 10) {
+        currentPuzzleScale = Math.round((currentPuzzleScale - 0.01) * 100) / 100;
+        renderBoardAndTrayAtScale(currentPuzzleScale);
+        safetySteps++;
+      }
+    }
   } catch (err) {
     console.error('[小鶴拼圖] initPuzzleGame 執行例外:', err);
   }
@@ -1726,6 +1827,15 @@ function setupPointerDragging(pieceEl, slotEl, index) {
     pieceEl.style.left = elStartX + 'px';
     pieceEl.style.top = elStartY + 'px';
     pieceEl.style.margin = '0';
+
+    // Compensate if an ancestor transform shifts the fixed containing block
+    const fixedRect = pieceEl.getBoundingClientRect();
+    if (fixedRect.left !== rect.left || fixedRect.top !== rect.top) {
+      elStartX -= (fixedRect.left - rect.left);
+      elStartY -= (fixedRect.top - rect.top);
+      pieceEl.style.left = elStartX + 'px';
+      pieceEl.style.top = elStartY + 'px';
+    }
   });
   
   pieceEl.addEventListener('pointermove', (e) => {
@@ -1752,8 +1862,9 @@ function setupPointerDragging(pieceEl, slotEl, index) {
     const dx = (rect.left + rect.width / 2) - (slotRect.left + slotRect.width / 2);
     const dy = (rect.top + rect.height / 2) - (slotRect.top + slotRect.height / 2);
     const distance = Math.sqrt(dx * dx + dy * dy);
+    const snapRadius = 45 * currentPuzzleScale; // 吸附距離隨縮放比例等比調整
     
-    if (distance < 45) { // 45px snap radius
+    if (distance < snapRadius) {
       // Snapped successfully!
       const solved = getSolvedPieces(activePuzzleId);
       if (!solved.includes(index)) {
@@ -1772,8 +1883,9 @@ function setupPointerDragging(pieceEl, slotEl, index) {
       }
     } else {
       // Revert piece position to tray flow (absolute inside relative wrapper)
-      const cellWidth = slotEl.clientWidth;
-      const cellHeight = slotEl.clientHeight;
+      const wrapperEl = pieceEl.parentElement;
+      const cellWidth = (wrapperEl && parseFloat(wrapperEl.style.width)) || slotEl.clientWidth;
+      const cellHeight = (wrapperEl && parseFloat(wrapperEl.style.height)) || slotEl.clientHeight;
       const offsetW = cellWidth * 0.15;
       const offsetH = cellHeight * 0.15;
       

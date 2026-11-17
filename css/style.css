@@ -2300,4 +2300,50 @@ section {
   color: var(--color-accent);
 }
 
+/* 手機畫面（9:16 直式視窗）拼圖頁垂直間距緊湊化，確保拼貼區與碎片放置區完整同框 */
+@media (max-width: 767px) {
+  #puzzle-page.page-view {
+    padding: 8px 12px 12px 12px;
+  }
+  #puzzle-page .subpage-header {
+    margin: 0 auto 8px auto;
+    padding-bottom: 6px;
+  }
+  #puzzle-page .puzzle-selector {
+    margin-bottom: 8px;
+    padding-bottom: 2px;
+  }
+  #puzzle-page .puzzle-sel-btn {
+    min-height: 74px;
+    padding: 4px 2px;
+  }
+  #puzzle-page .puzzle-info-card {
+    padding: 6px 12px;
+    margin-bottom: 8px;
+  }
+  #puzzle-page .puzzle-info-title {
+    font-size: 16px;
+    margin-bottom: 2px;
+  }
+  #puzzle-page .puzzle-info-progress {
+    font-size: 13px;
+    margin-bottom: 0;
+  }
+  #puzzle-page .puzzle-board {
+    margin-bottom: 6px;
+  }
+  #puzzle-page .puzzle-tray-title {
+    font-size: 13px;
+    margin-bottom: 4px;
+  }
+  #puzzle-page .puzzle-tray {
+    min-height: 60px;
+    margin-bottom: 8px;
+  }
+  #puzzle-page .puzzle-container {
+    padding-bottom: 8px;
+  }
+}
+
+
 

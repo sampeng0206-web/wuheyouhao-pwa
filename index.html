@@ -18,14 +18,14 @@
   <link rel="apple-touch-icon" href="images/icons/icon-192.png?v=5">
   
   <!-- 引入樣式表 -->
-  <link rel="stylesheet" href="css/style.css?v=34">
+  <link rel="stylesheet" href="css/style.css?v=35">
   
   <!-- 註冊 Service Worker -->
   <script>
     if ('serviceWorker' in navigator) {
       let refreshing = false;
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js?v=35')
+        navigator.serviceWorker.register('sw.js?v=36')
           .then(reg => console.log('Service Worker 註冊成功:', reg.scope))
           .catch(err => console.log('Service Worker 註冊失敗:', err));
 
@@ -40,7 +40,7 @@
   </script>
   
   <!-- 引入邏輯腳本 -->
-  <script src="js/app.js?v=41" defer></script>
+  <script src="js/app.js?v=42" defer></script>
 </head>
 <body>
 

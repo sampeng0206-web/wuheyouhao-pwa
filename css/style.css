@@ -150,6 +150,7 @@ section {
 /* 翻牌動畫 */
 .card-scene {
   perspective: 1000px;
+  -webkit-perspective: 1000px;
   width: 280px;
   height: 420px;
   margin: 0 auto;
@@ -166,6 +167,7 @@ section {
   height: 100%;
   position: relative;
   transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
   transition: transform 1.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -186,6 +188,8 @@ section {
 
 .card-face {
   position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   backface-visibility: hidden;
@@ -197,7 +201,10 @@ section {
 
 /* 牌面正面（翻開後顯示，對應 CSS 類為 --back） */
 .card-face--back {
-  transform: rotateY(180deg);
+  transform: rotateY(180deg) translateZ(1px);
+  -webkit-transform: rotateY(180deg) translateZ(1px);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
   background-image: linear-gradient(rgba(255, 255, 255, 0.50), rgba(255, 255, 255, 0.50)), url('../images/fortune_card_crane_gold.jpg');
   background-size: cover;
   background-position: center;
@@ -206,11 +213,45 @@ section {
 
 /* 牌面背面（預設顯示，對應 CSS 類為 --front） */
 .card-face--front {
+  transform: rotateY(0deg) translateZ(1px);
+  -webkit-transform: rotateY(0deg) translateZ(1px);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
   background-color: var(--color-card-warm);
   background-image: url('../images/fortune_card_crane_gold.jpg');
   background-size: cover;
   background-position: center;
   overflow: hidden;
+}
+
+/* iOS Safari / WebKit 雙層保險：面與所有子元素皆設 backface-visibility: hidden，並依翻牌狀態在 90° 中點（0.49s）切換 visibility */
+.card-face--front,
+.card-face--back,
+.card-face--front > *,
+.card-face--back > * {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transition: visibility 0s linear 0.49s;
+}
+
+.card-face--front,
+.card-face--front > * {
+  visibility: visible;
+}
+
+.card-face--back,
+.card-face--back > * {
+  visibility: hidden;
+}
+
+.card.is-flipped .card-face--front,
+.card.is-flipped .card-face--front > * {
+  visibility: hidden;
+}
+
+.card.is-flipped .card-face--back,
+.card.is-flipped .card-face--back > * {
+  visibility: visible;
 }
 
 /* 牌面背面左上角標題：小鶴帶路… */
@@ -227,6 +268,8 @@ section {
   pointer-events: none;
   user-select: none;
   z-index: 2;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 /* 牌面右下角紅色橢圓蓋章（山工） */
@@ -236,6 +279,8 @@ section {
   display: block;
   pointer-events: none;
   user-select: none;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .card-seal--front {

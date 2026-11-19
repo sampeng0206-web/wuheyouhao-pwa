@@ -18,14 +18,14 @@
   <link rel="apple-touch-icon" href="images/icons/icon-192.png?v=5">
   
   <!-- 引入樣式表 -->
-  <link rel="stylesheet" href="css/style.css?v=33">
+  <link rel="stylesheet" href="css/style.css?v=34">
   
   <!-- 註冊 Service Worker -->
   <script>
     if ('serviceWorker' in navigator) {
       let refreshing = false;
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js?v=34')
+        navigator.serviceWorker.register('sw.js?v=35')
           .then(reg => console.log('Service Worker 註冊成功:', reg.scope))
           .catch(err => console.log('Service Worker 註冊失敗:', err));
 
@@ -40,7 +40,7 @@
   </script>
   
   <!-- 引入邏輯腳本 -->
-  <script src="js/app.js?v=40" defer></script>
+  <script src="js/app.js?v=41" defer></script>
 </head>
 <body>
 
@@ -88,10 +88,14 @@
       <!-- 區塊二：翻牌主體 -->
         <div class="card-scene" id="card-trigger" aria-label="翻牌抽籤區域">
           <div class="card">
-            <!-- 牌面背面（預設顯示，crane_front_v2.jpg 背景） -->
-            <div class="card-face card-face--front"></div>
-            <!-- 牌面正面（翻開後， crane_back_v2.png 背景） -->
+            <!-- 牌面背面（預設顯示，fortune_card_crane_gold.jpg 背景 + 文字與印章疊加） -->
+            <div class="card-face card-face--front">
+              <span class="card-front-title">小鶴帶路…</span>
+              <img src="images/seal_tiangong.png" alt="" aria-hidden="true" class="card-seal card-seal--front">
+            </div>
+            <!-- 牌面正面（翻開後，fortune_card_crane_gold.jpg 反白淡化背景 + 淡化印章） -->
             <div class="card-face card-face--back">
+              <img src="images/seal_tiangong.png" alt="" aria-hidden="true" class="card-seal card-seal--back">
               <div class="card-back-content">
                 <div class="card-top-group">
                   <h3 class="card-fortune-title" id="card-fortune-title">小鶴帶路</h3>

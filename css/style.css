@@ -198,7 +198,7 @@ section {
 /* 牌面正面（翻開後顯示，對應 CSS 類為 --back） */
 .card-face--back {
   transform: rotateY(180deg);
-  background-image: url('../images/crane_back_v2.png');
+  background-image: linear-gradient(rgba(255, 255, 255, 0.50), rgba(255, 255, 255, 0.50)), url('../images/fortune_card_crane_gold.jpg');
   background-size: cover;
   background-position: center;
   overflow: hidden;
@@ -207,9 +207,51 @@ section {
 /* 牌面背面（預設顯示，對應 CSS 類為 --front） */
 .card-face--front {
   background-color: var(--color-card-warm);
-  background-image: url('../images/crane_front_v2.jpg');
+  background-image: url('../images/fortune_card_crane_gold.jpg');
   background-size: cover;
   background-position: center;
+  overflow: hidden;
+}
+
+/* 牌面背面左上角標題：小鶴帶路… */
+.card-front-title {
+  position: absolute;
+  top: 7.4%;
+  left: 8.2%;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 21px;
+  font-weight: 700;
+  color: #140802;
+  line-height: 1;
+  letter-spacing: 0.03em;
+  pointer-events: none;
+  user-select: none;
+  z-index: 2;
+}
+
+/* 牌面右下角紅色橢圓蓋章（山工） */
+.card-seal {
+  position: absolute;
+  height: auto;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
+
+.card-seal--front {
+  right: 5.2%;
+  bottom: 4.5%;
+  width: 11.2%;
+  opacity: 0.92;
+  z-index: 2;
+}
+
+.card-seal--back {
+  right: 3.9%;
+  bottom: 2.5%;
+  width: 12.8%;
+  opacity: 0.50;
+  z-index: 1;
 }
 
 /* 背面直書文字：心靈鶴湯 */
@@ -227,6 +269,8 @@ section {
 
 /* 翻開後牌面文字 (方案 A：直式卡片，文字橫書排版) */
 .card-back-content {
+  position: relative;
+  z-index: 2;
   width: 100%;
   height: 100%;
   padding: 32px 22px;
@@ -672,6 +716,9 @@ section {
     width: 220px;
     height: 330px;
   }
+  .card-front-title {
+    font-size: 16.5px;
+  }
   .card-back-content {
     padding: 16px 14px;
   }
@@ -699,6 +746,9 @@ section {
   .card-scene {
     width: 320px;
     height: 480px;
+  }
+  .card-front-title {
+    font-size: 24px;
   }
   .card-fortune-title {
     font-size: 18px;

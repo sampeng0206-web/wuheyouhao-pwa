@@ -1,13 +1,15 @@
-const CACHE_NAME = 'wuheyouhao-v55';
+const CACHE_NAME = 'wuheyouhao-v56';
 const urlsToCache = [
   './',
   './index.html',
-  './css/style.css?v=33',
-  './js/app.js?v=40',
+  './css/style.css?v=34',
+  './js/app.js?v=41',
   './data/fortunes.json',
   './audio/youhao.mp3',
   './images/crane_front_v2.jpg',
   './images/crane_back_v2.png',
+  './images/fortune_card_crane_gold.jpg',
+  './images/seal_tiangong.png',
   './images/icons/icon-192.png?v=5',
   './images/icons/icon-512.png?v=5',
   './images/intro_bg_panorama_v2.png',
